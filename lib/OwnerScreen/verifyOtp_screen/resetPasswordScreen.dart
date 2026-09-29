@@ -76,10 +76,10 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 children: [
                   ClipOval(
                     child: Image.asset(
-                      "assets/logo.jpeg",
-                      width: 73.w,
-                      height: 73.w,
-                      fit: BoxFit.cover,
+                      "assets/new_logo.jpeg",
+                      width: 100.w,
+                      height: 100.w,
+                      fit: BoxFit.cover, 
                     ),
                   ),
 

@@ -68,9 +68,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   ClipOval(
                     child: Image.asset(
-                      "assets/logo.jpeg",
-                      width: 73.w,
-                      height: 73.w,
+                      "assets/new_logo.jpeg",
+                      width: 110.w,
+                      height: 110.w,
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -10,7 +10,7 @@ import 'package:property_care/OwnerScreen/Bottom_Screen/Document_Screen/document
 
 class DocumentScreen extends ConsumerStatefulWidget {
   final bool isShowBackButton;
-  const DocumentScreen({super.key,this.isShowBackButton = false});
+  const DocumentScreen({super.key, this.isShowBackButton = false});
 
   @override
   ConsumerState<DocumentScreen> createState() => _DocumentScreenState();
@@ -503,206 +503,217 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                 else
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: ListView.builder(
-                      itemCount: filteredDocs.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final doc = filteredDocs[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => DocumentDetailsScreen(
-                                  id: doc.id.toString(),
+                    child: Column(
+                      children: [
+                        ListView.builder(
+                          itemCount: filteredDocs.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final doc = filteredDocs[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => DocumentDetailsScreen(
+                                      id: doc.id.toString(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 10.h),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 13.h,
+                                  horizontal: 12.w,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.r),
+                                  border: Border.all(
+                                    color: const Color.fromRGBO(
+                                      16,
+                                      28,
+                                      22,
+                                      0.6,
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Document Icon
+                                    Container(
+                                      height: 50.h,
+                                      width: 50.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          3.r,
+                                        ),
+                                        border: Border.all(
+                                          color: const Color(0xff101C16),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.description,
+                                          color: AppColors.heading,
+                                          size: 20.sp,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            doc.title ?? "",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.outfit(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 17.sp,
+                                              color: const Color(0xff101C16),
+                                              letterSpacing: -0.54,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5.h),
+                                          Text(
+                                            doc.fileTypeSize ?? "",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.outfit(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14.sp,
+                                              color: const Color.fromRGBO(
+                                                42,
+                                                41,
+                                                51,
+                                                0.6,
+                                              ),
+                                              letterSpacing: -0.24,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5.h),
+                                          Text(
+                                            doc.categoryPill ?? "",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.outfit(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 13.sp,
+                                              color: const Color(0xff2A2933),
+                                              letterSpacing: -0.24,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Container(
+                                      height: 36.w,
+                                      width: 36.w,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: const Color(0xff101C16),
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: const Color(0xff101C16),
+                                          size: 17.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             );
                           },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 10.h),
+                        ),
+                        SizedBox(height: 16.h),
+                        if (storage != null) ...[
+                          Container(
+                            width: double.infinity,
                             padding: EdgeInsets.symmetric(
-                              vertical: 13.h,
-                              horizontal: 12.w,
+                              horizontal: 14.w,
+                              vertical: 12.h,
                             ),
                             decoration: BoxDecoration(
+                              color: const Color(0xffEAE7DA),
                               borderRadius: BorderRadius.circular(6.r),
                               border: Border.all(
-                                color: const Color.fromRGBO(16, 28, 22, 0.6),
+                                color: const Color(0xff26332D),
+                                width: 1.2,
                               ),
                             ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Document Icon
-                                Container(
-                                  height: 50.h,
-                                  width: 50.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3.r),
-                                    border: Border.all(
-                                      color: const Color(0xff101C16),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Property Document Storage",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color(0xff101C16),
+                                        letterSpacing: -0.34,
+                                      ),
                                     ),
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.description,
-                                      color: AppColors.heading,
-                                      size: 20.sp,
+                                    const Spacer(),
+                                    Text(
+                                      storage.usageText ??
+                                          "${storage.usedMb ?? 0} MB / ${storage.totalMb ?? 25} MB",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromRGBO(0, 0, 0, 0.6),
+                                        letterSpacing: -0.3,
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                                SizedBox(width: 8.w),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        doc.title ?? "",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.outfit(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17.sp,
-                                          color: const Color(0xff101C16),
-                                          letterSpacing: -0.54,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5.h),
-                                      Text(
-                                        doc.fileTypeSize ?? "",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.outfit(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14.sp,
-                                          color: const Color.fromRGBO(
-                                            42,
-                                            41,
-                                            51,
-                                            0.6,
-                                          ),
-                                          letterSpacing: -0.24,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5.h),
-                                      Text(
-                                        doc.categoryPill ?? "",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.outfit(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 13.sp,
-                                          color: const Color(0xff2A2933),
-                                          letterSpacing: -0.24,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 8.w),
+                                SizedBox(height: 18.h),
                                 Container(
-                                  height: 36.w,
-                                  width: 36.w,
+                                  width: double.infinity,
+                                  height: 4.h,
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: const Color(0xff101C16),
-                                    ),
-                                    shape: BoxShape.circle,
+                                    color: const Color(0xff999B93),
+                                    borderRadius: BorderRadius.circular(10.r),
                                   ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: const Color(0xff101C16),
-                                      size: 17.sp,
+                                  child: FractionallySizedBox(
+                                    alignment: Alignment.centerLeft,
+                                    widthFactor:
+                                        ((storage.totalMb != null &&
+                                                    storage.totalMb! > 0)
+                                                ? ((storage.usedMb ?? 0) /
+                                                      storage.totalMb!)
+                                                : 0.0)
+                                            .clamp(0.0, 1.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xff17221D),
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                if (storage != null) ...[
-                  SizedBox(height: 16.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 14.w,
-                        vertical: 12.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xffEAE7DA),
-                        borderRadius: BorderRadius.circular(6.r),
-                        border: Border.all(
-                          color: const Color(0xff26332D),
-                          width: 1.2,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Property Document Storage",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xff101C16),
-                                  letterSpacing: -0.34,
-                                ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                storage.usageText ??
-                                    "${storage.usedMb ?? 0} MB / ${storage.totalMb ?? 25} MB",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(0, 0, 0, 0.6),
-                                  letterSpacing: -0.3,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 18.h),
-                          Container(
-                            width: double.infinity,
-                            height: 4.h,
-                            decoration: BoxDecoration(
-                              color: const Color(0xff999B93),
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: FractionallySizedBox(
-                              alignment: Alignment.centerLeft,
-                              widthFactor:
-                                  ((storage.totalMb != null &&
-                                              storage.totalMb! > 0)
-                                          ? ((storage.usedMb ?? 0) /
-                                                storage.totalMb!)
-                                          : 0.0)
-                                      .clamp(0.0, 1.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff17221D),
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
-                      ),
+                      ],
                     ),
                   ),
-                ],
+
                 SizedBox(height: 35.h),
               ],
             ),
