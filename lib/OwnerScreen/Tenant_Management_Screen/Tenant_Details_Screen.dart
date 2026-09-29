@@ -27,7 +27,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
   Widget build(BuildContext context) {
     final tenantDetailState = ref.watch(
       getTenantDetailsProvider(widget.tenantId),
-    );
+    );  
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
