@@ -153,7 +153,7 @@ class _AddPropertyBottomSheetState
                       Text(
                         "ADD NEW PROPERTY",
                         style: GoogleFonts.outfit(
-                          fontSize: 18.sp,
+                          fontSize: 19.sp,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xff171717),
                           letterSpacing: -0.54,
@@ -163,8 +163,8 @@ class _AddPropertyBottomSheetState
                       Text(
                         "Submit details to add your property to management",
                         style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(42, 41, 51, 0.6),
                           letterSpacing: -0.2,
                         ),
@@ -224,7 +224,7 @@ class _AddPropertyBottomSheetState
                             size: 20.sp,
                           ),
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             color: const Color(0xff101C16),
                           ),
                           decoration: _inputDecoration(
@@ -238,7 +238,7 @@ class _AddPropertyBottomSheetState
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 17.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -292,7 +292,7 @@ class _AddPropertyBottomSheetState
                           "Failed to load flats",
                           style: GoogleFonts.outfit(
                             color: Colors.red,
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                           ),
                         ),
                       ),
@@ -316,7 +316,7 @@ class _AddPropertyBottomSheetState
                     //     size: 20.sp,
                     //   ),
                     //   style: GoogleFonts.outfit(
-                    //     fontSize: 15.sp,
+                    //     fontSize: 17.sp,
                     //     color: const Color(0xff101C16),
                     //   ),
                     //   decoration: _inputDecoration(
@@ -328,7 +328,7 @@ class _AddPropertyBottomSheetState
                     //       child: Text(
                     //         item["label"]!,
                     //         style: GoogleFonts.outfit(
-                    //           fontSize: 15.sp,
+                    //           fontSize: 17.sp,
                     //           fontWeight: FontWeight.w500,
                     //           color: AppColors.heading,
                     //           letterSpacing: -0.2,
@@ -387,7 +387,7 @@ class _AddPropertyBottomSheetState
                     //     size: 20.sp,
                     //   ),
                     //   style: GoogleFonts.outfit(
-                    //     fontSize: 15.sp,
+                    //     fontSize: 17.sp,
                     //     color: const Color(0xff101C16),
                     //   ),
                     //   decoration: _inputDecoration(
@@ -399,7 +399,7 @@ class _AddPropertyBottomSheetState
                     //       child: Text(
                     //         item["label"]!,
                     //         style: GoogleFonts.outfit(
-                    //           fontSize: 15.sp,
+                    //           fontSize: 17.sp,
                     //           fontWeight: FontWeight.w500,
                     //           color: AppColors.heading,
                     //           letterSpacing: -0.2,
@@ -441,8 +441,8 @@ class _AddPropertyBottomSheetState
               //         child: Text(
               //           "After submission, your property request will be reviewed by the management team. Once verified, it will be added to your properties list.",
               //           style: GoogleFonts.outfit(
-              //             fontSize: 12.sp,
-              //             fontWeight: FontWeight.w400,
+              //             fontSize: 14.sp,
+              //             fontWeight: FontWeight.w500,
               //             color: const Color(0xFF2A2933),
               //             letterSpacing: -0.2,
               //             height: 1.35,
@@ -480,7 +480,7 @@ class _AddPropertyBottomSheetState
                       : Text(
                           "Submit Property Request",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                             letterSpacing: -0.2,
@@ -503,7 +503,7 @@ class _AddPropertyBottomSheetState
                   child: Text(
                     "Cancel",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -524,7 +524,7 @@ class _AddPropertyBottomSheetState
       child: Text(
         text,
         style: GoogleFonts.outfit(
-          fontSize: 14.sp,
+          fontSize: 16.sp,
           fontWeight: FontWeight.w500,
           color: const Color(0xFF000000),
           letterSpacing: -0.3,
@@ -538,7 +538,7 @@ class _AddPropertyBottomSheetState
       isDense: true,
       hintText: hintText,
       hintStyle: GoogleFonts.outfit(
-        fontSize: 13.sp,
+        fontSize: 15.sp,
         fontWeight: FontWeight.w500,
         color: const Color.fromRGBO(0, 0, 0, 0.6),
         letterSpacing: -0.3,
@@ -564,7 +564,7 @@ class _AddPropertyBottomSheetState
         borderRadius: BorderRadius.circular(4.r),
         borderSide: BorderSide(color: Colors.red, width: 1.w),
       ),
-      errorStyle: GoogleFonts.outfit(fontSize: 12.sp, color: Colors.red),
+      errorStyle: GoogleFonts.outfit(fontSize: 14.sp, color: Colors.red),
     );
   }
 
@@ -580,7 +580,7 @@ class _AddPropertyBottomSheetState
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: GoogleFonts.outfit(
-        fontSize: 15.sp,
+        fontSize: 17.sp,
         color: const Color(0xff101C16),
         letterSpacing: -0.2,
       ),

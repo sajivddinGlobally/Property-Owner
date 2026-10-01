@@ -197,18 +197,18 @@ class _AuditreportDetailsScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -220,7 +220,7 @@ class _AuditreportDetailsScreenState
                   Text(
                     "Audit Report Details",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -230,8 +230,8 @@ class _AuditreportDetailsScreenState
                   Text(
                     "COMPLETE AUDIT REPORT",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -253,7 +253,7 @@ class _AuditreportDetailsScreenState
               Text(
                 "Failed to load audit details",
                 style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xff101C16),
                 ),
@@ -272,7 +272,7 @@ class _AuditreportDetailsScreenState
                   "Retry",
                   style: GoogleFonts.outfit(
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                   ),
                 ),
               ),
@@ -384,7 +384,7 @@ class _AuditreportDetailsScreenState
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 17.sp,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.w500,
                                         color: const Color(0xff101C16),
                                         letterSpacing: -0.2,
@@ -394,8 +394,8 @@ class _AuditreportDetailsScreenState
                                     Text(
                                       headerDate,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w400,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
                                         color: const Color.fromRGBO(
                                           16,
                                           28,
@@ -424,7 +424,7 @@ class _AuditreportDetailsScreenState
                                 child: Text(
                                   status,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.w500,
                                     color: const Color(0xff101C16),
                                   ),
@@ -485,7 +485,7 @@ class _AuditreportDetailsScreenState
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
-                        fontSize: 18.sp,
+                        fontSize: 19.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -507,7 +507,7 @@ class _AuditreportDetailsScreenState
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(42, 41, 51, 0.6),
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -518,7 +518,7 @@ class _AuditreportDetailsScreenState
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -611,7 +611,7 @@ class _AuditreportDetailsScreenState
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -634,7 +634,7 @@ class _AuditreportDetailsScreenState
                             style: GoogleFonts.outfit(
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -653,7 +653,7 @@ class _AuditreportDetailsScreenState
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
-                                fontSize: 13.sp,
+                                fontSize: 15.sp,
                                 letterSpacing: -0.2,
                               ),
                             ),
@@ -667,7 +667,7 @@ class _AuditreportDetailsScreenState
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -715,7 +715,7 @@ class _AuditreportDetailsScreenState
                                     "Audit Report",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
-                                      fontSize: 16.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                     ),
@@ -724,7 +724,7 @@ class _AuditreportDetailsScreenState
                                     "PDF",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
-                                      fontSize: 16.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                       letterSpacing: -0.2,
@@ -802,7 +802,7 @@ class _AuditreportDetailsScreenState
                                     "Audit Images",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
-                                      fontSize: 16.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                     ),
@@ -811,7 +811,7 @@ class _AuditreportDetailsScreenState
                                     "Images",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.inter(
-                                      fontSize: 16.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                       letterSpacing: -0.2,
@@ -859,7 +859,7 @@ class _AuditreportDetailsScreenState
                                       style: GoogleFonts.outfit(
                                         fontWeight: FontWeight.w700,
                                         color: AppColors.heading,
-                                        fontSize: 13.sp,
+                                        fontSize: 15.sp,
                                         letterSpacing: -0.2,
                                       ),
                                     ),
@@ -889,7 +889,7 @@ class _AuditreportDetailsScreenState
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
-                                  fontSize: 12.sp,
+                                  fontSize: 14.sp,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -916,7 +916,7 @@ class _AuditreportDetailsScreenState
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
             color: const Color.fromRGBO(16, 28, 22, 0.6),
             letterSpacing: -0.2,
@@ -927,7 +927,7 @@ class _AuditreportDetailsScreenState
           value,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 15.sp,
+            fontSize: 17.sp,
             fontWeight: FontWeight.w500,
             color: AppColors.heading,
             letterSpacing: -0.2,
@@ -956,7 +956,7 @@ class _AuditreportDetailsScreenState
           child: Text(
             icon,
             style: GoogleFonts.outfit(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: AppColors.heading,
             ),
@@ -972,7 +972,7 @@ class _AuditreportDetailsScreenState
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -984,7 +984,7 @@ class _AuditreportDetailsScreenState
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 11.sp,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color.fromRGBO(42, 41, 51, 0.5),
                   letterSpacing: -0.2,

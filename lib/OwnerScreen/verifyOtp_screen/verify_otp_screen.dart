@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
-import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/my_bottom_screen.dart';
 import 'package:property_care/OwnerScreen/verifyOtp_screen/resetPasswordScreen.dart';
 import 'package:property_care/core/constant/appColor.dart';
 
@@ -32,7 +31,6 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
 
   String getMaskedContact() {
     final contact = widget.email.trim();
-    // Check if the contact is a phone number (contains digits, optionally starting with +)
     final isPhone = RegExp(r'^\+?[0-9]+$').hasMatch(contact);
     if (isPhone && contact.length >= 4) {
       String firstTwo = contact.substring(0, 2);
@@ -40,7 +38,6 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
       String mask = List.generate(contact.length - 4, (index) => 'X').join('');
       return "$firstTwo$mask$lastTwo";
     }
-    // Return email as is
     return contact;
   }
 
@@ -98,7 +95,6 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                       fit: BoxFit.contain,
                     ),
                   ),
-
                   Positioned(
                     top: 0,
                     right: 0,
@@ -109,26 +105,26 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                     ),
                   ),
                   Positioned(
-                    top: 57.h,
+                    top: 50.h,
                     left: 20.w,
                     child: InkWell(
                       onTap: () {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        height: 41.h,
-                        width: 41.w,
+                        height: 44.h,
+                        width: 44.w,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           border: Border.all(
-                            color: Color.fromRGBO(16, 28, 22, 0.3),
+                            color: const Color.fromRGBO(16, 28, 22, 0.3),
                           ),
                         ),
                         child: Center(
                           child: Icon(
                             Icons.arrow_back,
                             color: const Color(0xff101C16),
-                            size: 18.sp,
+                            size: 20.sp,
                           ),
                         ),
                       ),
@@ -139,11 +135,11 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
             ),
             SizedBox(height: 19.h),
             Container(
-              height: 100.h,
-              width: 100.w,
+              height: 90.h,
+              width: 90.w,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(16, 28, 22, 0.2),
-                borderRadius: BorderRadius.circular(10.r),
+                color: const Color.fromRGBO(16, 28, 22, 0.15),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Center(
                 child: Image.asset(
@@ -157,39 +153,40 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
             Text(
               "VERIFY YOUR NUMBER",
               style: GoogleFonts.outfit(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w700,
                 color: AppColors.heading,
-                letterSpacing: -0.54,
+                letterSpacing: -0.39,
               ),
             ),
-            SizedBox(height: 16.h),
+            SizedBox(height: 10.h),
             Text(
               "We've sent a 6-digit verification code to",
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
-                color: AppColors.heading,
-                letterSpacing: -0.39,
+                color: const Color(0xff26332D),
+                letterSpacing: -0.2,
               ),
             ),
+            SizedBox(height: 4.h),
             Text(
               getMaskedContact(),
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w700,
                 color: AppColors.heading,
-                letterSpacing: -0.39,
+                letterSpacing: -0.2,
               ),
             ),
-            SizedBox(height: 36.h),
+            SizedBox(height: 28.h),
             Text(
-              "Enter OTP",
+              "ENTER OTP",
               style: GoogleFonts.outfit(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
                 color: AppColors.heading,
-                letterSpacing: -0.39,
+                letterSpacing: -0.2,
               ),
             ),
             SizedBox(height: 14.h),
@@ -200,22 +197,18 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                 length: 6,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 keyboardType: TextInputType.number,
-
                 onCompleted: (value) {
                   otp = value;
-                  print("OTP: $otp");
+                  // otp entered
                 },
-
                 defaultPinTheme: PinTheme(
                   width: 48.w,
                   height: 59.h,
-
-                  textStyle: GoogleFonts.inter(
+                  textStyle: GoogleFonts.outfit(
                     color: const Color(0xff1B1E28),
                     fontSize: 20.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
-
                   decoration: BoxDecoration(
                     color: AppColors.scaffoldBg,
                     borderRadius: BorderRadius.circular(6.r),
@@ -225,34 +218,28 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                     ),
                   ),
                 ),
-
                 focusedPinTheme: PinTheme(
                   width: 48.w,
                   height: 59.h,
-
-                  textStyle: GoogleFonts.inter(
+                  textStyle: GoogleFonts.outfit(
                     color: const Color(0xff1B1E28),
                     fontSize: 20.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
-
                   decoration: BoxDecoration(
                     color: AppColors.scaffoldBg,
                     borderRadius: BorderRadius.circular(6.r),
-                    border: Border.all(color: AppColors.heading, width: 1.2.w),
+                    border: Border.all(color: AppColors.heading, width: 1.5.w),
                   ),
                 ),
-
                 submittedPinTheme: PinTheme(
                   width: 48.w,
                   height: 59.h,
-
-                  textStyle: GoogleFonts.inter(
+                  textStyle: GoogleFonts.outfit(
                     color: const Color(0xff1B1E28),
                     fontSize: 20.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
-
                   decoration: BoxDecoration(
                     color: AppColors.scaffoldBg,
                     borderRadius: BorderRadius.circular(6.r),
@@ -261,17 +248,15 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                 ),
               ),
             ),
-
             SizedBox(height: 18.h),
             Text(
               "Resend code in 00:${seconds.toString().padLeft(2, '0')}",
               style: GoogleFonts.outfit(
-                fontSize: 13.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xff101C16),
               ),
             ),
-
             SizedBox(height: 14.h),
             GestureDetector(
               onTap: seconds == 0 && !isResending
@@ -286,7 +271,7 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                         );
                         if (response.status == true) {
                           startTimer();
-                          showSuccessSnackBar("Resend OTP Sucessfull");
+                          showSuccessSnackBar("Resend OTP Successful");
                         }
                       } catch (e) {
                         log(e.toString());
@@ -305,27 +290,27 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                     : "Didn't receive the code? Resend OTP",
                 style: GoogleFonts.outfit(
                   fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: seconds == 0 && !isResending
                       ? const Color(0xff101C16)
                       : const Color(0xff999999),
                 ),
               ),
             ),
-            SizedBox(height: 41.h),
+            SizedBox(height: 36.h),
             Padding(
               padding: EdgeInsets.only(left: 20.w, right: 20.w),
               child: SizedBox(
-                height: 41.h,
+                height: 52.h,
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.heading,
+                    elevation: 2,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
-
                   onPressed: isLoading
                       ? null
                       : () async {
@@ -374,9 +359,9 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                           child: SizedBox(
                             width: 20.w,
                             height: 20.h,
-                            child: CircularProgressIndicator(
-                              color: AppColors.heading,
-                              strokeWidth: 1.5,
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
                             ),
                           ),
                         )
@@ -384,9 +369,9 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                           "Verify",
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
-                            color: Color(0xffFFFFFF),
-                            letterSpacing: -0.24,
+                            fontSize: 16.sp,
+                            color: const Color(0xffFFFFFF),
+                            letterSpacing: 0.2,
                           ),
                         ),
                 ),

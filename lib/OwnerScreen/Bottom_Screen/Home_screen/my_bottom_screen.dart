@@ -155,7 +155,7 @@ class _MyBottomScreenState extends State<MyBottomScreen> {
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
                   fontSize: 16.sp,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                   color: isSelected
                       ? Color(0xFF17221D)
                       : const Color(0xffA0A5A2),
@@ -230,7 +230,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Text(
                                 "MY PROPERTIES",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xff171717),
                                   letterSpacing: -0.54,
@@ -240,7 +240,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Text(
                                 "${properties.length} Properties",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   color: Color.fromRGBO(0, 0, 0, 0.6),
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -254,74 +254,74 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: Text(
                                 "No properties found.",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 17.sp,
                                   color: const Color(0xff171717),
                                 ),
                               ),
                             )
                           else
-                            ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              itemCount: properties.length,
-                              separatorBuilder: (context, index) =>
-                                  SizedBox(height: 16.h),
-                              itemBuilder: (context, index) {
-                                final property = properties[index];
-                                final hasBackendSelected = properties.any(
-                                  (p) => p.isSelected == true,
-                                );
-                                final isSelected =
-                                    currentSelectedPropertyId != null
-                                    ? property.id == currentSelectedPropertyId
-                                    : (hasBackendSelected
-                                          ? property.isSelected == true
-                                          : index == 0);
-                                return propertyItem(
-                                  property.imageUrl ?? "",
-                                  "${property.propertyType ?? ''} ${property.propertyNameNumber ?? ''}",
-                                  "${property.complexName ?? ''} - ${property.location ?? ''}",
-                                  isSelected,
-                                  onTap: () async {
-                                    final propertyId = property.id;
-                                    if (propertyId == null) return;
+                            Expanded(
+                              child: ListView.separated(
+                                padding: EdgeInsets.zero,
+                                itemCount: properties.length,
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(height: 16.h),
+                                itemBuilder: (context, index) {
+                                  final property = properties[index];
+                                  final hasBackendSelected = properties.any(
+                                    (p) => p.isSelected == true,
+                                  );
+                                  final isSelected =
+                                      currentSelectedPropertyId != null
+                                      ? property.id == currentSelectedPropertyId
+                                      : (hasBackendSelected
+                                            ? property.isSelected == true
+                                            : index == 0);
+                                  return propertyItem(
+                                    property.imageUrl ?? "",
+                                    "${property.propertyType ?? ''} ${property.propertyNameNumber ?? ''}",
+                                    "${property.complexName ?? ''} - ${property.location ?? ''}",
+                                    isSelected,
+                                    onTap: () async {
+                                      final propertyId = property.id;
+                                      if (propertyId == null) return;
 
-                                    // 1. Pehle selectedPropertyId state update karein
-                                    ref
-                                            .read(
-                                              selectedPropertyIdProvider
-                                                  .notifier,
-                                            )
-                                            .state =
-                                        propertyId;
+                                      // 1. Pehle selectedPropertyId state update karein
+                                      ref
+                                              .read(
+                                                selectedPropertyIdProvider
+                                                    .notifier,
+                                              )
+                                              .state =
+                                          propertyId;
 
-                                    // 2. Bottom sheet close karein
-                                    if (bottomSheetContext.mounted) {
-                                      Navigator.pop(bottomSheetContext);
-                                    }
+                                      // 2. Bottom sheet close karein
+                                      if (bottomSheetContext.mounted) {
+                                        Navigator.pop(bottomSheetContext);
+                                      }
 
-                                    log(
-                                      "${property.propertyNameNumber} Selected (ID: $propertyId)",
-                                    );
-
-                                    // 3. POST API hit karein aur dashboard/list refresh karein
-                                    try {
-                                      final service = ref.read(
-                                        authServiceProvider,
-                                      );
-                                      await service.selectProperty(
-                                        propertyId: propertyId,
+                                      log(
+                                        "${property.propertyNameNumber} Selected (ID: $propertyId)",
                                       );
 
-                                      ref.invalidate(getPropertyListProvider);
-                                      ref.invalidate(ownerDashboardProvider);
-                                    } catch (e) {
-                                      log("Error in selectProperty API: $e");
-                                    }
-                                  },
-                                );
-                              },
+                                      // 3. POST API hit karein aur dashboard/list refresh karein
+                                      try {
+                                        final service = ref.read(
+                                          authServiceProvider,
+                                        );
+                                        await service.selectProperty(
+                                          propertyId: propertyId,
+                                        );
+
+                                        ref.invalidate(getPropertyListProvider);
+                                        ref.invalidate(ownerDashboardProvider);
+                                      } catch (e) {
+                                        log("Error in selectProperty API: $e");
+                                      }
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           SizedBox(height: 16.h),
                           GestureDetector(
@@ -341,7 +341,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: Text(
                                 "+  Add New Property",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   color: const Color(0xff171717),
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -372,7 +372,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: Text(
                             "Failed to load properties",
                             style: GoogleFonts.outfit(
-                              fontSize: 15.sp,
+                              fontSize: 17.sp,
                               color: Colors.red,
                             ),
                           ),
@@ -430,7 +430,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Text(
                       "Good Morning",
                       style: GoogleFonts.manrope(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.39,
@@ -442,7 +442,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Text(
                       "HELLO, ${box.get("name")?.toUpperCase()} 👋",
                       style: GoogleFonts.manrope(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.64,
@@ -610,7 +610,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 "${ownerDashboard.data?.property?.type} ${ownerDashboard.data?.property?.nameNumber}",
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   color: Colors.white,
                                   letterSpacing: -0.54,
                                 ),
@@ -655,7 +655,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
-                                  fontSize: 12.sp,
+                                  fontSize: 14.sp,
                                   letterSpacing: -0.34,
                                 ),
                               ),
@@ -703,7 +703,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     style: GoogleFonts.outfit(
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFFFFFCEB),
-                                      fontSize: 12.sp,
+                                      fontSize: 14.sp,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -749,7 +749,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   "MY PROPERTY",
                                   style: GoogleFonts.outfit(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 12.sp,
+                                    fontSize: 14.sp,
                                     color: Colors.white,
                                     letterSpacing: -0.34,
                                   ),
@@ -760,7 +760,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   "${ownerDashboard.data?.property?.type} ${ownerDashboard.data?.property?.nameNumber}",
                                   style: GoogleFonts.outfit(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 18.sp,
+                                    fontSize: 19.sp,
                                     color: Colors.white,
                                     letterSpacing: -0.7,
                                   ),
@@ -770,8 +770,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   // "${ownerDashboard.data?.property?.nameNumber} · ${ownerDashboard.data?.property?.location}",
                                   "${ownerDashboard.data?.property?.complex?.name ?? "N/A"} · ${ownerDashboard.data?.property?.location ?? "N/A"}",
                                   style: GoogleFonts.outfit(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15.sp,
                                     color: Colors.white.withOpacity(0.65),
                                     letterSpacing: -0.3,
                                   ),
@@ -806,7 +806,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ownerDashboard.data?.property?.status ?? "",
                                     style: GoogleFonts.outfit(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 13.sp,
+                                      fontSize: 15.sp,
                                       color: Colors.white,
                                       letterSpacing: -0.3,
                                     ),
@@ -840,7 +840,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     "",
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   color: Color(0xff2A2933),
                                   letterSpacing: -0.54,
                                 ),
@@ -862,7 +862,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 "ACTIVE",
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   color: Color(0xff17221D),
                                   letterSpacing: -0.39,
                                 ),
@@ -932,7 +932,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         Text(
                                           "Property Assistant",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 17.sp,
+                                            fontSize: 18.sp,
                                             fontWeight: FontWeight.w500,
                                             color: const Color(0xff101010),
                                             letterSpacing: -0.54,
@@ -954,7 +954,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             child: Text(
                                               "AI",
                                               style: GoogleFonts.outfit(
-                                                fontSize: 10.sp,
+                                                fontSize: 12.sp,
                                                 fontWeight: FontWeight.w600,
                                                 color: const Color(0xff000000),
                                               ),
@@ -971,8 +971,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.w400,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
                                         color: const Color(0xff000000),
                                         letterSpacing: -0.24,
                                       ),
@@ -1055,7 +1055,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         Text(
                                           "Service Requests",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 17.sp,
+                                            fontSize: 18.sp,
                                             fontWeight: FontWeight.w500,
                                             color: const Color(0xff000000),
                                             letterSpacing: -0.4,
@@ -1067,7 +1067,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         Text(
                                           "Raise & track property services",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 13.sp,
+                                            fontSize: 15.sp,
                                             fontWeight: FontWeight.w500,
                                             color: Color.fromRGBO(0, 0, 0, 0.6),
                                             letterSpacing: -0.24,
@@ -1114,8 +1114,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Text(
                                         "Active Requests",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500,
                                           color: Color.fromRGBO(0, 0, 0, 0.6),
                                         ),
                                       ),
@@ -1125,7 +1125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Text(
                                         "${ownerDashboard.data?.widgets?.serviceRequests?.active ?? "0"}",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 17.sp,
+                                          fontSize: 18.sp,
                                           fontWeight: FontWeight.w500,
                                           color: const Color(0xff101C16),
                                         ),
@@ -1165,7 +1165,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         Text(
                                           "In Progress",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 13.sp,
+                                            fontSize: 15.sp,
                                             fontWeight: FontWeight.w500,
                                             color: const Color(0xff101C16),
                                           ),
@@ -1177,7 +1177,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   Text(
                                     "View All →",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xff101C16),
                                       letterSpacing: -0.34,
@@ -1237,20 +1237,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Maintenance Payment",
+                                          // "Maintenance Payment",
+                                          "Ascent Service Charge",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 17.sp,
+                                            fontSize: 18.sp,
                                             fontWeight: FontWeight.w500,
                                             color: const Color(0xFF101C16),
                                             letterSpacing: -0.2,
                                           ),
                                         ),
                                         Text(
-                                          "Monthly maintenance status",
+                                          // "Monthly maintenance status",
+                                          "Service charge to be paid to Ascent",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 15.sp,
+                                            fontSize: 17.sp,
                                             fontWeight: FontWeight.w500,
                                             color: const Color(0xFF777777),
+                                            letterSpacing: -0.2,
                                           ),
                                         ),
                                       ],
@@ -1275,7 +1278,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               ?.status ??
                                           "",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
+                                        fontSize: 15.sp,
                                         fontWeight: FontWeight.w500,
                                         color: const Color(0xFF101C16),
                                       ),
@@ -1357,9 +1360,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Maintenance charges",
+                                    // "Maintenance charges",
+                                    "Service charges",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
+                                      fontSize: 17.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFF777777),
                                     ),
@@ -1368,7 +1372,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   Text(
                                     "View All →",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
+                                      fontSize: 17.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFF101C16),
                                       letterSpacing: -0.2,
@@ -1388,7 +1392,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             style: GoogleFonts.outfit(
                               fontWeight: FontWeight.w500,
                               color: Color(0xff2A2933),
-                              fontSize: 17.sp,
+                              fontSize: 18.sp,
                               letterSpacing: -0.54,
                             ),
                           ),
@@ -1398,7 +1402,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             style: GoogleFonts.outfit(
                               fontWeight: FontWeight.w500,
                               color: Color(0xff2A2933),
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               letterSpacing: -0.24,
                             ),
                           ),
@@ -1442,7 +1446,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: Text(
                               "PROPERTY AT A GLANCE",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
                                 letterSpacing: -0.34,
@@ -1564,8 +1568,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 Text(
                                   "Everything is being monitored",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                     letterSpacing: -0.2,
                                   ),
@@ -1634,8 +1638,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 Text(
                                   "PROPERTY REPORT",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                     letterSpacing: -0.24,
                                   ),
@@ -1649,7 +1653,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: Text(
                               "Property Audit Report",
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
                                 letterSpacing: -0.3,
@@ -1662,8 +1666,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: Text(
                               "Latest Property Audit",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromRGBO(255, 255, 255, 0.6),
                                 letterSpacing: -0.2,
                               ),
@@ -1688,7 +1692,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             ?.toStringAsFixed(1) ??
                                         "0",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xffD4B800),
                                       letterSpacing: -0.3,
@@ -1701,8 +1705,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 Text(
                                   "OVERALL\nSCORE",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                     letterSpacing: -0.2,
                                   ),
@@ -1728,7 +1732,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   TextSpan(
                                     text: "Audit Date: ",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       color: Colors.white.withOpacity(0.65),
                                       letterSpacing: -0.2,
                                     ),
@@ -1751,7 +1755,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           )
                                         : "N/A",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white,
                                       letterSpacing: -0.2,
@@ -1776,7 +1780,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: Text(
                                 "View Report →",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xffD4B800),
                                   letterSpacing: -0.2,
@@ -1839,7 +1843,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Text(
           value,
           style: GoogleFonts.outfit(
-            fontSize: 18.sp,
+            fontSize: 19.sp,
             fontWeight: FontWeight.w500,
             color: Colors.white,
             letterSpacing: -0.3,
@@ -1849,7 +1853,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w500,
             color: Colors.white,
             letterSpacing: -0.3,
@@ -1938,7 +1942,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff24242A),
                             letterSpacing: -0.55,
@@ -1952,8 +1956,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
                             color: const Color(0xff8B8B8B),
                             letterSpacing: -0.25,
                           ),
@@ -1965,7 +1969,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Text(
                     time,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff24242A),
                     ),
@@ -2037,7 +2041,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Text(
                     title,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff2A2933),
                       letterSpacing: -0.54,
@@ -2048,7 +2052,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Text(
                     subtitle,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
+                      fontSize: 15.sp,
                       color: Color.fromRGBO(42, 41, 51, 0.7),
                       letterSpacing: -0.2,
                       height: 1,
@@ -2090,7 +2094,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Text(
             name,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
@@ -2100,7 +2104,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Text(
             value,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
             ),

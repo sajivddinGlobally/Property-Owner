@@ -56,18 +56,18 @@ class _MaintenancehistoryScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -79,7 +79,7 @@ class _MaintenancehistoryScreenState
                   Text(
                     "Maintenance History",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -89,8 +89,8 @@ class _MaintenancehistoryScreenState
                   Text(
                     "View previous and current maintenance activities",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -123,7 +123,7 @@ class _MaintenancehistoryScreenState
                             Text(
                               name,
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xff292832),
                                 letterSpacing: -0.64,
@@ -134,8 +134,8 @@ class _MaintenancehistoryScreenState
                               // "Green Valley Residency",
                               complexName,
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromRGBO(42, 41, 51, 0.6),
                                 letterSpacing: -0.24,
                               ),
@@ -157,7 +157,7 @@ class _MaintenancehistoryScreenState
                               // "Active",
                               status,
                               style: GoogleFonts.outfit(
-                                fontSize: 16.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xff292832),
                                 letterSpacing: -0.64,
@@ -186,8 +186,8 @@ class _MaintenancehistoryScreenState
                                 Text(
                                   "Total Records",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
                                     color: Color.fromRGBO(42, 41, 51, 0.6),
                                     letterSpacing: -0.24,
                                   ),
@@ -196,7 +196,7 @@ class _MaintenancehistoryScreenState
                                 Text(
                                   totalRecords.toString(),
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.heading,
                                     letterSpacing: -0.24,
@@ -223,8 +223,8 @@ class _MaintenancehistoryScreenState
                                 Text(
                                   "Complete Records",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
                                     color: Color.fromRGBO(42, 41, 51, 0.6),
                                     letterSpacing: -0.24,
                                   ),
@@ -233,7 +233,7 @@ class _MaintenancehistoryScreenState
                                 Text(
                                   completedRecords.toString(),
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.heading,
                                     letterSpacing: -0.24,
@@ -254,7 +254,7 @@ class _MaintenancehistoryScreenState
                   Text(
                     "Maintenance Records",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.24,
@@ -279,7 +279,7 @@ class _MaintenancehistoryScreenState
                           child: Text(
                             choice,
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               color:
                                   choice == filterOptions[selectedFilterIndex]
@@ -293,7 +293,7 @@ class _MaintenancehistoryScreenState
                     child: Text(
                       "Filter ▾",
                       style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w700,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -347,7 +347,7 @@ class _MaintenancehistoryScreenState
                           Text(
                             "No Maintenance Records Found",
                             style: GoogleFonts.outfit(
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
@@ -358,8 +358,8 @@ class _MaintenancehistoryScreenState
                             "There are no maintenance records available for '${filterOptions[selectedFilterIndex]}'.",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
                               color: const Color.fromRGBO(42, 41, 51, 0.6),
                               letterSpacing: -0.2,
                             ),
@@ -416,7 +416,7 @@ class _MaintenancehistoryScreenState
                                       Text(
                                         records[index].title ?? "",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 17.sp,
+                                          fontSize: 18.sp,
                                           fontWeight: FontWeight.w500,
                                           color: AppColors.heading,
                                           letterSpacing: -0.2,
@@ -428,7 +428,7 @@ class _MaintenancehistoryScreenState
                                       Text(
                                         records[index].headerSubtitle ?? "",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 14.sp,
+                                          fontSize: 16.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Color.fromRGBO(
                                             42,
@@ -458,7 +458,7 @@ class _MaintenancehistoryScreenState
                                   child: Text(
                                     records![index].status ?? "",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                       letterSpacing: -0.2,
@@ -540,7 +540,7 @@ class _MaintenancehistoryScreenState
                                 child: Text(
                                   "View Maintenance Details →",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                     letterSpacing: -0.2,
@@ -579,7 +579,7 @@ class _MaintenancehistoryScreenState
         Text(
           title,
           style: GoogleFonts.inter(
-            fontSize: 13.sp,
+            fontSize: 15.sp,
             fontWeight: FontWeight.w500,
             color: Color.fromRGBO(42, 41, 51, 0.6),
             letterSpacing: -0.2,
@@ -591,7 +591,7 @@ class _MaintenancehistoryScreenState
         Text(
           value,
           style: GoogleFonts.inter(
-            fontSize: 17.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w500,
             color: AppColors.heading,
             letterSpacing: -0.2,
@@ -627,7 +627,7 @@ class _MaintenancehistoryScreenState
                 child: Text(
                   filterOptions[index],
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                     color: isSelected ? Colors.white : AppColors.heading,
                     letterSpacing: -0.3,

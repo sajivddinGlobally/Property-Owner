@@ -46,7 +46,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 Text(
                   "MY PROFILE",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xff292832),
                     letterSpacing: -0.64,
@@ -58,8 +58,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
                     color: Color.fromRGBO(42, 41, 51, 0.6),
                     letterSpacing: -0.24,
                   ),
@@ -119,7 +119,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         Text(
                           data.data?.name ?? "MD Sajiv",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF000000),
                             letterSpacing: -0.3,
@@ -129,7 +129,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         Text(
                           data.data?.email ?? "sajiv@gmail.com",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF000000),
                             letterSpacing: -0.3,
@@ -153,7 +153,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 ? "Property Owner"
                                 : "",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF000000),
                               letterSpacing: -0.3,
@@ -167,7 +167,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   Text(
                     "Personal Information",
                     style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
+                      fontSize: 17.sp,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF000000),
                       letterSpacing: -0.2,
@@ -247,7 +247,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                           ?.propertyNameNumber ??
                                       "",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF101C16),
                                     letterSpacing: -0.2,
@@ -257,7 +257,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   // "Green Valley Residency",
                                   data.data?.activeProperty?.complexName ?? "",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF000000),
                                     letterSpacing: -0.2,
@@ -269,7 +269,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             Text(
                               data.data?.subscriptionStatus ?? "Active",
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xFFAE8130),
                                 letterSpacing: -0.2,
@@ -286,7 +286,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               child: Text(
                                 "Property Type",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.2,
@@ -297,7 +297,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               child: Text(
                                 "Property Type",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.2,
@@ -314,7 +314,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 // "Apartment",
                                 data.data?.activeProperty?.propertyType ?? "",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -327,7 +327,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 data.data?.activeProperty?.propertyNameNumber ??
                                     "",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -343,7 +343,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               child: Text(
                                 "FLOOR",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.2,
@@ -355,7 +355,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               child: Text(
                                 "Ownership",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.2,
@@ -371,7 +371,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               child: Text(
                                 "2nd Floor",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -382,7 +382,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               child: Text(
                                 data.data?.activeProperty?.ownership ?? "Owner",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -398,7 +398,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   Text(
                     "Account Settings",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF101C16),
                       letterSpacing: -0.2,
@@ -546,7 +546,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             Text(
                               "Logout Account",
                               style: GoogleFonts.outfit(
-                                fontSize: 16.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.red,
                               ),
@@ -616,10 +616,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     "Are you sure you want to log out from this account?",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
+                      fontSize: 17.sp,
                       color: Color.fromRGBO(41, 42, 51, 0.6),
                       height: 1.4,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(height: 28.h),
@@ -643,7 +643,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             "Cancel",
                             style: GoogleFonts.outfit(
                               color: AppColors.heading,
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -718,7 +718,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   "Logout",
                                   style: GoogleFonts.outfit(
                                     color: Colors.white,
-                                    fontSize: 16.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -760,7 +760,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
                   color: Color.fromRGBO(42, 41, 51, 0.6),
                   letterSpacing: -0.24,
@@ -785,7 +785,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.heading,
                 letterSpacing: -0.24,
@@ -830,7 +830,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 Text(
                   name,
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF000000),
                     letterSpacing: -0.2,
@@ -839,7 +839,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 Text(
                   title,
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
                     color: Color.fromRGBO(0, 0, 0, 0.7),
                     letterSpacing: -0.3,

@@ -197,18 +197,18 @@ class _InspectionReportDetailsScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -220,7 +220,7 @@ class _InspectionReportDetailsScreenState
                   Text(
                     "INSPECTION REPORTS",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -230,8 +230,8 @@ class _InspectionReportDetailsScreenState
                   Text(
                     "INSPECTION REPORT DETAILS",
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -253,7 +253,7 @@ class _InspectionReportDetailsScreenState
               Text(
                 "Failed to load inspection details",
                 style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xff101C16),
                 ),
@@ -272,7 +272,7 @@ class _InspectionReportDetailsScreenState
                   "Retry",
                   style: GoogleFonts.outfit(
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                   ),
                 ),
               ),
@@ -368,7 +368,7 @@ class _InspectionReportDetailsScreenState
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 16.sp,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.w600,
                                         color: const Color(0xff101C16),
                                         letterSpacing: -0.2,
@@ -378,8 +378,8 @@ class _InspectionReportDetailsScreenState
                                     Text(
                                       headerDate,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w400,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
                                         color: const Color.fromRGBO(
                                           16,
                                           28,
@@ -409,7 +409,7 @@ class _InspectionReportDetailsScreenState
                                 child: Text(
                                   status,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.w500,
                                     color: const Color(0xff101C16),
                                   ),
@@ -475,7 +475,7 @@ class _InspectionReportDetailsScreenState
                     Text(
                       "Inspection Findings",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -573,7 +573,7 @@ class _InspectionReportDetailsScreenState
                     Text(
                       "Recommendations",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -602,7 +602,7 @@ class _InspectionReportDetailsScreenState
                             recommendationsText,
                             style: GoogleFonts.outfit(
                               fontSize: 12.5.sp,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w500,
                               color: const Color.fromRGBO(16, 28, 22, 0.75),
                               letterSpacing: -0.2,
                               height: 1.35,
@@ -626,7 +626,7 @@ class _InspectionReportDetailsScreenState
                               child: Text(
                                 "Review Recommended Actions",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xff101C16),
                                 ),
@@ -643,7 +643,7 @@ class _InspectionReportDetailsScreenState
                     Text(
                       "Attached Documents / Images",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -699,7 +699,7 @@ class _InspectionReportDetailsScreenState
                                     "Inspection Report",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xff101C16),
                                     ),
@@ -708,7 +708,7 @@ class _InspectionReportDetailsScreenState
                                     "PDF",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xff101C16),
                                     ),
@@ -810,7 +810,7 @@ class _InspectionReportDetailsScreenState
                                     "Inspection Images",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xff101C16),
                                     ),
@@ -819,7 +819,7 @@ class _InspectionReportDetailsScreenState
                                     "Images",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xff101C16),
                                     ),
@@ -942,7 +942,7 @@ class _InspectionReportDetailsScreenState
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 15.sp,
+            fontSize: 17.sp,
             fontWeight: FontWeight.w600,
             color: const Color(0xff101C16),
             letterSpacing: -0.2,
@@ -973,7 +973,7 @@ class _InspectionReportDetailsScreenState
                 : Text(
                     "!",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xff101C16),
                     ),
@@ -988,7 +988,7 @@ class _InspectionReportDetailsScreenState
               Text(
                 title,
                 style: GoogleFonts.outfit(
-                  fontSize: 15.sp,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xff101C16),
                   letterSpacing: -0.2,
@@ -999,7 +999,7 @@ class _InspectionReportDetailsScreenState
                 subtitle,
                 style: GoogleFonts.outfit(
                   fontSize: 12.5.sp,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: const Color.fromRGBO(16, 28, 22, 0.6),
                   letterSpacing: -0.2,
                 ),

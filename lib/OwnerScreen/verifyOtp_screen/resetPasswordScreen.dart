@@ -45,7 +45,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           children: [
             SizedBox(
               width: double.infinity,
-              height: 170.h,
+              height: 150.h,
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -58,7 +58,6 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                       fit: BoxFit.contain,
                     ),
                   ),
-
                   Positioned(
                     top: 0,
                     right: 0,
@@ -72,19 +71,13 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               ),
             ),
             Center(
-              child: Column(
-                children: [
-                  ClipOval(
-                    child: Image.asset(
-                      "assets/logo.jpeg",
-                      width: 73.w,
-                      height: 73.w,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  SizedBox(height: 24.h),
-                ],
+              child: ClipOval(
+                child: Image.asset(
+                  "assets/new_logo.jpeg",
+                  width: 110.w,
+                  height: 110.w,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(height: 30.h),
@@ -96,9 +89,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                   Text(
                     "RESET PASSWORD",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 18.sp,
+                      fontSize: 22.sp,
                       letterSpacing: -0.39,
                     ),
                   ),
@@ -107,73 +100,74 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                     "Create a new password for your account.",
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      fontSize: 16.sp,
-                      letterSpacing: -0.39,
+                      color: const Color(0xff26332D),
+                      fontSize: 15.sp,
+                      letterSpacing: -0.2,
                     ),
                   ),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 28.h),
                   Text(
                     "NEW PASSWORD",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
                       fontSize: 15.sp,
-                      letterSpacing: -0.39,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 10.h),
                   Container(
-                    height: 44.h,
+                    height: 52.h,
                     decoration: const BoxDecoration(color: Colors.transparent),
                     child: TextField(
+                      style: GoogleFonts.outfit(
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff101C16),
+                        letterSpacing: -0.2,
+                      ),
                       controller: newPasswordController,
-                      cursorColor: AppColors.heading,
-                      cursorHeight: 18.h,
-                      cursorWidth: 1.5.w,
                       obscureText: !isNewPasswordVisible,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         isDense: true,
-
                         prefixIcon: Padding(
-                          padding: EdgeInsets.only(left: 10.w),
+                          padding: EdgeInsets.only(left: 12.w, right: 8.w),
                           child: Icon(
                             Icons.lock_outline,
-                            color: const Color(0xff26332D),
-                            size: 18.sp,
+                            color: const Color(0xff101C16),
+                            size: 22.sp,
                           ),
                         ),
-
                         prefixIconConstraints: BoxConstraints(
-                          minWidth: 38.w, // 10 left + 18 icon + 10 gap
-                          minHeight: 44.h,
+                          minWidth: 46.w,
+                          minHeight: 52.h,
                         ),
-
                         hintText: "Enter your new Password",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(16, 28, 22, 0.6),
                         ),
-
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
-                          borderSide: BorderSide(color: AppColors.heading),
-                        ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            color: AppColors.heading,
+                            width: 1.5,
                           ),
                         ),
-
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.r),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            width: 1.2,
+                          ),
+                        ),
                         suffixIcon: IconButton(
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(
-                            minWidth: 40.w,
-                            minHeight: 44.h,
+                            minWidth: 46.w,
+                            minHeight: 52.h,
                           ),
                           onPressed: () {
                             setState(() {
@@ -185,78 +179,79 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined,
                             color: AppColors.heading,
-                            size: 16.sp,
+                            size: 22.sp,
                           ),
                         ),
-
                         contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 0,
+                          horizontal: 14.w,
+                          vertical: 14.h,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   Text(
                     "CONFIRM NEW PASSWORD",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
                       fontSize: 15.sp,
-                      letterSpacing: -0.39,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 10.h),
                   Container(
-                    height: 44.h,
+                    height: 52.h,
                     decoration: const BoxDecoration(color: Colors.transparent),
                     child: TextField(
+                      style: GoogleFonts.outfit(
+                        fontSize: 19.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff101C16),
+                        letterSpacing: -0.2,
+                      ),
                       controller: confirmPasswordController,
-                      cursorColor: AppColors.heading,
-                      cursorHeight: 18.h,
-                      cursorWidth: 1.5.w,
                       obscureText: !isConfirmPasswordVisible,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         isDense: true,
                         prefixIcon: Padding(
-                          padding: EdgeInsets.only(left: 10.w),
+                          padding: EdgeInsets.only(left: 12.w, right: 8.w),
                           child: Icon(
                             Icons.lock_outline,
-                            color: const Color(0xff26332D),
-                            size: 18.sp,
+                            color: const Color(0xff101C16),
+                            size: 22.sp,
                           ),
                         ),
-
                         prefixIconConstraints: BoxConstraints(
-                          minWidth: 38.w, // 10 left + 18 icon + 10 gap
-                          minHeight: 44.h,
+                          minWidth: 46.w,
+                          minHeight: 52.h,
                         ),
-
                         hintText: "Confirm your new Password",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(16, 28, 22, 0.6),
                         ),
-
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
-                          borderSide: BorderSide(color: AppColors.heading),
-                        ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
+                          borderRadius: BorderRadius.circular(6.r),
                           borderSide: const BorderSide(
-                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            color: AppColors.heading,
+                            width: 1.5,
                           ),
                         ),
-
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.r),
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(16, 28, 22, 0.6),
+                            width: 1.2,
+                          ),
+                        ),
                         suffixIcon: IconButton(
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(
-                            minWidth: 40.w,
-                            minHeight: 44.h,
+                            minWidth: 46.w,
+                            minHeight: 52.h,
                           ),
                           onPressed: () {
                             setState(() {
@@ -269,38 +264,34 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined,
                             color: AppColors.heading,
-                            size: 16.sp,
+                            size: 22.sp,
                           ),
                         ),
-
                         contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 0,
+                          horizontal: 14.w,
+                          vertical: 14.h,
                         ),
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 32.h),
                   SizedBox(
-                    height: 41.h,
+                    height: 52.h,
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.heading,
+                        elevation: 2,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
-
                       onPressed: isLoading
                           ? null
                           : () async {
-                              final newPassword = newPasswordController.text
-                                  .trim();
-                              final confirmPassword = confirmPasswordController
-                                  .text
-                                  .trim();
+                              final newPassword = newPasswordController.text.trim();
+                              final confirmPassword =
+                                  confirmPasswordController.text.trim();
 
                               if (newPassword.isEmpty) {
                                 return;
@@ -355,9 +346,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                               child: SizedBox(
                                 width: 20.w,
                                 height: 20.h,
-                                child: CircularProgressIndicator(
-                                  color: AppColors.heading,
-                                  strokeWidth: 1.5,
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
                                 ),
                               ),
                             )
@@ -365,14 +356,13 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                               "Reset Password",
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 15.sp,
-                                color: Color(0xffFFFFFF),
-                                letterSpacing: -0.24,
+                                fontSize: 16.sp,
+                                color: const Color(0xffFFFFFF),
+                                letterSpacing: 0.2,
                               ),
                             ),
                     ),
                   ),
-
                   SizedBox(height: 33.h),
                 ],
               ),

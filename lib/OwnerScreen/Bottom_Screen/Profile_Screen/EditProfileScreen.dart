@@ -57,7 +57,7 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
           actions: [
             CupertinoActionSheetAction(
               onPressed: () {
-                Navigator.pop(context);
+                if (context.mounted) Navigator.pop(context);
                 _pickImage(ImageSource.camera);
               },
               child: const Text("Camera"),
@@ -65,7 +65,7 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
 
             CupertinoActionSheetAction(
               onPressed: () {
-                Navigator.pop(context);
+                if (context.mounted) Navigator.pop(context);
                 _pickImage(ImageSource.gallery);
               },
               child: const Text("Gallery"),
@@ -73,7 +73,7 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
           ],
           cancelButton: CupertinoActionSheetAction(
             onPressed: () {
-              Navigator.pop(context);
+              if (context.mounted) Navigator.pop(context);
             },
             isDefaultAction: true,
             child: const Text("Cancel"),
@@ -119,21 +119,21 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  if (context.mounted) Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -145,10 +145,10 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
                   Text(
                     "Edit Profile",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
                       color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -156,9 +156,9 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
                     "Update your personal information",
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(42, 41, 51, 0.6),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -274,7 +274,7 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
                       child: Text(
                         "Update profile photo",
                         style: GoogleFonts.outfit(
-                          fontSize: 12.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xff101C16),
                           letterSpacing: -0.3,
@@ -288,9 +288,9 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
               Text(
                 "Personal Information",
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF101C16),
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.heading,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -338,15 +338,16 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 24.h),
               SizedBox(
                 width: double.infinity,
-                height: 36.h,
+                height: 52.h,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff000000),
+                    backgroundColor: AppColors.heading,
+                    elevation: 2,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.r),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
                   onPressed: () async {
@@ -363,9 +364,9 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
                             : null,
                       );
                       if (response.status == true) {
-                        showSuccessSnackBar(response.message ?? "Sucess");
+                        showSuccessSnackBar(response.message ?? "Success");
                         ref.invalidate(getProfileProvider);
-                        Navigator.pop(context);
+                        if (context.mounted) Navigator.pop(context);
                       }
                     } catch (e) {
                       log(e.toString());
@@ -389,36 +390,40 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
                       : Text(
                           "Save",
                           style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xffFFFFFF),
-                            fontSize: 15.sp,
-                            letterSpacing: -0.34,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xffFFFFFF),
+                            fontSize: 16.sp,
+                            letterSpacing: 0.2,
                           ),
                         ),
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 12.h),
               SizedBox(
                 width: double.infinity,
-                height: 36.h,
+                height: 52.h,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.scaffoldBg,
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.r),
-                      side: BorderSide(color: AppColors.heading),
+                      borderRadius: BorderRadius.circular(10.r),
+                      side: const BorderSide(
+                        color: AppColors.heading,
+                        width: 1.2,
+                      ),
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                    if (context.mounted) Navigator.pop(context);
                   },
                   child: Text(
                     "Cancel",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 15.sp,
-                      letterSpacing: -0.34,
+                      fontSize: 16.sp,
+                      letterSpacing: 0.2,
                     ),
                   ),
                 ),
@@ -443,53 +448,53 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
         Text(
           label,
           style: GoogleFonts.outfit(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF000000),
-            letterSpacing: -0.2,
-          ),
-        ),
-
-        SizedBox(height: 7.h),
-        TextFormField(
-          cursorHeight: 24.h,
-          cursorColor: AppColors.heading,
-          controller: controller,
-          cursorWidth: 2.w,
-          keyboardType: keyboardType,
-          textAlignVertical: TextAlignVertical.center,
-          style: GoogleFonts.outfit(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w500,
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w700,
             color: AppColors.heading,
             letterSpacing: -0.2,
           ),
+        ),
+        SizedBox(height: 7.h),
+        TextField(
+          controller: controller,
+          cursorHeight: 22.h,
+          cursorColor: AppColors.heading,
+          cursorWidth: 1.5.w,
+          keyboardType: keyboardType,
+          textAlignVertical: TextAlignVertical.center,
           readOnly: isReadOnly ?? false,
+          style: GoogleFonts.outfit(
+            fontSize: 19.sp,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xff101C16),
+            letterSpacing: -0.2,
+          ),
           decoration: InputDecoration(
             isDense: true,
-
             hintText: hintText,
             hintStyle: GoogleFonts.outfit(
-              fontSize: 15.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
               color: const Color.fromRGBO(16, 28, 22, 0.6),
+              letterSpacing: -0.2,
             ),
-
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.r),
-              borderSide: BorderSide(color: AppColors.heading),
-            ),
-
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.r),
+              borderRadius: BorderRadius.circular(6.r),
               borderSide: const BorderSide(
-                color: Color.fromRGBO(16, 28, 22, 0.6),
+                color: AppColors.heading,
+                width: 1.5,
               ),
             ),
-
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: const BorderSide(
+                color: Color.fromRGBO(16, 28, 22, 0.6),
+                width: 1.2,
+              ),
+            ),
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 10.w,
-              vertical: 8.h,
+              horizontal: 14.w,
+              vertical: 12.h,
             ),
           ),
         ),

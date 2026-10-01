@@ -60,18 +60,18 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -83,7 +83,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                   Text(
                     "Service Request Details",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -93,8 +93,8 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                   Text(
                     "View request and ticket details",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -140,7 +140,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                     Text(
                                       "Ticket ID",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
+                                        fontSize: 15.sp,
                                         fontWeight: FontWeight.w500,
                                         color: AppColors.heading,
                                         letterSpacing: -0.2,
@@ -152,7 +152,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                     Text(
                                       data.data?.header?.ticketNumber ?? "",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 17.sp,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.w500,
                                         color: const Color(0xff101C16),
                                         letterSpacing: -0.2,
@@ -191,7 +191,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                     Text(
                                       data.data?.header?.statusPill ?? "",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w500,
                                         color: const Color(0xff101C16),
                                         letterSpacing: -0.4,
@@ -208,7 +208,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.outfit(
-                              fontSize: 17.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
@@ -218,7 +218,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                           Text(
                             data.data?.header?.subtitle ?? "",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               color: const Color.fromRGBO(42, 41, 51, 0.6),
                               letterSpacing: -0.2,
@@ -231,7 +231,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                     Text(
                       "Request Information",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -285,7 +285,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                     Text(
                       "Request Details",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -303,7 +303,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                         data.data?.requestDetails ?? "",
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
-                          fontSize: 13.sp,
+                          fontSize: 15.sp,
                           color: AppColors.heading,
                         ),
                       ),
@@ -314,7 +314,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                         Text(
                           "Request Status",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
                             letterSpacing: -0.2,
@@ -324,7 +324,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                         Text(
                           "Ticket Timeline",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
                             letterSpacing: -0.2,
@@ -349,7 +349,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                           Text(
                             "Status Timeline",
                             style: GoogleFonts.outfit(
-                              fontSize: 17.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
@@ -378,7 +378,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                       Text(
                         "Assigned To",
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
                           letterSpacing: -0.2,
@@ -431,7 +431,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                 Text(
                                   data.data?.assignedTo?.name ?? "",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF101C16),
                                     letterSpacing: -0.2,
@@ -440,7 +440,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                 Text(
                                   data.data?.assignedTo?.role ?? "",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Color.fromRGBO(16, 28, 22, 0.5),
                                     letterSpacing: -0.3,
@@ -478,7 +478,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                           Text(
                             "Attachments",
                             style: GoogleFonts.outfit(
-                              fontSize: 18.sp,
+                              fontSize: 19.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
@@ -488,7 +488,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                           Text(
                             "${data.data!.attachments!.length} File${data.data!.attachments!.length > 1 ? 's' : ''}",
                             style: GoogleFonts.outfit(
-                              fontSize: 15.sp,
+                              fontSize: 17.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
@@ -552,7 +552,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 17.sp,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.w500,
                                         color: Color(0xFF101C16),
                                         letterSpacing: -0.2,
@@ -563,7 +563,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 15.sp,
+                                        fontSize: 17.sp,
                                         fontWeight: FontWeight.w500,
                                         color: Color.fromRGBO(16, 28, 22, 0.5),
                                         letterSpacing: -0.3,
@@ -643,7 +643,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                                 child: Text(
                                   "View",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 15.sp,
+                                    fontSize: 17.sp,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.heading,
                                     letterSpacing: -0.3,
@@ -659,7 +659,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                     Text(
                       "Latest Update",
                       style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.3,
@@ -698,8 +698,8 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               decoration: InputDecoration(
                                 hintText: "Write an additional message...",
                                 hintStyle: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w500,
                                   color: const Color(0xff292832),
                                   letterSpacing: -0.4,
                                 ),
@@ -726,8 +726,8 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                               child: Text(
                                 "Add Update",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
                                   color: Colors.white,
                                   letterSpacing: -0.2,
                                 ),
@@ -751,7 +751,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                         child: Text(
                           "Request Closure",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
                             letterSpacing: -0.2,
@@ -764,7 +764,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                       child: Text(
                         "You can request closure after the service issue has been resolved.",
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
                           letterSpacing: -0.3,
@@ -815,7 +815,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
                   color: Color.fromRGBO(42, 41, 51, 0.6),
                   letterSpacing: -0.24,
@@ -840,7 +840,7 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 15.sp,
+                fontSize: 17.sp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.heading,
                 letterSpacing: -0.24,
@@ -923,7 +923,7 @@ class _TimelineItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
+                      fontSize: 19.sp,
                       height: 1.1,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF101C16),
@@ -934,7 +934,7 @@ class _TimelineItem extends StatelessWidget {
                   Text(
                     date,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
+                      fontSize: 15.sp,
                       height: 1.1,
                       fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.5),

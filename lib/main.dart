@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/AddPropertyFormScreen.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/my_bottom_screen.dart';
 import 'package:property_care/splash_screen.dart';
 import 'core/Utils/key.dart';
@@ -23,7 +24,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var box = Hive.box("userdata");
     var token = box.get("token");
+    var propertyNameNumber =
+        box.get("property_name_number") ?? box.get("unit_number");
+    final bool hasProperty =
+        propertyNameNumber != null &&
+        propertyNameNumber.toString().trim().isNotEmpty &&
+        propertyNameNumber.toString().trim().toLowerCase() != 'null';
+
     log("Bearer Token :- ${token ?? "No Token Found"}");
+    log("Property Name Number :- ${propertyNameNumber ?? "No Property Found"}");
+
     return ScreenUtilInit(
       designSize: Size(440, 855),
       minTextAdapt: true,
@@ -45,7 +55,11 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               ),
-              home: token == null ? SplashScreen() : MyBottomScreen(),
+              home: token == null
+                  ? const SplashScreen()
+                  : (hasProperty
+                        ? const MyBottomScreen()
+                        : const AddPropertyFormScreen()),
             ),
           ),
         );

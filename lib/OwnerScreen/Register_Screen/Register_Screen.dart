@@ -95,9 +95,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ClipOval(
                       child: Image.asset(
                         // "assets/property_img.png",
-                        "assets/logo.jpeg",
-                        width: 75.w,
-                        height: 75.w,
+                        "assets/new_logo.jpeg",
+                        width: 100.w,
+                        height: 100.w,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -105,8 +105,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Text(
                       "Create Account",
                       style: GoogleFonts.uoqMunThenKhung(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xFF000000),
                         letterSpacing: 1,
                       ),
@@ -116,7 +116,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       textAlign: TextAlign.center,
                       "REGISTER TO MANAGE YOR PROPERTY",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF000000),
                       ),
@@ -139,7 +139,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Text(
                       "ACCOUNT INFORMATION",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF000000),
                         letterSpacing: -0.3,
@@ -234,7 +234,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Text(
                       "PROPERTY INFORMATION",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF000000),
                         letterSpacing: -0.3,
@@ -242,25 +242,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
 
                     SizedBox(height: 10.w),
-                    fieldLabel("Apartment / Flat Number"),
+                    fieldLabel("Apartment / Flat Number (Optional)"),
                     getAvailableFlatState.when(
                       data: (data) {
                         return DropdownButtonFormField<String>(
                           isExpanded: true,
                           value: selectedFlatNameNumber,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please select an apartment / flat";
-                            }
-                            return null;
-                          },
+                          // validator: (value) {
+                          //   if (value == null || value.isEmpty) {
+                          //     return "Please select an apartment / flat";
+                          //   }
+                          //   return null;
+                          // },
                           icon: Icon(
                             Icons.keyboard_arrow_down,
                             color: const Color(0xFF000000),
                             size: 20.sp,
                           ),
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             color: const Color(0xff101C16),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -268,7 +268,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             isDense: true,
                             hintText: 'Select Flat',
                             hintStyle: GoogleFonts.outfit(
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                               color: const Color.fromRGBO(0, 0, 0, 0.6),
                               letterSpacing: -0.3,
@@ -278,35 +278,35 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               vertical: 10.h,
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
+                              borderRadius: BorderRadius.circular(6.r),
                               borderSide: BorderSide(
                                 color: const Color(0xFF000000),
                                 width: 1.w,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
+                              borderRadius: BorderRadius.circular(6.r),
                               borderSide: BorderSide(
                                 color: const Color(0xFF000000),
                                 width: 1.w,
                               ),
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
+                              borderRadius: BorderRadius.circular(6.r),
                               borderSide: BorderSide(
                                 color: const Color(0xFF000000),
                                 width: 1.w,
                               ),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
+                              borderRadius: BorderRadius.circular(6.r),
                               borderSide: BorderSide(
                                 color: const Color(0xFF000000),
                                 width: 1.w,
                               ),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
+                              borderRadius: BorderRadius.circular(6.r),
                               borderSide: BorderSide(
                                 color: const Color(0xFF000000),
                                 width: 1.w,
@@ -321,7 +321,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -377,7 +377,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           child: RichText(
                             text: TextSpan(
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 color: Color(0Xff000000),
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: -0.2,
@@ -423,7 +423,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     confirmPassword: confirmPasswordController
                                         .text
                                         .trim(),
-                                    propertyNameNumber: selectedFlatNameNumber!,
+                                    propertyNameNumber:
+                                        selectedFlatNameNumber ?? "",
                                     role: 'property_owner',
                                   );
                                   if (response.status == true) {
@@ -455,7 +456,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           elevation: 0,
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.r),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
                         child: isLoading
@@ -472,7 +473,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             : Text(
                                 "CREATE ACCOUNT",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 13.sp,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
                                   letterSpacing: 0.1,
@@ -495,7 +496,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         TextSpan(
                           text: "Already have an account?  ",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF000000),
                           ),
@@ -503,7 +504,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         TextSpan(
                           text: "Login",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF000000),
                           ),
@@ -535,7 +536,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           child: Text(
             number,
             style: GoogleFonts.outfit(
-              fontSize: 13.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w500,
               color: Color(0xFF000000),
               letterSpacing: -0.3,
@@ -546,7 +547,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 14.sp,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w500,
             color: Color(0xFF000000),
             letterSpacing: -0.3,
@@ -562,7 +563,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       child: Text(
         text,
         style: GoogleFonts.outfit(
-          fontSize: 14.sp,
+          fontSize: 16.sp,
           fontWeight: FontWeight.w500,
           color: Color(0xFF000000),
           letterSpacing: -0.3,
@@ -587,7 +588,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: GoogleFonts.outfit(
-        fontSize: 16.sp,
+        fontSize: 18.sp,
         color: const Color(0xff101C16),
         letterSpacing: -0.2,
       ),
@@ -595,12 +596,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         isDense: true,
         hintText: hintText,
         hintStyle: GoogleFonts.outfit(
-          fontSize: 13.sp,
+          fontSize: 15.sp,
           fontWeight: FontWeight.w500,
           color: Color.fromRGBO(0, 0, 0, 0.6),
           letterSpacing: -0.3,
         ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
         suffixIcon: showVisibilityIcon
             ? InkWell(
                 onTap: onVisibilityTap,
@@ -615,26 +616,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             : null,
         // ⭐ IMPORTANT
         suffixIconConstraints: BoxConstraints(
-          minHeight: 44.h,
-          maxHeight: 44.h,
-          minWidth: 44.w,
-          maxWidth: 44.w,
+          minHeight: 52.h,
+          maxHeight: 52.h,
+          minWidth: 46.w,
+          maxWidth: 46.w,
         ),
 
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(6.r),
           borderSide: BorderSide(color: Color(0xFF000000), width: 1.w),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(6.r),
           borderSide: BorderSide(color: Color(0xFF000000), width: 1.w),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(6.r),
           borderSide: BorderSide(color: Colors.red, width: 1.w),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(6.r),
           borderSide: BorderSide(color: Colors.red, width: 1.w),
         ),
       ),

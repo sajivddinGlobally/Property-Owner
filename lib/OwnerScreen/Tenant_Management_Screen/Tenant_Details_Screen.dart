@@ -43,18 +43,18 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -66,10 +66,10 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                   Text(
                     "TENANT DETAILS",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                      letterSpacing: -0.3,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -78,8 +78,8 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                      color: const Color.fromRGBO(42, 41, 51, 0.7),
+                      letterSpacing: -0.2,
                     ),
                   ),
                 ],
@@ -141,7 +141,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                           // "Arjun Kapoor",
                           tenantDetailsData.data?.tenantDetails?.name ?? "N/A",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w700,
                             color: Color(0xFF000000),
                             letterSpacing: -0.3,
@@ -152,7 +152,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                           tenantDetailsData.data?.tenantDetails?.tenantType ??
                               "Primary Tenant",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF000000),
                             letterSpacing: -0.3,
@@ -174,7 +174,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                           child: Text(
                             "${tenantDetailsData.data?.tenantDetails?.tenantStatus ?? ""} Tenant",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF000000),
                               letterSpacing: -0.3,
@@ -188,8 +188,8 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                   Text(
                     "Tenant Information",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18.sp,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
@@ -244,7 +244,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                     "Property Details",
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
                     ),
@@ -292,7 +292,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                           ?.apartmentNo ??
                                       "Apartment A-204",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 17.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF101C16),
                                     letterSpacing: -0.2,
@@ -305,7 +305,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                           ?.complexName ??
                                       "Green Valley Residency",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF000000),
                                     letterSpacing: -0.2,
@@ -324,7 +324,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                               child: Text(
                                 "Property Type",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.2,
@@ -335,7 +335,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                               child: Text(
                                 "Property Type",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.2,
@@ -355,7 +355,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                         ?.propertyType ??
                                     "Apartment",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -370,7 +370,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                         ?.apartmentNo ??
                                     "A-204",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -386,7 +386,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                               child: Text(
                                 "FLOOR",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.2,
@@ -398,7 +398,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                               child: Text(
                                 "Ownership",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.2,
@@ -418,7 +418,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                         ?.floor ??
                                     "2nd Floor",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -433,7 +433,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                         ?.occupancy ??
                                     "Tenant",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF101C16),
                                   letterSpacing: -0.2,
@@ -484,7 +484,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                   Text(
                                     "Utility Payment Status",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFF101C16),
                                     ),
@@ -492,7 +492,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                   Text(
                                     "Current utility payment overview",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
+                                      fontSize: 17.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                     ),
@@ -537,7 +537,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                               ?.rentPaymentStatus ??
                                           "Paid",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w500,
                                         color: const Color(0xFF101C16),
                                       ),
@@ -614,14 +614,14 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                 Text(
                                   "Total Outstanding",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 15.sp,
+                                    fontSize: 17.sp,
                                     color: Color.fromRGBO(42, 41, 51, 0.6),
                                   ),
                                 ),
                                 Text(
                                   "₹${"${tenantDetailsData.data?.utilitiesPaymentStatus?.totalOutstanding}"}",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 15.sp,
+                                    fontSize: 17.sp,
                                     fontWeight: FontWeight.w500,
                                     color: const Color(0xFF101C16),
                                   ),
@@ -646,7 +646,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                               child: Text(
                                 "View Details →",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 17.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xFF101C16),
                                 ),
@@ -661,7 +661,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                   Text(
                     "Contact Information",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF101C16),
                       letterSpacing: -0.2,
@@ -702,7 +702,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                               Text(
                                 "Phone",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 17.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                 ),
@@ -712,7 +712,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                               Text(
                                 "${tenantDetailsData.data?.tenantDetails?.phone}",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -753,7 +753,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                               Text(
                                 "Email",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
+                                  fontSize: 17.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                 ),
@@ -763,7 +763,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                 tenantDetailsData.data?.tenantDetails?.email ??
                                     "N/A",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -779,7 +779,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                   Text(
                     "Additional Information",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -795,7 +795,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                     child: Text(
                       "Tenant information is maintained for property management and relevant property-related communication.",
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -820,7 +820,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                   Text(
                     "Failed to load tenant details",
                     style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
+                      fontSize: 18.sp,
                       color: AppColors.heading,
                     ),
                   ),
@@ -871,7 +871,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
                   color: Color.fromRGBO(42, 41, 51, 0.6),
                   letterSpacing: -0.24,
@@ -896,7 +896,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 15.sp,
+                fontSize: 17.sp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.heading,
                 letterSpacing: -0.24,
@@ -937,7 +937,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
             child: Text(
               title,
               style: GoogleFonts.outfit(
-                fontSize: 17.sp,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF101C16),
               ),
@@ -950,7 +950,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
               Text(
                 status,
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF101C16),
                 ),
@@ -958,7 +958,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
               Text(
                 amount,
                 style: GoogleFonts.outfit(
-                  fontSize: 15.sp,
+                  fontSize: 17.sp,
                   color: Color.fromRGBO(42, 41, 51, 0.6),
                   fontWeight: FontWeight.w500,
                   letterSpacing: -0.2,

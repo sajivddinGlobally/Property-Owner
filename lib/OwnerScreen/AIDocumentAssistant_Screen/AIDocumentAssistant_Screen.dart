@@ -197,7 +197,7 @@ class _AIDocumentAssistantScreenState
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -209,8 +209,8 @@ class _AIDocumentAssistantScreenState
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -236,7 +236,7 @@ class _AIDocumentAssistantScreenState
                   Text(
                     "DOC AI",
                     style: GoogleFonts.outfit(
-                      fontSize: 11.sp,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
@@ -280,7 +280,7 @@ class _AIDocumentAssistantScreenState
                           Text(
                             "DOCUMENT INTELLIGENCE",
                             style: GoogleFonts.outfit(
-                              fontSize: 12.sp,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
                               color: const Color(0xFFE5C058),
                               letterSpacing: 0.5,
@@ -300,7 +300,7 @@ class _AIDocumentAssistantScreenState
                         child: Text(
                           "• Online",
                           style: GoogleFonts.outfit(
-                            fontSize: 11.sp,
+                            fontSize: 13.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF24B06A),
                           ),
@@ -312,7 +312,7 @@ class _AIDocumentAssistantScreenState
                   Text(
                     "Read-only document intelligence to extract lease clauses, summarize contracts, and verify compliance.",
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       color: Colors.white.withOpacity(0.8),
                       height: 1.3,
                     ),
@@ -331,7 +331,7 @@ class _AIDocumentAssistantScreenState
                       child: Text(
                         "Context: ${widget.initialDocumentTitle}",
                         style: GoogleFonts.outfit(
-                          fontSize: 11.sp,
+                          fontSize: 13.sp,
                           color: const Color(0xFFFFFCEB),
                           fontWeight: FontWeight.w500,
                         ),
@@ -371,7 +371,7 @@ class _AIDocumentAssistantScreenState
                     child: Text(
                       prompt,
                       style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                       ),
@@ -422,7 +422,7 @@ class _AIDocumentAssistantScreenState
                           Text(
                             "Analyzing documents...",
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                               color: Colors.grey.shade700,
                             ),
                           ),
@@ -476,7 +476,7 @@ class _AIDocumentAssistantScreenState
                             Text(
                               isUser ? "You" : "Document Assistant",
                               style: GoogleFonts.outfit(
-                                fontSize: 11.sp,
+                                fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
                                 color: isUser
                                     ? const Color(0xFFE5C058)
@@ -510,7 +510,7 @@ class _AIDocumentAssistantScreenState
                         Text(
                           msg.text,
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             height: 1.35,
                             color: isUser
                                 ? Colors.white
@@ -557,12 +557,12 @@ class _AIDocumentAssistantScreenState
                     child: TextField(
                       controller: _controller,
                       onSubmitted: (_) => _sendMessage(),
-                      style: GoogleFonts.outfit(fontSize: 14.sp),
+                      style: GoogleFonts.outfit(fontSize: 16.sp),
                       decoration: InputDecoration(
                         hintText:
                             "Ask about leases, clauses, or documents...",
                         hintStyle: GoogleFonts.outfit(
-                          fontSize: 13.sp,
+                          fontSize: 15.sp,
                           color: Colors.grey.shade600,
                         ),
                         border: InputBorder.none,

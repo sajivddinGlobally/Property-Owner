@@ -22,6 +22,101 @@ class _ApiStateNetwork implements ApiStateNetwork {
   final ParseErrorLogger? errorLogger;
 
   @override
+  Future<GetUnAssignedResModel> getUnassignedProperty() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<GetUnAssignedResModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/complexes/unassigned-head',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetUnAssignedResModel _value;
+    try {
+      _value = GetUnAssignedResModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CreatePropertyResModel> createProperty(
+    MultipartFile? image,
+    String flatNumber,
+    String complexId,
+    String propertyType,
+    String carePackage,
+    bool? hasMmc,
+    String? monthlyMaintenanceFee,
+    String? location,
+    String? area,
+    bool? isIndependent,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    if (image != null) {
+      _data.files.add(MapEntry('image', image));
+    }
+    _data.fields.add(MapEntry('flat_number', flatNumber));
+    _data.fields.add(MapEntry('complex_id', complexId));
+    _data.fields.add(MapEntry('property_type', propertyType));
+    _data.fields.add(MapEntry('care_package', carePackage));
+    if (hasMmc != null) {
+      _data.fields.add(MapEntry('has_mmc', hasMmc.toString()));
+    }
+    if (monthlyMaintenanceFee != null) {
+      _data.fields.add(
+        MapEntry('monthly_maintenance_fee', monthlyMaintenanceFee),
+      );
+    }
+    if (location != null) {
+      _data.fields.add(MapEntry('location', location));
+    }
+    if (area != null) {
+      _data.fields.add(MapEntry('area', area));
+    }
+    if (isIndependent != null) {
+      _data.fields.add(MapEntry('is_independent', isIndependent.toString()));
+    }
+    final _options = _setStreamType<CreatePropertyResModel>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            '/api/v1/properties',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CreatePropertyResModel _value;
+    try {
+      _value = CreatePropertyResModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<AvailableFlatsModel> availableFlats() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -36,18 +36,18 @@ class _PropertyPerformanceScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -59,7 +59,7 @@ class _PropertyPerformanceScreenState
                   Text(
                     "Property Performance",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -69,8 +69,8 @@ class _PropertyPerformanceScreenState
                   Text(
                     "View your property's overall performance",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -118,7 +118,7 @@ class _PropertyPerformanceScreenState
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 letterSpacing: -0.2,
                               ),
                             ),
@@ -127,7 +127,7 @@ class _PropertyPerformanceScreenState
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w500,
                                 color: Color.fromRGBO(42, 41, 51, 0.5),
-                                fontSize: 13.sp,
+                                fontSize: 15.sp,
                                 letterSpacing: -0.2,
                               ),
                             ),
@@ -148,7 +148,7 @@ class _PropertyPerformanceScreenState
                             style: GoogleFonts.outfit(
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -172,7 +172,7 @@ class _PropertyPerformanceScreenState
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -182,7 +182,7 @@ class _PropertyPerformanceScreenState
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
-                          fontSize: 15.sp,
+                          fontSize: 17.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -224,7 +224,7 @@ class _PropertyPerformanceScreenState
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -289,7 +289,7 @@ class _PropertyPerformanceScreenState
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -299,7 +299,7 @@ class _PropertyPerformanceScreenState
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
-                          fontSize: 15.sp,
+                          fontSize: 17.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -324,7 +324,7 @@ class _PropertyPerformanceScreenState
                             Text(
                               "Property Score",
                               style: GoogleFonts.outfit(
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFF101C16),
                               ),
@@ -332,7 +332,7 @@ class _PropertyPerformanceScreenState
                             Text(
                               data.scoreTrend?.improvement ?? "",
                               style: GoogleFonts.outfit(
-                                fontSize: 15.sp,
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFF101C16),
                               ),
@@ -341,25 +341,59 @@ class _PropertyPerformanceScreenState
                         ),
 
                         SizedBox(height: 15.h),
-                        SizedBox(
-                          height: 125.h,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: (data.scoreTrend?.chartData ?? [])
-                                      .map((item) {
-                                        return _scoreBar(
-                                          item.month ?? "",
-                                          item.score?.toDouble() ?? 0,
-                                        );
-                                      })
-                                      .toList(),
-                                ),
+                        // SizedBox(
+                        //   height: 125.h,
+                        //   child: Column(
+                        //     children: [
+                        //       Expanded(
+                        //         child: Row(
+                        //           crossAxisAlignment: CrossAxisAlignment.end,
+                        //           children: (data.scoreTrend?.chartData ?? [])
+                        //               .map((item) {
+                        //                 return _scoreBar(
+                        //                   item.month ?? "",
+                        //                   item.score?.toDouble() ?? 0,
+                        //                 );
+                        //               })
+                        //               .toList(),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        Builder(
+                          builder: (context) {
+                            final chartList = data.scoreTrend?.chartData ?? [];
+                            double maxScore = 10.0;
+                            for (var item in chartList) {
+                              final s =
+                                  double.tryParse(
+                                    item.score?.toString() ?? "0",
+                                  ) ??
+                                  0.0;
+                              if (s > maxScore) {
+                                maxScore = 100.0;
+                              }
+                            }
+                            return SizedBox(
+                              height: 125.h,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: chartList.map((item) {
+                                  final s =
+                                      double.tryParse(
+                                        item.score?.toString() ?? "0",
+                                      ) ??
+                                      0.0;
+                                  return _scoreBar(
+                                    item.month ?? "",
+                                    s,
+                                    maxScore: maxScore,
+                                  );
+                                }).toList(),
                               ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -368,7 +402,7 @@ class _PropertyPerformanceScreenState
                   Text(
                     "Performance Insight",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF101C16),
                       letterSpacing: -0.2,
@@ -391,7 +425,7 @@ class _PropertyPerformanceScreenState
                         Text(
                           data.performanceInsight?.title ?? "",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF101C16),
                             letterSpacing: -0.2,
@@ -401,7 +435,7 @@ class _PropertyPerformanceScreenState
                         Text(
                           data.performanceInsight?.description ?? "",
                           style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF101C16),
                             letterSpacing: -0.2,
@@ -439,7 +473,7 @@ class _PropertyPerformanceScreenState
           Text(
             "Overall Property Score",
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
@@ -474,15 +508,15 @@ class _PropertyPerformanceScreenState
                       style: GoogleFonts.outfit(
                         fontSize: 40.sp,
                         height: 0.9,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                       ),
                     ),
                     Text(
                       "/${scoreOutOf.toInt()}",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                       ),
                     ),
@@ -502,8 +536,8 @@ class _PropertyPerformanceScreenState
             child: Text(
               performanceLabel,
               style: GoogleFonts.outfit(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w400,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w500,
                 color: const Color(0xFF101C16),
               ),
             ),
@@ -514,7 +548,7 @@ class _PropertyPerformanceScreenState
           Text(
             lastUpdated,
             style: GoogleFonts.outfit(
-              fontSize: 15.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.w500,
               color: Color(0xff2A2933),
             ),
@@ -534,7 +568,7 @@ class _PropertyPerformanceScreenState
             Text(
               title,
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF101C16),
                 letterSpacing: -0.3,
@@ -544,7 +578,7 @@ class _PropertyPerformanceScreenState
             Text(
               '$percentage%',
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF101C16),
                 letterSpacing: -0.3,
@@ -594,7 +628,7 @@ class _PropertyPerformanceScreenState
           Text(
             title,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
@@ -606,7 +640,7 @@ class _PropertyPerformanceScreenState
           Text(
             value,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
             ),
@@ -616,24 +650,38 @@ class _PropertyPerformanceScreenState
     );
   }
 
-  Widget _scoreBar(String month, double barHeight) {
+  Widget _scoreBar(String month, double score, {double maxScore = 10.0}) {
+    final double maxBarHeight = 65.h;
+    final double barHeight = maxScore > 0
+        ? ((score / maxScore).clamp(0.0, 1.0) * maxBarHeight)
+        : 0.0;
+
+    final String displayScore = score % 1 == 0
+        ? score.toInt().toString()
+        : score.toStringAsFixed(1);
+
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Flexible(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: barHeight.h,
-                width: 14.w,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(7.r),
-                    topRight: Radius.circular(7.r),
-                  ),
-                ),
+          Text(
+            displayScore,
+            style: GoogleFonts.outfit(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF101C16),
+              letterSpacing: -0.2,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Container(
+            height: barHeight,
+            width: 14.w,
+            decoration: BoxDecoration(
+              color: const Color(0xFF101C16),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(7.r),
+                topRight: Radius.circular(7.r),
               ),
             ),
           ),
@@ -642,14 +690,12 @@ class _PropertyPerformanceScreenState
             width: double.infinity,
             color: const Color(0xFF999999),
           ),
-
           SizedBox(height: 4.h),
-
           Text(
             month,
             style: GoogleFonts.outfit(
               fontSize: 16.sp,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
             ),
           ),

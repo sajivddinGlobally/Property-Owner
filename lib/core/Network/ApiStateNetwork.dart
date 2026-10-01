@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:property_care/core/Data/Model/BodyModel/resetPassBodyModel.dart';
 import 'package:property_care/core/Data/Model/BodyModel/verifyOtpBodyModel.dart';
@@ -30,8 +32,10 @@ import '../Data/Model/BodyModel/forgotPassBodyModel.dart';
 import '../Data/Model/BodyModel/loginBodyModel.dart';
 import '../Data/Model/BodyModel/registerBodyModel.dart';
 import '../Data/Model/BodyModel/selectPropertyBodyModel.dart';
+import '../Data/Model/ResponseModel/GetUnAssignedResModel.dart';
 import '../Data/Model/ResponseModel/addPropertyRequestResModel.dart';
 import '../Data/Model/ResponseModel/changePassResModel.dart';
+import '../Data/Model/ResponseModel/createPropertyResModel.dart';
 import '../Data/Model/ResponseModel/forgotPassResModel.dart';
 import '../Data/Model/ResponseModel/getInspectionReportModel.dart';
 import '../Data/Model/ResponseModel/getMaintenanceHistoryDetailsModel.dart';
@@ -47,6 +51,24 @@ part 'ApiStateNetwork.g.dart';
 @RestApi(baseUrl: "https://realestate.gwsstaging.com")
 abstract class ApiStateNetwork {
   factory ApiStateNetwork(Dio dio, {String baseUrl}) = _ApiStateNetwork;
+
+  @GET("/api/v1/complexes/unassigned-head")
+  Future<GetUnAssignedResModel> getUnassignedProperty();
+
+  @MultiPart()
+  @POST("/api/v1/properties")
+  Future<CreatePropertyResModel> createProperty(
+    @Part(name: "image") MultipartFile? image,
+    @Part(name: "flat_number") String flatNumber,
+    @Part(name: "complex_id") String complexId,
+    @Part(name: "property_type") String propertyType,
+    @Part(name: "care_package") String carePackage,
+    @Part(name: "has_mmc") bool? hasMmc,
+    @Part(name: "monthly_maintenance_fee") String? monthlyMaintenanceFee,
+    @Part(name: "location") String? location,
+    @Part(name: "area") String? area,
+    @Part(name: "is_independent") bool? isIndependent,
+  );
 
   @GET("/api/v1/auth/available-flats")
   Future<AvailableFlatsModel> availableFlats();

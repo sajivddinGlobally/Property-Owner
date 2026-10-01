@@ -75,18 +75,18 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -98,7 +98,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                   Text(
                     header?.title ?? "Notifications",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -108,8 +108,8 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                   Text(
                     header?.subtitle ?? "Stay updated with your property",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -159,7 +159,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                         child: Text(
                           filters[index],
                           style: GoogleFonts.outfit(
-                            fontSize: 11.sp,
+                            fontSize: 13.sp,
                             fontWeight: FontWeight.w500,
                             color: isSelected
                                 ? Colors.white
@@ -210,7 +210,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                               Text(
                                 section.title ?? "Recent",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -222,7 +222,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                                 Text(
                                   section.badge!,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 12.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.heading,
                                     letterSpacing: -0.2,
@@ -245,7 +245,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                         child: Text(
                           "No notifications found",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             color: const Color.fromRGBO(42, 41, 51, 0.6),
                           ),
                         ),
@@ -273,7 +273,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                       child: Text(
                         "No notifications found",
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           color: const Color.fromRGBO(42, 41, 51, 0.6),
                         ),
                       ),
@@ -308,7 +308,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                         Text(
                           "Failed to load notifications",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
                           ),
@@ -325,7 +325,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                             "Retry",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                             ),
                           ),
                         ),
@@ -389,7 +389,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 16.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
                           letterSpacing: -0.3,
@@ -400,7 +400,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                     Text(
                       item.time ?? "",
                       style: GoogleFonts.outfit(
-                        fontSize: 11.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                       ),
@@ -413,8 +413,8 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
                     color: const Color.fromRGBO(0, 0, 0, 0.7),
                     letterSpacing: -0.2,
                   ),
@@ -432,7 +432,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                   child: Text(
                     item.tag ?? "General",
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff101010),
                       letterSpacing: -0.2,
@@ -513,7 +513,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                   Text(
 //                     "Notifications",
 //                     style: GoogleFonts.outfit(
-//                       fontSize: 17.sp,
+//                       fontSize: 18.sp,
 //                       fontWeight: FontWeight.w500,
 //                       color: const Color(0xff292832),
 //                       letterSpacing: -0.64,
@@ -523,8 +523,8 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                   Text(
 //                     "Stay updated with your propertys",
 //                     style: GoogleFonts.outfit(
-//                       fontSize: 14.sp,
-//                       fontWeight: FontWeight.w400,
+//                       fontSize: 16.sp,
+//                       fontWeight: FontWeight.w500,
 //                       color: Color.fromRGBO(42, 41, 51, 0.6),
 //                       letterSpacing: -0.24,
 //                     ),
@@ -575,7 +575,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                         child: Text(
 //                           filters[index],
 //                           style: GoogleFonts.outfit(
-//                             fontSize: 11.sp,
+//                             fontSize: 13.sp,
 //                             fontWeight: FontWeight.w500,
 //                             color: isSelected
 //                                 ? Colors.white
@@ -595,7 +595,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                 Text(
 //                   "Today",
 //                   style: GoogleFonts.outfit(
-//                     fontSize: 14.sp,
+//                     fontSize: 16.sp,
 //                     fontWeight: FontWeight.w500,
 //                     color: AppColors.heading,
 //                     letterSpacing: -0.2,
@@ -605,7 +605,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                 Text(
 //                   "3 New",
 //                   style: GoogleFonts.outfit(
-//                     fontSize: 12.sp,
+//                     fontSize: 14.sp,
 //                     fontWeight: FontWeight.w500,
 //                     color: AppColors.heading,
 //                     letterSpacing: -0.2,
@@ -667,7 +667,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                                     maxLines: 1,
 //                                     overflow: TextOverflow.ellipsis,
 //                                     style: GoogleFonts.outfit(
-//                                       fontSize: 17.sp,
+//                                       fontSize: 18.sp,
 //                                       fontWeight: FontWeight.w500,
 //                                       color: AppColors.heading,
 //                                       letterSpacing: -0.3,
@@ -680,7 +680,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                                 Text(
 //                                   "09:45 AM",
 //                                   style: GoogleFonts.outfit(
-//                                     fontSize: 11.sp,
+//                                     fontSize: 13.sp,
 //                                     fontWeight: FontWeight.w500,
 //                                     color: AppColors.heading,
 //                                   ),
@@ -694,8 +694,8 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                               maxLines: 2,
 //                               overflow: TextOverflow.ellipsis,
 //                               style: GoogleFonts.outfit(
-//                                 fontSize: 13.sp,
-//                                 fontWeight: FontWeight.w400,
+//                                 fontSize: 15.sp,
+//                                 fontWeight: FontWeight.w500,
 //                                 color: const Color.fromRGBO(0, 0, 0, 0.7),
 //                                 letterSpacing: -0.2,
 //                               ),
@@ -716,7 +716,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
 //                               child: Text(
 //                                 "Maintenance",
 //                                 style: GoogleFonts.outfit(
-//                                   fontSize: 12.sp,
+//                                   fontSize: 14.sp,
 //                                   fontWeight: FontWeight.w500,
 //                                   color: const Color(0xff101010),
 //                                   letterSpacing: -0.2,

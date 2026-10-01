@@ -39,18 +39,18 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -62,7 +62,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                   Text(
                     "Property Status",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -72,8 +72,8 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                   Text(
                     "CONSOLIDATED PROPERTY STATUS",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -155,7 +155,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                                       style: GoogleFonts.outfit(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
-                                        fontSize: 14.sp,
+                                        fontSize: 16.sp,
                                       ),
                                     ),
                                   ),
@@ -174,7 +174,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                                   Text(
                                     data.propertyBanner?.propertyName ?? "",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff101C16),
                                       letterSpacing: -0.54,
@@ -184,7 +184,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                                   Text(
                                     data.propertyBanner?.complexLocation ?? "",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Color.fromRGBO(42, 41, 51, 0.6),
                                       letterSpacing: -0.34,
@@ -219,7 +219,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                                     style: GoogleFonts.outfit(
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -246,7 +246,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                                   style: GoogleFonts.outfit(
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.heading,
-                                    fontSize: 17.sp,
+                                    fontSize: 18.sp,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -262,7 +262,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                                     style: GoogleFonts.outfit(
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
-                                      fontSize: 17.sp,
+                                      fontSize: 18.sp,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -279,7 +279,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                                         51,
                                         0.6,
                                       ),
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       letterSpacing: -0.2,
                                     ),
                                   ),
@@ -313,7 +313,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -333,7 +333,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -411,44 +411,45 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 30.h),
-                  Row(
-                    children: [
-                      Text(
-                        "Maintenance Activities",
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.heading,
-                          fontSize: 17.sp,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                      Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) =>
-                                  const MaintenancehistoryScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "See All",
+
+                  if (data.maintenanceActivities != null &&
+                      data.maintenanceActivities!.isNotEmpty) ...[
+                    SizedBox(height: 30.h),
+                    Row(
+                      children: [
+                        Text(
+                          "Maintenance Activities",
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
-                            fontSize: 15.sp,
+                            fontSize: 18.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
-                  if (data.maintenanceActivities != null &&
-                      data.maintenanceActivities!.isNotEmpty) ...[
+                        Spacer(),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    const MaintenancehistoryScreen(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "See All",
+                            style: GoogleFonts.outfit(
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.heading,
+                              fontSize: 17.sp,
+                              letterSpacing: -0.2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16.h),
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
@@ -506,212 +507,236 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                       ),
                     ),
                   ],
-                  SizedBox(height: 30.h),
-                  Row(
-                    children: [
-                      Text(
-                        "Important Property Issues",
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.heading,
-                          fontSize: 17.sp,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                      Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => const ComplaintsScreen(
-                                isShowBackButton: true,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "View All",
-                          style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.heading,
-                            fontSize: 15.sp,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 17.h),
                   ...List.generate(
                     (data.importantPropertyIssues ?? []).length,
                     (index) {
                       final issue = data.importantPropertyIssues![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => const ComplaintsScreen(
-                                isShowBackButton: true,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(bottom: 10.h),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.w,
-                            vertical: 17.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffFFFDF0),
-                            border: Border.all(
-                              color: const Color(0xff999999),
-                              width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(18.r),
-                          ),
-                          child: Row(
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 30.h),
+                          Row(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10.r),
-                                child: Image.network(
-                                  issue.imageUrl ?? "",
-                                  width: 50.w,
-                                  height: 50.h,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Container(
-                                        width: 50.w,
-                                        height: 50.h,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            10.r,
-                                          ),
-                                          color: Colors.grey.shade100,
-                                          border: Border.all(
-                                            color: Colors.grey.shade200,
-                                            width: 1.5,
-                                          ),
-                                        ),
-                                        child: Icon(
-                                          Icons.error_outline,
-                                          color: AppColors.heading,
-                                          size: 20.sp,
-                                        ),
-                                      ),
+                              Text(
+                                "Important Property Issues",
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.heading,
+                                  fontSize: 18.sp,
+                                  letterSpacing: -0.2,
                                 ),
                               ),
-                              SizedBox(width: 13.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      issue.title ?? "",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 17.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.heading,
-                                        letterSpacing: -0.2,
-                                        height: 1.h,
-                                      ),
+                              Spacer(),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const ComplaintsScreen(
+                                            isShowBackButton: true,
+                                          ),
                                     ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      issue.description ?? "",
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromRGBO(42, 41, 51, 0.5),
-                                        letterSpacing: -0.2,
-                                        height: 1.2.h,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 13.w,
-                                  vertical: 2.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: AppColors.heading),
-                                  borderRadius: BorderRadius.circular(50.r),
-                                ),
+                                  );
+                                },
                                 child: Text(
-                                  issue.statusLabel ?? "",
+                                  "View All",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.heading,
+                                    fontSize: 17.sp,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                          SizedBox(height: 17.h),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => const ComplaintsScreen(
+                                    isShowBackButton: true,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              margin: EdgeInsets.only(bottom: 10.h),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.w,
+                                vertical: 17.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xffFFFDF0),
+                                border: Border.all(
+                                  color: const Color(0xff999999),
+                                  width: 1.5,
+                                ),
+                                borderRadius: BorderRadius.circular(18.r),
+                              ),
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    child: Image.network(
+                                      issue.imageUrl ?? "",
+                                      width: 50.w,
+                                      height: 50.h,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Container(
+                                                width: 50.w,
+                                                height: 50.h,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        10.r,
+                                                      ),
+                                                  color: Colors.grey.shade100,
+                                                  border: Border.all(
+                                                    color: Colors.grey.shade200,
+                                                    width: 1.5,
+                                                  ),
+                                                ),
+                                                child: Icon(
+                                                  Icons.error_outline,
+                                                  color: AppColors.heading,
+                                                  size: 20.sp,
+                                                ),
+                                              ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 13.w),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          issue.title ?? "",
+                                          style: GoogleFonts.inter(
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.heading,
+                                            letterSpacing: -0.2,
+                                            height: 1.h,
+                                          ),
+                                        ),
+                                        SizedBox(height: 4.h),
+                                        Text(
+                                          issue.description ?? "",
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color.fromRGBO(
+                                              42,
+                                              41,
+                                              51,
+                                              0.5,
+                                            ),
+                                            letterSpacing: -0.2,
+                                            height: 1.2.h,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 13.w,
+                                      vertical: 2.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: AppColors.heading,
+                                      ),
+                                      borderRadius: BorderRadius.circular(50.r),
+                                    ),
+                                    child: Text(
+                                      issue.statusLabel ?? "",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.heading,
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
-                  SizedBox(height: 30.h),
-                  Row(
-                    children: [
-                      Text(
-                        "Latest Reports & Documents",
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.heading,
-                          fontSize: 17.sp,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                      Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => const DocumentScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "View All",
-                          style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.heading,
-                            fontSize: 15.sp,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
+
                   ...List.generate((data.latestReportsDocuments ?? []).length, (
                     index,
                   ) {
                     final doc = data.latestReportsDocuments![index];
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 10.h),
-                      child: _reportCard(
-                        title: doc.title ?? "",
-                        subtitle: doc.subtitle ?? "",
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) =>
-                                  const DocumentScreen(isShowBackButton: true),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30.h),
+                        Row(
+                          children: [
+                            Text(
+                              "Latest Reports & Documents",
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.heading,
+                                fontSize: 18.sp,
+                                letterSpacing: -0.2,
+                              ),
                             ),
-                          );
-                        },
-                      ),
+                            Spacer(),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) =>
+                                        const DocumentScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "View All",
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.heading,
+                                  fontSize: 17.sp,
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.h),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 10.h),
+                          child: _reportCard(
+                            title: doc.title ?? "",
+                            subtitle: doc.subtitle ?? "",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => const DocumentScreen(
+                                    isShowBackButton: true,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     );
                   }),
                   SizedBox(height: 30.h),
@@ -752,8 +777,8 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
             Text(
               value,
               style: GoogleFonts.outfit(
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w400,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w500,
                 color: AppColors.heading,
               ),
             ),
@@ -762,8 +787,8 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
                 color: const Color(0xFF777777),
                 letterSpacing: -0.3,
               ),
@@ -797,7 +822,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
             child: Text(
               icon,
               style: GoogleFonts.outfit(
-                fontSize: 17.sp,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
                 color: AppColors.heading,
               ),
@@ -811,7 +836,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                 Text(
                   title,
                   style: GoogleFonts.inter(
-                    fontSize: 17.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                     color: AppColors.heading,
                     letterSpacing: -0.2,
@@ -821,7 +846,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                 Text(
                   description,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                     color: Color.fromRGBO(42, 41, 51, 0.5),
                     letterSpacing: -0.2,
@@ -833,7 +858,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
           Text(
             timeAgo,
             style: GoogleFonts.outfit(
-              fontSize: 15.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.w500,
               color: Color.fromRGBO(42, 41, 51, 0.5),
               letterSpacing: -0.2,
@@ -886,7 +911,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.2,
@@ -898,7 +923,7 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 15.sp,
+                      fontSize: 17.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.2,

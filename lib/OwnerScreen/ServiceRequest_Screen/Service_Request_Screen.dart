@@ -69,18 +69,18 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -92,7 +92,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                   Text(
                     "Service Requests",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -102,8 +102,8 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                   Text(
                     "PROPERTY SERVICE MANAGEMENT",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -207,8 +207,8 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                         decoration: InputDecoration(
                           hintText: "Search documents...",
                           hintStyle: GoogleFonts.outfit(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w500,
                             color: const Color(0xff8B8D8B),
                           ),
                           border: InputBorder.none,
@@ -235,7 +235,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                         child: Text(
                           "No service requests found",
                           style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff8B8D8B),
                           ),
@@ -317,7 +317,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                                           // maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.outfit(
-                                            fontSize: 15.sp,
+                                            fontSize: 17.sp,
                                             fontWeight: FontWeight.w500,
                                             color: const Color(0xff101C16),
                                             letterSpacing: -0.2,
@@ -334,8 +334,8 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                                                   .ticketNumber ??
                                               "",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w500,
                                             color: Color.fromRGBO(
                                               16,
                                               28,
@@ -370,7 +370,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                                               .statusPill ??
                                           "",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w500,
                                         color: const Color(0xff101C16),
                                         letterSpacing: -0.2,
@@ -388,7 +388,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                                         .shortDescription ??
                                     "",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(16, 28, 22, 0.6),
                                   letterSpacing: -0.2,
@@ -458,7 +458,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w500,
                                         color: Color.fromRGBO(16, 28, 22, 0.6),
                                         letterSpacing: -0.2,
@@ -469,7 +469,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                                     child: Text(
                                       "View Details →",
                                       style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w500,
                                         color: AppColors.heading,
                                         letterSpacing: -0.2,
@@ -532,7 +532,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                 child: Text(
                   filters[index],
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                     color: isSelected ? Colors.white : const Color(0xff101C16),
                     letterSpacing: -0.3,
@@ -553,7 +553,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
             color: Color.fromRGBO(16, 28, 22, 0.6),
             letterSpacing: -0.2,
@@ -566,7 +566,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
           value,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 15.sp,
+            fontSize: 17.sp,
             fontWeight: FontWeight.w500,
             color: AppColors.heading,
             letterSpacing: -0.2,
@@ -593,7 +593,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: AppColors.heading,
               letterSpacing: -0.24,
@@ -607,8 +607,8 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
               color: const Color.fromRGBO(42, 41, 51, 0.6),
               letterSpacing: -0.24,
             ),

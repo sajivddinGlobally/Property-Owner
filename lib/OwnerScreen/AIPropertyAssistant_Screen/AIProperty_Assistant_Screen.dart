@@ -105,18 +105,18 @@ class _AipropertyAssistantScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -128,7 +128,7 @@ class _AipropertyAssistantScreenState
                   Text(
                     "AI Property Assistant",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -138,8 +138,8 @@ class _AipropertyAssistantScreenState
                   Text(
                     "Your property information assistant",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -161,7 +161,7 @@ class _AipropertyAssistantScreenState
               Text(
                 "Failed to load AI Assistant",
                 style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xff101C16),
                 ),
@@ -179,7 +179,7 @@ class _AipropertyAssistantScreenState
                   "Retry",
                   style: GoogleFonts.outfit(
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                   ),
                 ),
               ),
@@ -271,7 +271,7 @@ class _AipropertyAssistantScreenState
                             TextSpan(
                               text: "AI Assistant is",
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.24,
@@ -280,7 +280,7 @@ class _AipropertyAssistantScreenState
                             TextSpan(
                               text: assistantStatusText,
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xffAE8130),
                                 letterSpacing: -0.24,
@@ -311,7 +311,7 @@ class _AipropertyAssistantScreenState
                           Text(
                             "Hello, how can I help?",
                             style: GoogleFonts.outfit(
-                              fontSize: 17.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: const Color(0xff292832),
                               letterSpacing: -0.2,
@@ -321,7 +321,7 @@ class _AipropertyAssistantScreenState
                           Text(
                             welcomeMessage,
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                               color: const Color(0xff292832),
                               letterSpacing: -0.2,
@@ -368,7 +368,7 @@ class _AipropertyAssistantScreenState
                                   style: GoogleFonts.outfit(
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.heading,
-                                    fontSize: 17.sp,
+                                    fontSize: 18.sp,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -382,7 +382,7 @@ class _AipropertyAssistantScreenState
                                       51,
                                       0.5,
                                     ),
-                                    fontSize: 12.sp,
+                                    fontSize: 14.sp,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -395,7 +395,7 @@ class _AipropertyAssistantScreenState
                             style: GoogleFonts.outfit(
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
-                              fontSize: 15.sp,
+                              fontSize: 17.sp,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -408,7 +408,7 @@ class _AipropertyAssistantScreenState
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -494,7 +494,7 @@ class _AipropertyAssistantScreenState
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -541,7 +541,7 @@ class _AipropertyAssistantScreenState
                                     child: Text(
                                       recentHistory[i].query!,
                                       style: GoogleFonts.outfit(
-                                        fontSize: 11.sp,
+                                        fontSize: 13.sp,
                                         color: AppColors.heading,
                                       ),
                                     ),
@@ -569,7 +569,7 @@ class _AipropertyAssistantScreenState
                                       child: Text(
                                         "AI",
                                         style: GoogleFonts.inter(
-                                          fontSize: 7.sp,
+                                          fontSize: 10.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
                                         ),
@@ -605,7 +605,7 @@ class _AipropertyAssistantScreenState
                                   child: Text(
                                     "AI",
                                     style: GoogleFonts.inter(
-                                      fontSize: 7.sp,
+                                      fontSize: 10.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black,
                                     ),
@@ -616,7 +616,7 @@ class _AipropertyAssistantScreenState
                                   child: Text(
                                     welcomeMessage,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
+                                      fontSize: 15.sp,
                                       color: AppColors.heading,
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: -0.2,
@@ -647,7 +647,7 @@ class _AipropertyAssistantScreenState
                                 child: Text(
                                   pendingQuery!,
                                   style: GoogleFonts.outfit(
-                                    fontSize: 11.sp,
+                                    fontSize: 13.sp,
                                     color: AppColors.heading,
                                   ),
                                 ),
@@ -668,7 +668,7 @@ class _AipropertyAssistantScreenState
                                   child: Text(
                                     "AI",
                                     style: GoogleFonts.inter(
-                                      fontSize: 7.sp,
+                                      fontSize: 10.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black,
                                     ),
@@ -713,7 +713,7 @@ class _AipropertyAssistantScreenState
                               fontWeight: FontWeight.w500,
                               letterSpacing: -0.2,
                               color: AppColors.heading,
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                             ),
                             controller: messageController,
                             textAlignVertical: TextAlignVertical.center,
@@ -731,7 +731,7 @@ class _AipropertyAssistantScreenState
                               isDense: true,
                               hintText: "Ask about your property...",
                               hintStyle: GoogleFonts.outfit(
-                                fontSize: 15.sp,
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.w500,
                                 color: const Color.fromRGBO(16, 28, 22, 0.6),
                               ),
@@ -789,7 +789,7 @@ class _AipropertyAssistantScreenState
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
-                        fontSize: 15.sp,
+                        fontSize: 17.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -854,8 +854,8 @@ class _AipropertyAssistantScreenState
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w400,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
                 color: const Color(0xFF777777),
               ),
             ),
@@ -887,7 +887,7 @@ class _AipropertyAssistantScreenState
                 child: Text(
                   title,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                     color: AppColors.heading,
                     letterSpacing: -0.2,

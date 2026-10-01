@@ -55,18 +55,18 @@ class _TenantmanagementScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -78,7 +78,7 @@ class _TenantmanagementScreenState
                   Text(
                     "Tenant Management",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -88,8 +88,8 @@ class _TenantmanagementScreenState
                   Text(
                     "Manage tenants for your property",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -157,7 +157,7 @@ class _TenantmanagementScreenState
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
                                   color: const Color.fromRGBO(42, 41, 51, 0.5),
-                                  fontSize: 13.sp,
+                                  fontSize: 15.sp,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -168,7 +168,7 @@ class _TenantmanagementScreenState
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -179,7 +179,7 @@ class _TenantmanagementScreenState
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
                                   color: const Color.fromRGBO(42, 41, 51, 0.5),
-                                  fontSize: 13.sp,
+                                  fontSize: 15.sp,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -192,7 +192,7 @@ class _TenantmanagementScreenState
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w500,
                             color: const Color(0xffAE8130),
-                            fontSize: 16.sp,
+                            fontSize: 18.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -207,7 +207,7 @@ class _TenantmanagementScreenState
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -217,7 +217,7 @@ class _TenantmanagementScreenState
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w500,
                           color: AppColors.heading,
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           letterSpacing: -0.2,
                         ),
                       ),
@@ -247,7 +247,7 @@ class _TenantmanagementScreenState
                           Text(
                             "No Tenants Added Yet",
                             style: GoogleFonts.outfit(
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.heading,
                             ),
@@ -257,7 +257,7 @@ class _TenantmanagementScreenState
                             "Tap below to add a new tenant for this property.",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                               color: const Color.fromRGBO(42, 41, 51, 0.6),
                             ),
                           ),
@@ -296,7 +296,7 @@ class _TenantmanagementScreenState
                                         Text(
                                           "Current Rent Status",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 17.sp,
+                                            fontSize: 18.sp,
                                             fontWeight: FontWeight.w500,
                                             color: AppColors.heading,
                                             letterSpacing: -0.2,
@@ -307,7 +307,7 @@ class _TenantmanagementScreenState
                                           firstTenant?.rentPaymentStatus ??
                                               "Paid",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 15.sp,
+                                            fontSize: 17.sp,
                                             fontWeight: FontWeight.w500,
                                             color:
                                                 (firstTenant?.rentPaymentStatus
@@ -326,7 +326,7 @@ class _TenantmanagementScreenState
                                         Text(
                                           "Monthly Rent",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 14.sp,
+                                            fontSize: 16.sp,
                                             fontWeight: FontWeight.w500,
                                             color: const Color.fromRGBO(
                                               42,
@@ -341,7 +341,7 @@ class _TenantmanagementScreenState
                                         Text(
                                           "Last Payment",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 14.sp,
+                                            fontSize: 16.sp,
                                             fontWeight: FontWeight.w500,
                                             color: const Color.fromRGBO(
                                               42,
@@ -362,7 +362,7 @@ class _TenantmanagementScreenState
                                               ? "₹${firstTenant!.monthlyRent}"
                                               : "₹0",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 17.sp,
+                                            fontSize: 18.sp,
                                             fontWeight: FontWeight.w500,
                                             color: AppColors.heading,
                                             letterSpacing: -0.2,
@@ -373,7 +373,7 @@ class _TenantmanagementScreenState
                                           firstTenant?.lastPaymentDate ??
                                               "Not Available",
                                           style: GoogleFonts.outfit(
-                                            fontSize: 15.sp,
+                                            fontSize: 17.sp,
                                             fontWeight: FontWeight.w500,
                                             color: AppColors.heading,
                                             letterSpacing: -0.2,
@@ -416,7 +416,7 @@ class _TenantmanagementScreenState
                       child: Text(
                         "+ Add New Tenant",
                         style: GoogleFonts.outfit(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                           letterSpacing: -0.2,
@@ -442,7 +442,7 @@ class _TenantmanagementScreenState
                   Text(
                     "Failed to load tenant details",
                     style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
+                      fontSize: 18.sp,
                       color: AppColors.heading,
                     ),
                   ),
@@ -545,7 +545,7 @@ class _TenantmanagementScreenState
                     Text(
                       tenant.name ?? "Tenant",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w700,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -555,7 +555,7 @@ class _TenantmanagementScreenState
                     Text(
                       "Tenant • ${tenant.propertyNameNumber ?? defaultPropName}",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -574,7 +574,7 @@ class _TenantmanagementScreenState
                 child: Text(
                   tenant.status ?? "Active",
                   style: GoogleFonts.outfit(
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
                     color: AppColors.heading,
                     letterSpacing: -0.2,
@@ -657,7 +657,7 @@ class _TenantmanagementScreenState
                     child: Text(
                       "View Tenant Details",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                         letterSpacing: -0.2,
@@ -707,7 +707,7 @@ class _TenantmanagementScreenState
         Text(
           title,
           style: GoogleFonts.inter(
-            fontSize: 12.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
             color: const Color.fromRGBO(42, 41, 51, 0.6),
             letterSpacing: -0.2,
@@ -717,7 +717,7 @@ class _TenantmanagementScreenState
         Text(
           value,
           style: GoogleFonts.inter(
-            fontSize: 15.sp,
+            fontSize: 17.sp,
             fontWeight: FontWeight.w500,
             color: AppColors.heading,
             letterSpacing: -0.2,

@@ -92,18 +92,18 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -118,7 +118,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                     Text(
                       "COMPLAINTS",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xff292832),
                         letterSpacing: -0.64,
@@ -130,8 +130,8 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(42, 41, 51, 0.6),
                         letterSpacing: -0.24,
                       ),
@@ -194,7 +194,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                   ),
                   hintText: "Search documents...",
                   hintStyle: GoogleFonts.outfit(
-                    fontSize: 15.sp,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.w500,
                     color: Color.fromARGB(153, 42, 41, 51),
                   ),
@@ -219,7 +219,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                         child: Text(
                           "No Complaints found",
                           style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff8B8D8B),
                           ),
@@ -237,7 +237,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                           Text(
                             "My Complaints",
                             style: GoogleFonts.outfit(
-                              fontSize: 17.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF101C16),
                               letterSpacing: -0.3,
@@ -247,7 +247,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                           Text(
                             "${complaintData.data!.tickets!.length.toString().padLeft(2, '0')} Records",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF101C16),
                               letterSpacing: -0.3,
@@ -322,7 +322,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
           label: Text(
             "New Complaint",
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
               color: Colors.white,
               letterSpacing: -0.2,
@@ -362,7 +362,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
             Text(
               count,
               style: GoogleFonts.outfit(
-                fontSize: 17.sp,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
                 color: Color(0xFF101C16),
               ),
@@ -371,7 +371,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
             Text(
               title,
               style: GoogleFonts.outfit(
-                fontSize: 15.sp,
+                fontSize: 17.sp,
                 fontWeight: FontWeight.w500,
                 color: Color.fromARGB(178, 42, 41, 51),
               ),
@@ -410,7 +410,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                 child: Text(
                   filters[index],
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                     color: isSelected ? Colors.white : const Color(0xff101C16),
                     letterSpacing: -0.3,
@@ -471,7 +471,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF101C16),
                           letterSpacing: -0.3,
@@ -481,7 +481,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                       Text(
                         "Complaint ID · $complaintId",
                         style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(178, 42, 41, 51),
                           letterSpacing: -0.3,
@@ -533,7 +533,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                   child: Text(
                     status,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF101C16),
                       letterSpacing: -0.3,
@@ -544,7 +544,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                 Text(
                   "${priority} Priority",
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF101C16),
                     letterSpacing: -0.3,
@@ -554,7 +554,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                 Text(
                   date,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF101C16),
                     letterSpacing: -0.3,

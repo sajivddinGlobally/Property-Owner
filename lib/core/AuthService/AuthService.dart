@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:property_care/core/Data/Model/BodyModel/loginBodyModel.dart';
@@ -28,8 +29,10 @@ import '../Data/Model/BodyModel/addPropertyRequestBodyModel.dart';
 import '../Data/Model/BodyModel/aiAssistanceBodyModel.dart';
 import '../Data/Model/BodyModel/changePasswordBodyModel.dart';
 import '../Data/Model/BodyModel/forgotPassBodyModel.dart';
+import '../Data/Model/ResponseModel/GetUnAssignedResModel.dart';
 import '../Data/Model/ResponseModel/addPropertyRequestResModel.dart';
 import '../Data/Model/ResponseModel/changePassResModel.dart';
+import '../Data/Model/ResponseModel/createPropertyResModel.dart';
 import '../Data/Model/ResponseModel/editProfileResModel.dart';
 import '../Data/Model/ResponseModel/getInpectoinReportDetailsModel.dart';
 import '../Data/Model/ResponseModel/getMaintenanceHistoryDetailsModel.dart';
@@ -47,6 +50,53 @@ class AuthService {
   final ApiStateNetwork api;
 
   AuthService(this.api);
+
+  Future<GetUnAssignedResModel> getUnassignedProperty() async {
+    try {
+      final response = await api.getUnassignedProperty();
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<CreatePropertyResModel> createProperty({
+    File? image,
+    required String flatNumber,
+    required String complexId,
+    required String propertyType,
+    required String carePackage,
+    bool? hasMmc,
+    String? monthlyMaintenanceFee,
+    String? location,
+    String? area,
+    bool? isIndependent,
+  }) async {
+    try {
+      final file = image != null
+          ? await MultipartFile.fromFile(
+              image.path,
+              filename: image.path.split('/').last,
+            )
+          : null;
+      final response = await api.createProperty(
+        file,
+        flatNumber,
+        complexId,
+        propertyType,
+        carePackage,
+        hasMmc,
+        monthlyMaintenanceFee,
+        location,
+        area,
+        isIndependent,
+      );
+      log(response.toString());
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<RegisterResModel> register({
     required String name,

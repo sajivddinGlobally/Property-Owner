@@ -13,6 +13,7 @@ import 'package:property_care/core/constant/appColor.dart';
 import 'package:property_care/OwnerScreen/forgot_password/forgot_password_screen.dart';
 
 import '../core/AuthService/AuthServiceProvider.dart';
+import 'Bottom_Screen/Home_screen/AddPropertyFormScreen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -37,7 +38,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           children: [
             SizedBox(
               width: double.infinity,
-              height: 170.h,
+              height: 150.h,
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -50,7 +51,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       fit: BoxFit.contain,
                     ),
                   ),
-
                   Positioned(
                     top: 0,
                     right: 0,
@@ -68,13 +68,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   ClipOval(
                     child: Image.asset(
-                      "assets/logo.jpeg",
-                      width: 73.w,
-                      height: 73.w,
+                      "assets/new_logo.jpeg",
+                      width: 110.w,
+                      height: 110.w,
                       fit: BoxFit.cover,
                     ),
                   ),
-
                   SizedBox(height: 24.h),
                 ],
               ),
@@ -88,9 +87,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   Text(
                     "WELCOME BACK",
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       color: AppColors.heading,
-                      fontSize: 18.sp,
+                      fontSize: 22.sp,
                       letterSpacing: -0.39,
                     ),
                   ),
@@ -99,236 +98,230 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     "Sign in to manage and monitor your property.",
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      fontSize: 16.sp,
-                      letterSpacing: -0.39,
-                    ),
-                  ),
-                  SizedBox(height: 30.h),
-                  Text(
-                    "EMAIL OR MOBILE NUMBER",
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
+                      color: const Color(0xff26332D),
                       fontSize: 15.sp,
                       letterSpacing: -0.39,
                     ),
                   ),
+                  SizedBox(height: 24.h),
+                  Text(
+                    "EMAIL OR MOBILE NUMBER",
+                    style: GoogleFonts.outfit(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
+                      fontSize: 15.sp,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
                   SizedBox(height: 10.h),
-                  Container(
-                    height: 44.h,
-                    decoration: const BoxDecoration(color: Colors.transparent),
-                    child: TextField(
-                      style: GoogleFonts.outfit(
-                        letterSpacing: -0.2,
-                        fontSize: 20.sp,
+                  TextField(
+                    style: GoogleFonts.outfit(
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xff101C16),
+                      letterSpacing: -0.2,
+                    ),
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(left: 12.w, right: 8.w),
+                        child: Icon(
+                          Icons.mail_outline,
+                          color: const Color(0xff101C16),
+                          size: 24.sp,
+                        ),
                       ),
-                      controller: emailController,
-                      cursorColor: AppColors.heading,
-                      cursorHeight: 18.h,
-                      cursorWidth: 1.5.w,
-                      keyboardType: TextInputType.emailAddress,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        isDense: true,
-
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(left: 10.w),
-                          child: Icon(
-                            Icons.mail_outline,
-                            color: const Color(0xff26332D),
-                            size: 21.sp,
-                          ),
+                      prefixIconConstraints: BoxConstraints(
+                        minWidth: 48.w,
+                        minHeight: 52.h,
+                      ),
+                      hintText: "Enter Email or mobile number",
+                      hintStyle: GoogleFonts.outfit(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(16, 28, 22, 0.6),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.r),
+                        borderSide: const BorderSide(
+                          color: AppColors.heading,
+                          width: 1.5,
                         ),
-
-                        prefixIconConstraints: BoxConstraints(
-                          minWidth: 41.w, // 10 left + 21 icon + 10 right
-                          minHeight: 44.h,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.r),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(16, 28, 22, 0.6),
+                          width: 1.2,
                         ),
-
-                        hintText: "Enter Email or mobile number",
-                        hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(16, 28, 22, 0.6),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 14.h,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 18.h),
+                  Text(
+                    "PASSWORD",
+                    style: GoogleFonts.outfit(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.heading,
+                      fontSize: 15.sp,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  TextField(
+                    style: GoogleFonts.outfit(
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xff101C16),
+                      letterSpacing: -0.2,
+                    ),
+                    controller: passwordController,
+                    obscureText: !isPasswordVisible,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(left: 12.w, right: 8.w),
+                        child: Icon(
+                          Icons.lock_outline,
+                          color: const Color(0xff101C16),
+                          size: 22.sp,
                         ),
-
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
-                          borderSide: BorderSide(color: AppColors.heading),
+                      ),
+                      prefixIconConstraints: BoxConstraints(
+                        minWidth: 46.w,
+                        minHeight: 52.h,
+                      ),
+                      hintText: "Enter your Password",
+                      hintStyle: GoogleFonts.outfit(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(16, 28, 22, 0.6),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.r),
+                        borderSide: const BorderSide(
+                          color: AppColors.heading,
+                          width: 1.5,
                         ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(16, 28, 22, 0.6),
-                          ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.r),
+                        borderSide: const BorderSide(
+                          color: Color.fromRGBO(16, 28, 22, 0.6),
+                          width: 1.2,
                         ),
-
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 0,
+                      ),
+                      suffixIconConstraints: BoxConstraints(
+                        minHeight: 52.h,
+                        maxHeight: 52.h,
+                        minWidth: 46.w,
+                        maxWidth: 46.w,
+                      ),
+                      suffixIcon: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(
+                          minWidth: 46.w,
+                          minHeight: 52.h,
                         ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                        icon: Icon(
+                          isPasswordVisible
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: AppColors.heading,
+                          size: 22.sp,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 14.h,
                       ),
                     ),
                   ),
                   SizedBox(height: 16.h),
-                  Text(
-                    "PASSWORD",
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.heading,
-                      fontSize: 15.sp,
-                      letterSpacing: -0.39,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Container(
-                    height: 44.h,
-                    decoration: const BoxDecoration(color: Colors.transparent),
-                    child: TextField(
-                      style: GoogleFonts.outfit(
-                        letterSpacing: -0.2,
-                        fontSize: 20.sp,
-                      ),
-                      controller: passwordController,
-                      cursorColor: AppColors.heading,
-                      cursorHeight: 18.h,
-                      cursorWidth: 1.5.w,
-                      obscureText: !isPasswordVisible,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(left: 10.w),
-                          child: Icon(
-                            Icons.lock_outline,
-                            color: const Color(0xff26332D),
-                            size: 18.sp,
-                          ),
-                        ),
-
-                        prefixIconConstraints: BoxConstraints(
-                          minWidth: 38.w, // 10 left + 18 icon + 10 gap
-                          minHeight: 44.h,
-                        ),
-
-                        hintText: "Enter your Password",
-                        hintStyle: GoogleFonts.outfit(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(16, 28, 22, 0.6),
-                        ),
-
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
-                          borderSide: BorderSide(color: AppColors.heading),
-                        ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(3.r),
-                          borderSide: const BorderSide(
-                            color: Color.fromRGBO(16, 28, 22, 0.6),
-                          ),
-                        ),
-
-                        suffixIcon: IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: BoxConstraints(
-                            minWidth: 40.w,
-                            minHeight: 44.h,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              isPasswordVisible = !isPasswordVisible;
-                            });
-                          },
-                          icon: Icon(
-                            isPasswordVisible
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: AppColors.heading,
-                            size: 16.sp,
-                          ),
-                        ),
-
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 14.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 25.w,
-                            height: 25.w,
-                            child: Checkbox(
-                              value: rememberMe,
-                              onChanged: (value) {
-                                setState(() {
-                                  rememberMe = value ?? false;
-                                });
-                              },
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                              side: const BorderSide(
-                                color: Color(0xFF000000),
-                                width: 1,
+                  Padding(
+                    padding: EdgeInsets.only(left: 2.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 22.w,
+                              height: 22.h,
+                              child: Checkbox(
+                                value: rememberMe,
+                                activeColor: AppColors.heading,
+                                onChanged: (value) {
+                                  setState(() {
+                                    rememberMe = value ?? false;
+                                  });
+                                },
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                visualDensity: VisualDensity.compact,
+                                side: const BorderSide(
+                                  color: AppColors.heading,
+                                  width: 1.5,
+                                ),
                               ),
                             ),
-                          ),
-
-                          SizedBox(width: 10.w),
-
-                          Text(
-                            "Remember me",
+                            SizedBox(width: 8.w),
+                            Text(
+                              "Remember me",
+                              style: GoogleFonts.outfit(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.heading,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => ForgotPasswordScreen(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Forgot Password?",
                             style: GoogleFonts.outfit(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.heading,
-                              letterSpacing: -0.39,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xff101C16),
+                              letterSpacing: -0.2,
                             ),
-                          ),
-                        ],
-                      ),
-
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => ForgotPasswordScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Forgot Password?",
-                          style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xff101C16),
-                            letterSpacing: -0.39,
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 32.h),
                   SizedBox(
-                    height: 41.h,
+                    height: 52.h,
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.heading,
+                        elevation: 2,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
                       onPressed: isLoading
@@ -366,14 +359,51 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     "role",
                                     response.data!.user!.role,
                                   );
-                                  if (context.mounted) {
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      CupertinoPageRoute(
-                                        builder: (context) => MyBottomScreen(),
-                                      ),
-                                      (route) => false,
+
+                                  final propertyNameNumber =
+                                      response.data?.user?.propertyNameNumber ??
+                                      response.data?.propertyNameNumber;
+                                  final bool hasProperty =
+                                      propertyNameNumber != null &&
+                                      propertyNameNumber
+                                          .toString()
+                                          .trim()
+                                          .isNotEmpty &&
+                                      propertyNameNumber
+                                              .toString()
+                                              .trim()
+                                              .toLowerCase() !=
+                                          'null';
+
+                                  if (hasProperty) {
+                                    await box.put(
+                                      "property_name_number",
+                                      propertyNameNumber.toString(),
                                     );
+                                  } else {
+                                    await box.delete("property_name_number");
+                                  }
+
+                                  if (context.mounted) {
+                                    if (hasProperty) {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const MyBottomScreen(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    } else {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const AddPropertyFormScreen(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    }
                                   }
                                 }
                               } catch (e) {
@@ -401,14 +431,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               "Login",
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 15.sp,
-                                color: Color(0xffFFFFFF),
-                                letterSpacing: -0.24,
+                                fontSize: 16.sp,
+                                color: const Color(0xffFFFFFF),
+                                letterSpacing: 0.2,
                               ),
                             ),
                     ),
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 8.h),
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -443,14 +473,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 56.h),
+                  SizedBox(height: 80.h),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
                       "SECURE PRIVATE PROPERTY MANAGEMENT",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(16, 28, 22, 0.5),
                         letterSpacing: 2.16,

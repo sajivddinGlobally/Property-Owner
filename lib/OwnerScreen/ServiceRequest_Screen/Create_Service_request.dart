@@ -165,7 +165,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 Text(
                   "Add Attachment",
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xff101C16),
                   ),
@@ -195,7 +195,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                   title: Text(
                     "Upload Image",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff101C16),
                     ),
@@ -203,7 +203,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                   subtitle: Text(
                     "JPG, JPEG or PNG",
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       color: const Color(0xff777777),
                     ),
                   ),
@@ -237,7 +237,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                   title: Text(
                     "Upload Document",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff101C16),
                     ),
@@ -245,7 +245,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                   subtitle: Text(
                     "PDF, DOC or DOCX",
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       color: const Color(0xff777777),
                     ),
                   ),
@@ -368,18 +368,18 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -391,7 +391,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                   Text(
                     "Create Service Request",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -401,8 +401,8 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                   Text(
                     "REQUEST A PROPERTY SERVICE",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -493,7 +493,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.5),
-                                  fontSize: 13.sp,
+                                  fontSize: 15.sp,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -502,7 +502,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -511,7 +511,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(42, 41, 51, 0.5),
-                                  fontSize: 13.sp,
+                                  fontSize: 15.sp,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -526,7 +526,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -536,7 +536,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 14.sp,
+                  fontSize: 16.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -564,7 +564,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -684,7 +684,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
               //                     maxLines: 1,
               //                     overflow: TextOverflow.ellipsis,
               //                     style: GoogleFonts.outfit(
-              //                       fontSize: 17.sp,
+              //                       fontSize: 18.sp,
               //                       fontWeight: FontWeight.w500,
               //                       color: service["color"],
               //                       letterSpacing: -0.3,
@@ -696,8 +696,8 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
               //                     maxLines: 1,
               //                     overflow: TextOverflow.ellipsis,
               //                     style: GoogleFonts.outfit(
-              //                       fontSize: 14.sp,
-              //                       fontWeight: FontWeight.w400,
+              //                       fontSize: 16.sp,
+              //                       fontWeight: FontWeight.w500,
               //                       color:
               //                           service["color"] ==
               //                               const Color(0xffC58A20)
@@ -721,7 +721,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -738,7 +738,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 child: Center(
                   child: TextField(
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF101C16),
                       letterSpacing: -0.2,
@@ -748,8 +748,8 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                     decoration: InputDecoration(
                       hintText: "e.g. Bathroom tap repair",
                       hintStyle: GoogleFonts.outfit(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xff8B8D8B),
                       ),
                       border: InputBorder.none,
@@ -768,7 +768,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -783,7 +783,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 ),
                 child: TextField(
                   style: GoogleFonts.outfit(
-                    fontSize: 17.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF101C16),
                     letterSpacing: -0.2,
@@ -796,8 +796,8 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                   decoration: InputDecoration(
                     hintText: "Describe your service request...",
                     hintStyle: GoogleFonts.outfit(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color(0xff8B8D8B),
                     ),
                     border: InputBorder.none,
@@ -814,7 +814,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -858,7 +858,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                           "${selectedDate!.month.toString().padLeft(2, '0')}-"
                                           "${selectedDate!.year}",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: selectedDate == null
                                       ? const Color(0xff8B8D8B)
@@ -912,7 +912,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                     ? "10:10AM"
                                     : selectedTime!.format(context),
                                 style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: selectedTime == null
                                       ? const Color(0xff8B8D8B)
@@ -939,7 +939,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -949,7 +949,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
               Text(
                 "Attach Supporting Document / Image",
                 style: GoogleFonts.outfit(
-                  fontSize: 15.sp,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF101C16),
                   letterSpacing: -0.3,
@@ -997,7 +997,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                   Text(
                                     "Add Attachment",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
+                                      fontSize: 17.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFF101C16),
                                       letterSpacing: -0.2,
@@ -1007,7 +1007,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                   Text(
                                     "JPG, PNG or PDF · Max 10 MB",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
+                                      fontSize: 17.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Color.fromARGB(153, 42, 41, 51),
                                       letterSpacing: -0.2,
@@ -1054,8 +1054,8 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w400,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w500,
                                       color: const Color(0xff101C16),
                                     ),
                                   ),
@@ -1198,7 +1198,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                       : Text(
                           "Submit",
                           style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                             letterSpacing: -0.2,
@@ -1229,7 +1229,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
           Text(
             "•",
             style: GoogleFonts.outfit(
-              fontSize: 11.sp,
+              fontSize: 13.sp,
               color: const Color(0xff555555),
             ),
           ),
@@ -1239,8 +1239,8 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
               "After submission, a unique service request ID will be generated. "
               "You can use it to track your service request status and resolution progress.",
               style: GoogleFonts.outfit(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w400,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
                 color: const Color(0xFF2A2933),
                 letterSpacing: -0.2,
               ),
@@ -1273,7 +1273,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
           hint: Text(
             hint,
             style: GoogleFonts.outfit(
-              fontSize: 15.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.w500,
               color: Color.fromARGB(153, 42, 41, 51),
               letterSpacing: -0.3,
@@ -1291,7 +1291,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
               child: Text(
                 item,
                 style: GoogleFonts.outfit(
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: Color(0xFF101C16),
                   letterSpacing: -0.2,
@@ -1339,7 +1339,7 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                 child: Text(
                   priorities[index],
                   style: GoogleFonts.outfit(
-                    fontSize: 15.sp,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.w500,
                     color: isSelected
                         ? Color(0xFF2A2933)

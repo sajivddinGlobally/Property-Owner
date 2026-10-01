@@ -183,7 +183,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                 Text(
                   "Select Tenant Photo",
                   style: GoogleFonts.outfit(
-                    fontSize: 16.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w600,
                     color: AppColors.heading,
                   ),
@@ -216,7 +216,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                           SizedBox(height: 6.h),
                           Text(
                             "Camera",
-                            style: GoogleFonts.outfit(fontSize: 14.sp),
+                            style: GoogleFonts.outfit(fontSize: 16.sp),
                           ),
                         ],
                       ),
@@ -245,7 +245,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                           SizedBox(height: 6.h),
                           Text(
                             "Gallery",
-                            style: GoogleFonts.outfit(fontSize: 14.sp),
+                            style: GoogleFonts.outfit(fontSize: 16.sp),
                           ),
                         ],
                       ),
@@ -264,7 +264,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: moveInDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
 
@@ -279,7 +279,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: moveOutDate ?? moveInDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
 
@@ -438,18 +438,18 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -461,7 +461,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                   Text(
                     "Add Tenant",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -471,8 +471,8 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                   Text(
                     "Add tenant details for your property",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -522,7 +522,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w500,
                             color: const Color.fromRGBO(42, 41, 51, 0.5),
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -531,7 +531,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -540,7 +540,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.w500,
                             color: const Color.fromRGBO(42, 41, 51, 0.5),
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                             letterSpacing: -0.2,
                           ),
                         ),
@@ -552,7 +552,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: const Color(0xffAE8130),
-                        fontSize: 15.sp,
+                        fontSize: 17.sp,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -565,7 +565,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -721,7 +721,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   letterSpacing: -0.2,
                 ),
               ),
@@ -744,7 +744,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                           Text(
                             "Move-in Date",
                             style: GoogleFonts.inter(
-                              fontSize: 17.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
@@ -756,8 +756,8 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                             child: Container(
                               width: double.infinity,
                               padding: EdgeInsets.symmetric(
-                                horizontal: 10.w,
-                                vertical: 8.h,
+                                horizontal: 12.w,
+                                vertical: 12.h,
                               ),
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
@@ -768,8 +768,8 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                               child: Text(
                                 formatDate(moveInDate),
                                 style: GoogleFonts.inter(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w500,
                                   color: moveInDate == null
                                       ? const Color(0xff8C8C8C)
                                       : AppColors.heading,
@@ -788,7 +788,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                           Text(
                             "Expected Move-out",
                             style: GoogleFonts.inter(
-                              fontSize: 17.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
@@ -800,8 +800,8 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                             child: Container(
                               width: double.infinity,
                               padding: EdgeInsets.symmetric(
-                                horizontal: 10.w,
-                                vertical: 8.h,
+                                horizontal: 12.w,
+                                vertical: 12.h,
                               ),
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
@@ -812,8 +812,8 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                               child: Text(
                                 formatDate(moveOutDate),
                                 style: GoogleFonts.inter(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w500,
                                   color: moveOutDate == null
                                       ? const Color(0xff8C8C8C)
                                       : AppColors.heading,
@@ -831,7 +831,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
               Text(
                 "Rental Details",
                 style: GoogleFonts.inter(
-                  fontSize: 17.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.heading,
                   letterSpacing: -0.2,
@@ -899,7 +899,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                       : Text(
                           "Save Tenant",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
                             letterSpacing: -0.2,
@@ -925,7 +925,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                   child: Text(
                     "Cancel",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -953,7 +953,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
         Text(
           label,
           style: GoogleFonts.outfit(
-            fontSize: 16.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF000000),
             letterSpacing: -0.2,
@@ -964,18 +964,18 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
           margin: EdgeInsets.only(bottom: 8.h),
           decoration: const BoxDecoration(color: Colors.transparent),
           child: TextField(
-            style: GoogleFonts.outfit(fontSize: 18.sp, letterSpacing: -0.2),
+            style: GoogleFonts.outfit(fontSize: 19.sp, letterSpacing: -0.2),
             controller: controller,
-            cursorHeight: 18.h,
+            cursorHeight: 20.h,
             cursorColor: AppColors.heading,
-            cursorWidth: 1.5.w,
+            cursorWidth: 2.w,
             keyboardType: keyboardType,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               isDense: true,
               hintText: hintText,
               hintStyle: GoogleFonts.outfit(
-                fontSize: 15.sp,
+                fontSize: 17.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color.fromRGBO(16, 28, 22, 0.6),
               ),
@@ -990,8 +990,8 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                 ),
               ),
               contentPadding: EdgeInsets.symmetric(
-                horizontal: 10.w,
-                vertical: 6.h,
+                horizontal: 12.w,
+                vertical: 12.h,
               ),
             ),
           ),

@@ -35,18 +35,18 @@ class _MaintenancePaymentStatusState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -56,9 +56,10 @@ class _MaintenancePaymentStatusState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Maintenance Payment Status",
+                    // "Maintenance Payment Status",
+                    "Service Charge Statu",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -66,10 +67,11 @@ class _MaintenancePaymentStatusState
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    "Track maintenance charge status",
+                    // "Track maintenance charge status",
+                    "Track service charge to be paid to Ascent",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -125,7 +127,7 @@ class _MaintenancePaymentStatusState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xFF101C16),
                                       letterSpacing: -0.2,
@@ -137,7 +139,7 @@ class _MaintenancePaymentStatusState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color.fromRGBO(
                                         42,
@@ -167,7 +169,7 @@ class _MaintenancePaymentStatusState
                               child: Text(
                                 property?.badgeStatus ?? "Unpaid",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: isUnpaid
                                       ? Colors.red
@@ -180,9 +182,10 @@ class _MaintenancePaymentStatusState
                         ),
                         SizedBox(height: 14.h),
                         Text(
-                          "Outstanding Amount",
+                          // "Outstanding Amount",
+                          "Outstanding Service Charge",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff2A2933),
                           ),
@@ -194,7 +197,7 @@ class _MaintenancePaymentStatusState
                                   ? "₹ ${property!.outstandingAmount}"
                                   : "₹ 0"),
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF101C16),
                             letterSpacing: -0.2,
@@ -207,7 +210,7 @@ class _MaintenancePaymentStatusState
                   Text(
                     "Current Status",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF101C16),
                       letterSpacing: -0.2,
@@ -222,7 +225,9 @@ class _MaintenancePaymentStatusState
                     child: Column(
                       children: [
                         _documentRow(
-                          title: "Monthly Charge",
+                          title:
+                              // "Monthly Charge",
+                              "Service Charge",
                           value:
                               currentStatus?.formattedMonthlyCharge ??
                               (currentStatus?.monthlyCharge != null
@@ -272,7 +277,7 @@ class _MaintenancePaymentStatusState
                   Text(
                     "Monthly Records",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF101C16),
                       letterSpacing: -0.2,
@@ -336,7 +341,7 @@ class _MaintenancePaymentStatusState
                         child: Text(
                           "No monthly records available",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             color: const Color.fromRGBO(42, 41, 51, 0.6),
                           ),
                         ),
@@ -347,7 +352,7 @@ class _MaintenancePaymentStatusState
                     Text(
                       "Reminder",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                         letterSpacing: -0.2,
@@ -370,7 +375,7 @@ class _MaintenancePaymentStatusState
                           Text(
                             reminder?.title ?? "Maintenance Payment Reminder",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF101C16),
                               letterSpacing: -0.2,
@@ -380,7 +385,7 @@ class _MaintenancePaymentStatusState
                           Text(
                             reminder?.message ?? "",
                             style: GoogleFonts.outfit(
-                              fontSize: 13.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                               color: const Color(0xFF101C16),
                               letterSpacing: -0.2,
@@ -406,7 +411,7 @@ class _MaintenancePaymentStatusState
                 Text(
                   "Failed to load payment status",
                   style: GoogleFonts.outfit(
-                    fontSize: 15.sp,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.w500,
                     color: AppColors.heading,
                   ),
@@ -421,7 +426,7 @@ class _MaintenancePaymentStatusState
                   ),
                   child: Text(
                     "Retry",
-                    style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                    style: TextStyle(color: Colors.white, fontSize: 15.sp),
                   ),
                 ),
               ],
@@ -463,7 +468,7 @@ class _MaintenancePaymentStatusState
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color.fromRGBO(42, 41, 51, 0.6),
                   letterSpacing: -0.24,
@@ -489,7 +494,7 @@ class _MaintenancePaymentStatusState
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
                 color: color,
                 letterSpacing: -0.24,
@@ -529,7 +534,7 @@ class _MaintenancePaymentStatusState
                     Text(
                       month,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                         letterSpacing: -0.2,
@@ -541,8 +546,8 @@ class _MaintenancePaymentStatusState
                     Text(
                       subTitle,
                       style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(42, 41, 51, 0.6),
                       ),
                     ),
@@ -558,8 +563,8 @@ class _MaintenancePaymentStatusState
                 child: Text(
                   status,
                   style: GoogleFonts.outfit(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
                     color: isPaid ? Colors.green : Colors.red,
                   ),
                 ),
@@ -578,8 +583,8 @@ class _MaintenancePaymentStatusState
                     Text(
                       "Amount",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(42, 41, 51, 0.6),
                       ),
                     ),
@@ -589,7 +594,7 @@ class _MaintenancePaymentStatusState
                     Text(
                       "₹ $amount",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                         letterSpacing: -0.2,
@@ -605,8 +610,8 @@ class _MaintenancePaymentStatusState
                     Text(
                       rightTitle,
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(42, 41, 51, 0.6),
                         letterSpacing: -0.2,
                       ),
@@ -617,7 +622,7 @@ class _MaintenancePaymentStatusState
                     Text(
                       rightValue,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                         letterSpacing: -0.2,

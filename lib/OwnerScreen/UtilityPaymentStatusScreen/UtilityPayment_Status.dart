@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,18 +38,18 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -59,7 +61,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                   Text(
                     "UTILITY PAYMENT STATUS",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -69,8 +71,8 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                   Text(
                     "Track utility charge information",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -162,7 +164,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                                   Text(
                                     tenant?.tenantName ?? "N/A",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                       letterSpacing: -0.2,
@@ -172,7 +174,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                                   Text(
                                     tenant?.tenantType ?? "Primary Tenant",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
+                                      fontSize: 17.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color.fromRGBO(0, 0, 0, 0.6),
                                       letterSpacing: -0.2,
@@ -194,7 +196,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                               child: Text(
                                 tenant?.tenantStatus ?? "Active",
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
                                   letterSpacing: -0.2,
@@ -215,7 +217,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                             Text(
                               "Property",
                               style: GoogleFonts.outfit(
-                                fontSize: 15.sp,
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.2,
@@ -225,7 +227,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                             Text(
                               tenant?.propertyName ?? "N/A",
                               style: GoogleFonts.outfit(
-                                fontSize: 15.sp,
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.2,
@@ -253,7 +255,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                         Text(
                           "Current Outstanding Rent",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF777777),
                           ),
@@ -264,7 +266,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                               ? "₹${tenant!.currentOutstanding}"
                               : "₹0",
                           style: GoogleFonts.outfit(
-                            fontSize: 19.sp,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF101C16),
                             letterSpacing: -0.2,
@@ -274,7 +276,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                         Text(
                           "Utility amount currently pending",
                           style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color.fromRGBO(42, 41, 51, 0.6),
                           ),
@@ -306,7 +308,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                   Text(
                     "Current Utility Status",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF101C16),
                       letterSpacing: -0.2,
@@ -365,7 +367,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                       Text(
                         "Rent Payment History",
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xFF101C16),
                           letterSpacing: -0.2,
@@ -385,7 +387,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                         child: Text(
                           "View Details →",
                           style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF101C16),
                             letterSpacing: -0.2,
@@ -410,8 +412,8 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                       child: Text(
                         "No payment history available",
                         style: GoogleFonts.outfit(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w500,
                           color: const Color(0xFF777777),
                         ),
                       ),
@@ -472,11 +474,12 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
           );
         },
         error: (error, stackTrace) {
+          log(stackTrace.toString());
           return Center(
             child: Text(
               "Error Loading Data",
               style: GoogleFonts.outfit(
-                fontSize: 16.sp,
+                fontSize: 18.sp,
                 color: AppColors.heading,
               ),
             ),
@@ -505,7 +508,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
           Text(
             title,
             style: GoogleFonts.outfit(
-              fontSize: 15.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
@@ -517,7 +520,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
           Text(
             value,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
             ),
@@ -553,7 +556,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 15.sp,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color.fromRGBO(42, 41, 51, 0.6),
                   letterSpacing: -0.24,
@@ -579,7 +582,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
                 color: color,
                 letterSpacing: -0.24,
@@ -613,7 +616,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                     Text(
                       month,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                         letterSpacing: -0.2,
@@ -625,7 +628,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                     Text(
                       subtitle,
                       style: GoogleFonts.outfit(
-                        fontSize: 15.sp,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF777777),
                         letterSpacing: -0.2,
@@ -649,8 +652,8 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                     child: Text(
                       status,
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
                         color: statusColor,
                         letterSpacing: -0.2,
                       ),
@@ -662,7 +665,7 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                   Text(
                     amount,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF101C16),
                       letterSpacing: -0.2,

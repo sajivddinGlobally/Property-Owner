@@ -36,18 +36,18 @@ class _RentpaymentstatusScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -60,7 +60,7 @@ class _RentpaymentstatusScreenState
                     getUtilityPaymentState.value?.data?.header?.screenTitle ??
                         "RENT PAYMENT STATUS",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -71,8 +71,8 @@ class _RentpaymentstatusScreenState
                     getUtilityPaymentState.value?.data?.header?.subtitle ??
                         "Track utility charge information",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -118,7 +118,7 @@ class _RentpaymentstatusScreenState
                                 style: GoogleFonts.outfit(
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.heading,
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   letterSpacing: -0.2,
                                 ),
                               ),
@@ -134,7 +134,7 @@ class _RentpaymentstatusScreenState
                                       51,
                                       0.5,
                                     ),
-                                    fontSize: 13.sp,
+                                    fontSize: 15.sp,
                                     letterSpacing: -0.2,
                                   ),
                                 ),
@@ -155,7 +155,7 @@ class _RentpaymentstatusScreenState
                             style: GoogleFonts.outfit(
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
-                              fontSize: 17.sp,
+                              fontSize: 18.sp,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -180,7 +180,7 @@ class _RentpaymentstatusScreenState
                         Text(
                           "Total Outstanding Utility Charges",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF101C16),
                             letterSpacing: -0.2,
@@ -192,7 +192,7 @@ class _RentpaymentstatusScreenState
                               ? "₹${summary!.totalOutstanding}"
                               : "₹0",
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF101C16),
                             letterSpacing: -0.2,
@@ -203,8 +203,8 @@ class _RentpaymentstatusScreenState
                           summary?.description ??
                               "Current unpaid utility charges",
                           style: GoogleFonts.outfit(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w500,
                             color: const Color(0xFF101C16),
                             letterSpacing: -0.2,
                           ),
@@ -238,7 +238,7 @@ class _RentpaymentstatusScreenState
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -258,8 +258,8 @@ class _RentpaymentstatusScreenState
                       child: Text(
                         "No current utility charges",
                         style: GoogleFonts.outfit(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w500,
                           color: const Color(0xFF777777),
                         ),
                       ),
@@ -293,7 +293,7 @@ class _RentpaymentstatusScreenState
                   Text(
                     "Utility Payment History",
                     style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
+                      fontSize: 19.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF101C16),
                       letterSpacing: -0.2,
@@ -315,8 +315,8 @@ class _RentpaymentstatusScreenState
                       child: Text(
                         "No payment history available",
                         style: GoogleFonts.outfit(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w500,
                           color: const Color(0xFF777777),
                         ),
                       ),
@@ -401,7 +401,7 @@ class _RentpaymentstatusScreenState
                                   Text(
                                     reminder.title!,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF101C16),
                                     ),
@@ -414,8 +414,8 @@ class _RentpaymentstatusScreenState
                                   Text(
                                     reminder.message!,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w500,
                                       color: const Color(0xFF555555),
                                     ),
                                   ),
@@ -437,7 +437,7 @@ class _RentpaymentstatusScreenState
             child: Text(
               "Error Loading Data",
               style: GoogleFonts.outfit(
-                fontSize: 16.sp,
+                fontSize: 18.sp,
                 color: AppColors.heading,
               ),
             ),
@@ -466,8 +466,8 @@ class _RentpaymentstatusScreenState
           Text(
             title,
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
             ),
           ),
@@ -475,7 +475,7 @@ class _RentpaymentstatusScreenState
           Text(
             value,
             style: GoogleFonts.outfit(
-              fontSize: 17.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
             ),
@@ -533,14 +533,14 @@ class _RentpaymentstatusScreenState
                     Text(
                       title,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         color: const Color(0xFF101C16),
                       ),
                     ),
                     Text(
                       subtitle,
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         color: Colors.grey,
                       ),
                     ),
@@ -558,7 +558,7 @@ class _RentpaymentstatusScreenState
                 child: Text(
                   badge,
                   style: GoogleFonts.outfit(
-                    fontSize: 13.sp,
+                    fontSize: 15.sp,
                     color: paid ? AppColors.heading : Colors.red,
                   ),
                 ),
@@ -587,13 +587,13 @@ class _RentpaymentstatusScreenState
       children: [
         Text(
           title,
-          style: GoogleFonts.outfit(fontSize: 12.sp, color: Colors.grey),
+          style: GoogleFonts.outfit(fontSize: 14.sp, color: Colors.grey),
         ),
         SizedBox(height: 3.h),
         Text(
           value,
           style: GoogleFonts.outfit(
-            fontSize: 18.sp,
+            fontSize: 19.sp,
             color: const Color(0xFF101C16),
           ),
         ),
@@ -623,7 +623,7 @@ class _RentpaymentstatusScreenState
                     Text(
                       month,
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),
                         letterSpacing: -0.2,
@@ -633,7 +633,7 @@ class _RentpaymentstatusScreenState
                     Text(
                       subtitle,
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF777777),
                         letterSpacing: -0.2,
@@ -657,8 +657,8 @@ class _RentpaymentstatusScreenState
                     child: Text(
                       status,
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
                         color: statusColor,
                         letterSpacing: -0.2,
                       ),
@@ -668,7 +668,7 @@ class _RentpaymentstatusScreenState
                   Text(
                     amount,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF101C16),
                       letterSpacing: -0.2,

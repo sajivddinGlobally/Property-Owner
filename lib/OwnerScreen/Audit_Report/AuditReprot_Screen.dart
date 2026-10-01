@@ -52,18 +52,18 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -75,7 +75,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                   Text(
                     "Audit Reports",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -85,8 +85,8 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                   Text(
                     "AUDIT REPORT HISTORY",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -108,7 +108,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
               Text(
                 "Failed to load audit reports",
                 style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xff101C16),
                 ),
@@ -131,7 +131,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                   "Retry",
                   style: GoogleFonts.outfit(
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                   ),
                 ),
               ),
@@ -201,7 +201,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                                   Text(
                                     propertyName,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                       letterSpacing: -0.2,
@@ -211,7 +211,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                                   Text(
                                     propertyLocation,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color.fromRGBO(
                                         42,
@@ -232,7 +232,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                     Text(
                       "Audit Reports",
                       style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -242,7 +242,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                     Text(
                       "View previous audit reports, audit dates, findings and\n recommendations.",
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
                         color: const Color.fromRGBO(42, 41, 51, 0.5),
                         letterSpacing: -0.2,
@@ -296,8 +296,8 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                           child: Text(
                             "No audit reports found",
                             style: GoogleFonts.outfit(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
                               color: const Color.fromRGBO(42, 41, 51, 0.6),
                             ),
                           ),
@@ -409,7 +409,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
-                          fontSize: 17.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xff101C16),
                           letterSpacing: -0.2,
@@ -419,8 +419,8 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                       Text(
                         displayDate,
                         style: GoogleFonts.outfit(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
                           color: const Color.fromRGBO(16, 28, 22, 0.6),
                           letterSpacing: -0.2,
                         ),
@@ -442,7 +442,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                   child: Text(
                     statusText,
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff101C16),
                     ),
@@ -487,7 +487,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -516,7 +516,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                   child: Text(
                     "View Report →",
                     style: GoogleFonts.outfit(
-                      fontSize: 13.sp,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.2,
@@ -562,8 +562,8 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
             title,
             maxLines: 1,
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
               color: isSelected
                   ? const Color(0xff101C16)
                   : const Color(0xff777970),
@@ -582,7 +582,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 12.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
             color: Color.fromRGBO(16, 28, 22, 0.6),
             letterSpacing: -0.2,
@@ -595,7 +595,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
           value,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.outfit(
-            fontSize: 16.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w500,
             color: AppColors.heading,
             letterSpacing: -0.2,

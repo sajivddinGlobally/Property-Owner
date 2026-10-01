@@ -155,18 +155,18 @@ class _MaintenancedetailsScreenState
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 41.w,
-                  height: 41.h,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: const Color.fromRGBO(16, 28, 22, 0.3),
                     ),
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.arrow_back,
                     color: const Color(0xff101C16),
-                    size: 16.sp,
+                    size: 20.sp,
                   ),
                 ),
               ),
@@ -178,7 +178,7 @@ class _MaintenancedetailsScreenState
                   Text(
                     "Maintenance Details",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
@@ -188,8 +188,8 @@ class _MaintenancedetailsScreenState
                   Text(
                     "View complete maintenance information",
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
                     ),
@@ -259,7 +259,7 @@ class _MaintenancedetailsScreenState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 17.sp,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xff292832),
                                       letterSpacing: -0.64,
@@ -271,8 +271,8 @@ class _MaintenancedetailsScreenState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
                                       color: const Color.fromRGBO(
                                         42,
                                         41,
@@ -298,7 +298,7 @@ class _MaintenancedetailsScreenState
                                 child: Text(
                                   header?.status ?? "Completed",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 16.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.w500,
                                     color: const Color(0xff292832),
                                     letterSpacing: -0.64,
@@ -316,7 +316,7 @@ class _MaintenancedetailsScreenState
                             Text(
                               "Maintenance ID",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.24,
@@ -326,7 +326,7 @@ class _MaintenancedetailsScreenState
                             Text(
                               header?.maintenanceCode ?? "N/A",
                               style: GoogleFonts.outfit(
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.heading,
                                 letterSpacing: -0.24,
@@ -342,7 +342,7 @@ class _MaintenancedetailsScreenState
                   Text(
                     "Maintenance Information",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.24,
@@ -407,7 +407,7 @@ class _MaintenancedetailsScreenState
                   Text(
                     "Work Details",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.24,
@@ -428,7 +428,7 @@ class _MaintenancedetailsScreenState
                           ? work.description!
                           : "No work details available.",
                       style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.24,
@@ -440,7 +440,7 @@ class _MaintenancedetailsScreenState
                   Text(
                     "Maintenance Timeline",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.24,
@@ -488,7 +488,7 @@ class _MaintenancedetailsScreenState
                             child: Text(
                               "No timeline updates available.",
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
+                                fontSize: 15.sp,
                                 color: const Color.fromRGBO(42, 41, 51, 0.6),
                               ),
                             ),
@@ -499,7 +499,7 @@ class _MaintenancedetailsScreenState
                   Text(
                     "Assigned Team",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.24,
@@ -579,7 +579,7 @@ class _MaintenancedetailsScreenState
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xff292832),
                                   letterSpacing: -0.64,
@@ -591,8 +591,8 @@ class _MaintenancedetailsScreenState
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
                                   color: const Color.fromRGBO(42, 41, 51, 0.6),
                                   letterSpacing: -0.24,
                                 ),
@@ -604,7 +604,7 @@ class _MaintenancedetailsScreenState
                         Text(
                           team?.status ?? "Assigned",
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.heading,
                             letterSpacing: -0.24,
@@ -618,7 +618,7 @@ class _MaintenancedetailsScreenState
                   Text(
                     "Related Documents",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.24,
@@ -662,7 +662,7 @@ class _MaintenancedetailsScreenState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 14.sp,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: const Color(0xff292832),
                                       letterSpacing: -0.64,
@@ -674,8 +674,8 @@ class _MaintenancedetailsScreenState
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w500,
                                       color: const Color.fromRGBO(
                                         42,
                                         41,
@@ -714,7 +714,7 @@ class _MaintenancedetailsScreenState
                                     : Text(
                                         "View",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 15.sp,
+                                          fontSize: 17.sp,
                                           fontWeight: FontWeight.w500,
                                           color: AppColors.heading,
                                           letterSpacing: -0.24,
@@ -740,7 +740,7 @@ class _MaintenancedetailsScreenState
                         child: Text(
                           "No related documents found",
                           style: GoogleFonts.outfit(
-                            fontSize: 13.sp,
+                            fontSize: 15.sp,
                             color: const Color.fromRGBO(42, 41, 51, 0.6),
                           ),
                         ),
@@ -751,7 +751,7 @@ class _MaintenancedetailsScreenState
                   Text(
                     "Notes",
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
                       letterSpacing: -0.24,
@@ -771,7 +771,7 @@ class _MaintenancedetailsScreenState
                           ? notes
                           : "No notes available.",
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
                         letterSpacing: -0.2,
@@ -794,7 +794,7 @@ class _MaintenancedetailsScreenState
                 Text(
                   "Something went wrong",
                   style: GoogleFonts.outfit(
-                    fontSize: 15.sp,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.w500,
                     color: AppColors.heading,
                     letterSpacing: -0.24,
@@ -812,7 +812,7 @@ class _MaintenancedetailsScreenState
                   ),
                   child: Text(
                     "Retry",
-                    style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                    style: TextStyle(color: Colors.white, fontSize: 15.sp),
                   ),
                 ),
               ],
@@ -858,7 +858,7 @@ class _MaintenancedetailsScreenState
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color.fromRGBO(42, 41, 51, 0.6),
                   letterSpacing: -0.24,
@@ -883,7 +883,7 @@ class _MaintenancedetailsScreenState
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 13.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w700,
                 color: color,
                 letterSpacing: -0.24,
@@ -975,7 +975,7 @@ class _TimelineItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       height: 1.1,
                       fontWeight: FontWeight.w500,
                       color: showFilledDot
@@ -988,7 +988,7 @@ class _TimelineItem extends StatelessWidget {
                   Text(
                     date,
                     style: GoogleFonts.outfit(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                       color: showFilledDot
                           ? const Color.fromRGBO(42, 41, 51, 0.5)

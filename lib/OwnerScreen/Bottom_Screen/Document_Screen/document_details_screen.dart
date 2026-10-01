@@ -209,7 +209,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff292832),
                             letterSpacing: -0.64,
@@ -221,8 +221,8 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
                             color: const Color.fromRGBO(42, 41, 51, 0.6),
                             letterSpacing: -0.24,
                           ),
@@ -269,7 +269,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                   //         Text(
                   //           "AI Summary",
                   //           style: GoogleFonts.outfit(
-                  //             fontSize: 12.sp,
+                  //             fontSize: 14.sp,
                   //             fontWeight: FontWeight.w600,
                   //             color: const Color(0xFFFFFCEB),
                   //           ),
@@ -304,7 +304,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                     "Document Preview",
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       color: AppColors.heading,
                     ),
                   ),
@@ -353,7 +353,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                     "Property Overview",
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       color: AppColors.heading,
                       letterSpacing: -0.54,
                     ),
@@ -403,7 +403,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                     style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w500,
                       color: AppColors.heading,
-                      fontSize: 17.sp,
+                      fontSize: 18.sp,
                       letterSpacing: -0.54,
                     ),
                   ),
@@ -425,7 +425,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: const Color.fromRGBO(42, 41, 51, 0.6),
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         letterSpacing: -0.24,
                       ),
                     ),
@@ -472,7 +472,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                             label: Text(
                               "Share",
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.heading,
                               ),
@@ -524,7 +524,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                                   ? "Downloading..."
                                   : "Download Document",
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
                                 letterSpacing: -0.24,
@@ -576,7 +576,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.outfit(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color.fromRGBO(42, 41, 51, 0.6),
                   letterSpacing: -0.24,
@@ -601,7 +601,7 @@ class _DocumentDetailsScreenState extends ConsumerState<DocumentDetailsScreen> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               style: GoogleFonts.outfit(
-                fontSize: 13.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w700,
                 color: valueColor,
                 letterSpacing: -0.24,
