@@ -57,7 +57,7 @@ class _MaintenancePaymentStatusState
                 children: [
                   Text(
                     // "Maintenance Payment Status",
-                    "Service Charge Statu",
+                    "Service Charge Status",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,

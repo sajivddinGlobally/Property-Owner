@@ -197,7 +197,7 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
                             SizedBox(height: 6.h),
                             Text(
                               // "Apartment A-204",
-                              "${propertyDetails.data?.propertyType ?? "N/A"} - ${propertyDetails.data?.propertyNameNumber ?? "N/A"}",
+                              "${_formatPropertyType(propertyDetails.data?.propertyType)} - ${propertyDetails.data?.propertyNameNumber ?? "N/A"}",
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xffFFFFFF),
@@ -207,8 +207,10 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
                             ),
                             SizedBox(height: 6.h),
                             Text(
-                              // "Green Valley Residency · Jaipur",
-                              "${propertyDetails.data?.complex?.name ?? "N/A"} · ${propertyDetails.data?.location ?? "N/A"}",
+                              (propertyDetails.data?.complex?.name != null &&
+                                      propertyDetails.data!.complex!.name!.isNotEmpty)
+                                  ? "${propertyDetails.data?.complex?.name} · ${propertyDetails.data?.location ?? 'N/A'}"
+                                  : (propertyDetails.data?.location ?? "N/A"),
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w500,
                                 color: Color.fromRGBO(255, 255, 255, 0.6),
@@ -260,7 +262,9 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
                         ),
                         _documentRow(
                           title: "Property Type",
-                          value: propertyDetails.data?.propertyType ?? "N/A",
+                          value: _formatPropertyType(
+                            propertyDetails.data?.propertyType,
+                          ),
                         ),
                         _documentRow(
                           title: "Area",
@@ -741,5 +745,31 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
         ],
       ),
     );
+  }
+
+  String _formatPropertyType(String? type) {
+    if (type == null || type.trim().isEmpty) return "N/A";
+    switch (type.trim().toLowerCase()) {
+      case "independent_house":
+        return "Independent House";
+      case "apartment":
+        return "Apartment";
+      case "villa_compound":
+        return "Villa Compound";
+      case "commercial":
+        return "Commercial";
+      case "commercial_complex":
+        return "Commercial Complex";
+      default:
+        return type
+            .replaceAll('_', ' ')
+            .split(' ')
+            .map(
+              (w) => w.isNotEmpty
+                  ? '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}'
+                  : '',
+            )
+            .join(' ');
+    }
   }
 }

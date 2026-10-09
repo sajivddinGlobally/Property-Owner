@@ -10,16 +10,20 @@ String aiAssistanceBodyModelToJson(AiAssistanceBodyModel data) => json.encode(da
 
 class AiAssistanceBodyModel {
     String? query;
+    int? propertyId;
 
     AiAssistanceBodyModel({
         this.query,
+        this.propertyId,
     });
 
     factory AiAssistanceBodyModel.fromJson(Map<String, dynamic> json) => AiAssistanceBodyModel(
         query: json["query"],
+        propertyId: json["property_id"],
     );
 
     Map<String, dynamic> toJson() => {
         "query": query,
+        if (propertyId != null) "property_id": propertyId,
     };
 }

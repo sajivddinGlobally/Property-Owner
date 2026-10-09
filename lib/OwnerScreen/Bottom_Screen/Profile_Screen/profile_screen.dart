@@ -117,7 +117,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          data.data?.name ?? "MD Sajiv",
+                          data.data?.name ?? "N/A",
                           style: GoogleFonts.outfit(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
@@ -127,7 +127,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                         SizedBox(height: 2.h),
                         Text(
-                          data.data?.email ?? "sajiv@gmail.com",
+                          data.data?.email ?? "N/A",
                           style: GoogleFonts.outfit(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
@@ -183,15 +183,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       children: [
                         _documentRow(
                           title: "Full Name",
-                          value: data.data?.name ?? "Md Sajiv",
+                          value: data.data?.name ?? "N/A",
                         ),
                         _documentRow(
                           title: "Email Address",
-                          value: data.data?.email ?? "sajiv@gmail.com",
+                          value: data.data?.email ?? "N/A",
                         ),
                         _documentRow(
                           title: "Phone Number",
-                          value: data.data?.phone ?? "+91 98XXXXXX42",
+                          value: data.data?.phone ?? "N/A",
                         ),
                         _documentRow(
                           title: "Account Type",
@@ -267,7 +267,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                             Spacer(),
                             Text(
-                              data.data?.subscriptionStatus ?? "Active",
+                              data.data?.activeProperty?.status ?? "N/A",
                               style: GoogleFonts.outfit(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.w500,
@@ -295,7 +295,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                "Property Type",
+                                "House / Building No.",
                                 style: GoogleFonts.outfit(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
@@ -311,8 +311,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                // "Apartment",
-                                data.data?.activeProperty?.propertyType ?? "",
+                                _formatPropertyType(
+                                  data.data?.activeProperty?.propertyType,
+                                ),
                                 style: GoogleFonts.outfit(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
@@ -323,9 +324,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                // "A-204",
                                 data.data?.activeProperty?.propertyNameNumber ??
-                                    "",
+                                    "N/A",
                                 style: GoogleFonts.outfit(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
@@ -857,5 +857,31 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  String _formatPropertyType(String? type) {
+    if (type == null || type.trim().isEmpty) return "N/A";
+    switch (type.trim().toLowerCase()) {
+      case "independent_house":
+        return "Independent House";
+      case "apartment":
+        return "Apartment";
+      case "villa_compound":
+        return "Villa Compound";
+      case "commercial":
+        return "Commercial";
+      case "commercial_complex":
+        return "Commercial Complex";
+      default:
+        return type
+            .replaceAll('_', ' ')
+            .split(' ')
+            .map(
+              (w) => w.isNotEmpty
+                  ? '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}'
+                  : '',
+            )
+            .join(' ');
+    }
   }
 }

@@ -254,18 +254,28 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                                       fit: BoxFit.cover,
                                       errorBuilder:
                                           (context, error, stackTrace) =>
-                                              Image.asset(
-                                                "assets/document_img.png",
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey,
+                                                ),
                                                 width: double.infinity,
                                                 height: 151.h,
-                                                fit: BoxFit.cover,
+                                                child: Icon(
+                                                  Icons.error_outline,
+                                                  size: 24,
+                                                ),
                                               ),
                                     )
-                                  : Image.asset(
-                                      "assets/document_img.png",
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                      ),
                                       width: double.infinity,
                                       height: 151.h,
-                                      fit: BoxFit.cover,
+                                      child: Icon(
+                                        Icons.error_outline,
+                                        size: 24,
+                                      ),
                                     ),
                               if (overview?.propertyNumber != null &&
                                   overview!.propertyNumber!.trim().isNotEmpty)

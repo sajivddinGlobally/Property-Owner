@@ -333,10 +333,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               if (passwordController.text.trim().isEmpty) {
                                 return;
                               }
-                              if (rememberMe == false) {
-                                showErrorSnackBar("Please checked Remember Me");
-                                return;
-                              }
+                              // if (rememberMe == false) {
+                              //   showErrorSnackBar("Please checked Remember Me");
+                              //   return;
+                              // }
                               try {
                                 setState(() {
                                   isLoading = true;

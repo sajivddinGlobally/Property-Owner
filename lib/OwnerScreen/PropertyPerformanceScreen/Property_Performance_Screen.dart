@@ -110,33 +110,35 @@ class _PropertyPerformanceScreenState
                     ),
                     child: Row(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data.propertyHeader?.propertyNameNumber ?? "",
-                              style: GoogleFonts.outfit(
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.heading,
-                                fontSize: 18.sp,
-                                letterSpacing: -0.2,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.propertyHeader?.propertyNameNumber ?? "",
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.heading,
+                                  fontSize: 18.sp,
+                                  letterSpacing: -0.2,
+                                ),
                               ),
-                            ),
-                            Text(
-                              data.propertyHeader?.complexName ?? "",
-                              style: GoogleFonts.outfit(
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromRGBO(42, 41, 51, 0.5),
-                                fontSize: 15.sp,
-                                letterSpacing: -0.2,
+                              Text(
+                                data.propertyHeader?.complexName ?? "",
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromRGBO(42, 41, 51, 0.5),
+                                  fontSize: 15.sp,
+                                  letterSpacing: -0.2,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        Spacer(),
+                        SizedBox(height: 8.h),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 25.w,
+                            horizontal: 10.w,
                             vertical: 6.h,
                           ),
                           decoration: BoxDecoration(
@@ -148,7 +150,7 @@ class _PropertyPerformanceScreenState
                             style: GoogleFonts.outfit(
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
-                              fontSize: 18.sp,
+                              fontSize: 15.sp,
                               letterSpacing: -0.2,
                             ),
                           ),
@@ -158,7 +160,7 @@ class _PropertyPerformanceScreenState
                   ),
                   SizedBox(height: 23.h),
                   propertyScoreCard(
-                    score: data.overallPropertyScore?.score?.toInt() ?? 0,
+                    score: data.overallPropertyScore?.score?.toDouble() ?? 0.0,
                     scoreOutOf: data.overallPropertyScore?.total ?? 0,
                     performanceLabel:
                         data.overallPropertyScore?.performanceLabel ?? "",
@@ -455,12 +457,15 @@ class _PropertyPerformanceScreenState
   }
 
   Widget propertyScoreCard({
-    required int score,
+    required double score,
     required int scoreOutOf,
     required String performanceLabel,
     required String lastUpdated,
   }) {
     double progress = scoreOutOf > 0 ? score / scoreOutOf : 0;
+    final String displayScore = score % 1 == 0
+        ? score.toInt().toString()
+        : score.toStringAsFixed(1);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 18.h),
@@ -504,9 +509,9 @@ class _PropertyPerformanceScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "${score.toInt()}",
+                      displayScore,
                       style: GoogleFonts.outfit(
-                        fontSize: 40.sp,
+                        fontSize: 36.sp,
                         height: 0.9,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF101C16),

@@ -60,7 +60,7 @@ abstract class ApiStateNetwork {
   Future<CreatePropertyResModel> createProperty(
     @Part(name: "image") MultipartFile? image,
     @Part(name: "flat_number") String flatNumber,
-    @Part(name: "complex_id") String complexId,
+    @Part(name: "complex_id") String? complexId,
     @Part(name: "property_type") String propertyType,
     @Part(name: "care_package") String carePackage,
     @Part(name: "has_mmc") bool? hasMmc,
@@ -68,6 +68,9 @@ abstract class ApiStateNetwork {
     @Part(name: "location") String? location,
     @Part(name: "area") String? area,
     @Part(name: "is_independent") bool? isIndependent,
+    @Part(name: "floors") String? floors,
+    @Part(name: "bedrooms") String? bedrooms,
+    @Part(name: "occupancy_status") String? occupancyStatus,
   );
 
   @GET("/api/v1/auth/available-flats")
@@ -256,11 +259,14 @@ abstract class ApiStateNetwork {
   );
 
   @GET("/api/v1/ai/property-assistant")
-  Future<GetPropertyAssistantModel> getPropertyAssistant();
+  Future<GetPropertyAssistantModel> getPropertyAssistant(
+    @Query("property_id") int? propertyId,
+  );
 
   @POST("/api/v1/ai/property-assistant")
   Future<GetPropertyAssistantModel> sendMessageToAi(
     @Body() AiAssistanceBodyModel body,
+    @Query("property_id") int? propertyId,
   );
 
   @POST("/api/v1/owner/properties/request")

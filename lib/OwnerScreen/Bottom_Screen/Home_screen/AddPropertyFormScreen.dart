@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,43 +34,56 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _flatNumberController = TextEditingController();
   final TextEditingController _complexIdController = TextEditingController();
+  final TextEditingController _customComplexController =
+      TextEditingController();
+  final TextEditingController _bedroomsController = TextEditingController();
+  final TextEditingController _floorsController = TextEditingController();
+  String? _selectedCategory = "residential";
   String? _selectedPropertyType;
   String? _selectedCarePackage;
-  String? _hasMmc;
   final TextEditingController _monthlyMaintenanceFeeController =
       TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _areaController = TextEditingController();
-  String? _isIndependent;
+  String? _occupancyStatus;
   String? complexId;
+  bool _isCustomComplex = false;
   bool _isLoading = false;
 
-  final List<Map<String, String>> _propertyTypeOptions = [
-    {"label": "Apartment", "value": "apartment"},
-    {"label": "Independent House", "value": "independent_house"},
+  final List<Map<String, String>> _categoryOptions = [
+    {"label": "Residential", "value": "residential"},
     {"label": "Commercial", "value": "commercial"},
+  ];
+
+  final List<Map<String, String>> _residentialTypeOptions = [
+    {"label": "Independent House", "value": "independent_house"},
+    {"label": "Apartment Complex", "value": "apartment"},
+    {"label": "Villa Compound", "value": "villa_compound"},
+  ];
+
+  final List<Map<String, String>> _commercialTypeOptions = [
+    {"label": "Commercial Space / Building", "value": "commercial"},
   ];
 
   final List<Map<String, String>> _carePackageOptions = [
     {"label": "Tenant Care", "value": "tenant_care"},
-    {"label": "Daily Rental Care", "value": "daily_rental_care"},
+    {"label": "Earn n' Care", "value": "earn_n_care"},
     {"label": "Premium Care", "value": "premium_care"},
   ];
 
-  final List<Map<String, String>> _binaryOptions = [
-    {"label": "Yes", "value": "1"},
-    {"label": "No", "value": "0"},
-  ];
-
-  final List<Map<String, String>> _independentOptions = [
-    {"label": "No", "value": "0"},
-    {"label": "Yes", "value": "1"},
+  final List<Map<String, String>> _occupancyOptions = [
+    {"label": "Self Occupied", "value": "self_occupied"},
+    {"label": "Tenant Occupied / Rented", "value": "tenant_occupied"},
+    {"label": "Vacant", "value": "vacant"},
   ];
 
   @override
   void dispose() {
     _flatNumberController.dispose();
     _complexIdController.dispose();
+    _customComplexController.dispose();
+    _bedroomsController.dispose();
+    _floorsController.dispose();
     _monthlyMaintenanceFeeController.dispose();
     _locationController.dispose();
     _areaController.dispose();
@@ -165,19 +177,43 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
 
     try {
       final service = ref.read(authServiceProvider);
+      final bool isCommercial =
+          (_selectedCategory == "commercial" ||
+          _selectedPropertyType == "commercial");
+      final bool isIndependent =
+          (_selectedPropertyType == "independent_house" || isCommercial);
+      final bool hasMmc =
+          isCommercial || (_selectedPropertyType != "independent_house");
+
+      String? finalComplexId = complexId;
+      if (_isCustomComplex && _customComplexController.text.trim().isNotEmpty) {
+        finalComplexId = _customComplexController.text.trim();
+      }
+      if (finalComplexId != null && finalComplexId.trim().isEmpty) {
+        finalComplexId = null;
+      }
+
       final res = await service.createProperty(
         image: _selectedImage,
         flatNumber: _flatNumberController.text.trim(),
-        complexId: complexId.toString(),
+        complexId: finalComplexId,
         propertyType: _selectedPropertyType ?? "",
         carePackage: _selectedCarePackage ?? "",
-        hasMmc: _hasMmc == "1" ? true : (_hasMmc == "0" ? false : null),
-        monthlyMaintenanceFee: _monthlyMaintenanceFeeController.text.trim(),
+        hasMmc: hasMmc,
+        monthlyMaintenanceFee:
+            hasMmc && _monthlyMaintenanceFeeController.text.trim().isNotEmpty
+            ? _monthlyMaintenanceFeeController.text.trim()
+            : "0",
         location: _locationController.text.trim(),
         area: _areaController.text.trim(),
-        isIndependent: _isIndependent == "1"
-            ? true
-            : (_isIndependent == "0" ? false : null),
+        isIndependent: isIndependent,
+        floors: _floorsController.text.trim().isNotEmpty
+            ? _floorsController.text.trim()
+            : null,
+        bedrooms: _bedroomsController.text.trim().isNotEmpty
+            ? _bedroomsController.text.trim()
+            : null,
+        occupancyStatus: _occupancyStatus,
       );
       if (res.status == true) {
         var box = Hive.box("userdata");
@@ -259,7 +295,7 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
                     ),
                     SizedBox(height: 12.h),
                     Text(
-                      "ADD NEW PROPERTY",
+                      "ADD PROPERTY",
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w700,
                         color: AppColors.heading,
@@ -315,119 +351,54 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
                         fieldLabel("Property Image (Optional)"),
                         _buildImagePickerField(),
                         SizedBox(height: 14.h),
-                        fieldLabel("Flat Number *"),
-                        customTextField(
-                          controller: _flatNumberController,
-                          hintText: "Enter Flat Number (e.g. Flat D-704)",
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return "Please enter flat number";
+
+                        // 1. Property Category (Residential / Commercial)
+                        fieldLabel("Property Category *"),
+                        _buildDropdownField(
+                          value: _selectedCategory,
+                          hintText: "Select Category",
+                          items: _categoryOptions,
+                          onChanged: (val) {
+                            if (val != null) {
+                              setState(() {
+                                _selectedCategory = val;
+                                _selectedPropertyType = null;
+                                complexId = null;
+                                _isCustomComplex = false;
+                                _customComplexController.clear();
+                              });
                             }
-                            return null;
                           },
-                        ),
-                        SizedBox(height: 14.h),
-                        fieldLabel("Complex Name *"),
-                        DropdownButtonFormField<String>(
-                          value: complexId,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please select a complex name";
+                              return "Please select property category";
                             }
                             return null;
                           },
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: const Color(0xFF000000),
-                            size: 20.sp,
-                          ),
-                          style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xff101C16),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            hintText: 'Select Complex Name',
-                            hintStyle: GoogleFonts.outfit(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500,
-                              color: const Color.fromRGBO(0, 0, 0, 0.6),
-                              letterSpacing: -0.3,
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 10.h,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                          ),
-                          items: data.data?.map((data) {
-                            return DropdownMenuItem<String>(
-                              value: data.id.toString(),
-                              child: Text(
-                                data.name ?? '',
-                                style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.heading,
-                                  letterSpacing: -0.2,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              complexId = value;
-                            });
-                          },
                         ),
                         SizedBox(height: 14.h),
-
-                        // 4. Property Type
+                        // 2. Property Type (Independent House, Apartment, Villa, etc.)
                         fieldLabel("Property Type *"),
                         _buildDropdownField(
                           value: _selectedPropertyType,
                           hintText: "Select Property Type",
-                          items: _propertyTypeOptions,
+                          items: _selectedCategory == "commercial"
+                              ? _commercialTypeOptions
+                              : _residentialTypeOptions,
                           onChanged: (val) {
                             if (val != null) {
                               setState(() {
                                 _selectedPropertyType = val;
+                                if (_selectedPropertyType != "apartment" &&
+                                    _selectedPropertyType != "villa_compound") {
+                                  complexId = null;
+                                  _isCustomComplex = false;
+                                  _customComplexController.clear();
+                                }
+                                if (_selectedPropertyType ==
+                                    "independent_house") {
+                                  _monthlyMaintenanceFeeController.clear();
+                                }
                               });
                             }
                           },
@@ -439,6 +410,161 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
                           },
                         ),
                         SizedBox(height: 14.h),
+
+                        // 3. House / Building Number
+                        fieldLabel("House/ Building number *"),
+                        customTextField(
+                          controller: _flatNumberController,
+                          hintText:
+                              "Enter House/ Building Number (e.g. Flat D-704, Villa 12)",
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Please enter house/ building number";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 14.h),
+
+                        // 4. Complex Name (Activated only for Apartment complex or Villa compound)
+                        if (_selectedPropertyType == "apartment" ||
+                            _selectedPropertyType == "villa_compound") ...[
+                          fieldLabel("Complex Name *"),
+                          DropdownButtonFormField<String>(
+                            padding: EdgeInsets.zero,
+                            isExpanded: true,
+                            value: complexId,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please select a complex name";
+                              }
+                              return null;
+                            },
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: const Color(0xFF000000),
+                              size: 20.sp,
+                            ),
+                            style: GoogleFonts.outfit(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xff101C16),
+                            ),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              hintText: 'Select Complex Name',
+                              hintStyle: GoogleFonts.outfit(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(0, 0, 0, 0.6),
+                                letterSpacing: -0.3,
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 10.h,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.r),
+                                borderSide: BorderSide(
+                                  color: const Color(0xFF000000),
+                                  width: 1.w,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.r),
+                                borderSide: BorderSide(
+                                  color: const Color(0xFF000000),
+                                  width: 1.w,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.r),
+                                borderSide: BorderSide(
+                                  color: const Color(0xFF000000),
+                                  width: 1.w,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.r),
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 1.w,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.r),
+                                borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 1.w,
+                                ),
+                              ),
+                            ),
+                            items: [
+                              ...?data.data?.map((item) {
+                                return DropdownMenuItem<String>(
+                                  value: item.id.toString(),
+                                  child: Text(
+                                    item.address != null &&
+                                            item.address!.isNotEmpty
+                                        ? "${item.name ?? ''} (${item.address})"
+                                        : "${item.name ?? ''}",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.heading,
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                );
+                              }),
+                              // TODO: Uncomment once backend supports dynamic/custom complex creation
+                              // DropdownMenuItem<String>(
+                              //   value: "other",
+                              //   child: Text(
+                              //     "+ Other (Enter custom complex name)",
+                              //     style: GoogleFonts.outfit(
+                              //       fontSize: 16.sp,
+                              //       fontWeight: FontWeight.w600,
+                              //       color: const Color(0xff101C16),
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                // TODO: Uncomment once backend supports custom complex
+                                // if (value == "other") {
+                                //   _isCustomComplex = true;
+                                //   complexId = null;
+                                // } else {
+                                //   _isCustomComplex = false;
+                                //   complexId = value;
+                                //   _customComplexController.clear();
+                                // }
+                                complexId = value;
+                              });
+                            },
+                          ),
+                          // TODO: Uncomment once backend supports custom complex
+                          // if (_isCustomComplex) ...[
+                          //   SizedBox(height: 10.h),
+                          //   customTextField(
+                          //     controller: _customComplexController,
+                          //     hintText: "Enter your complex name",
+                          //     validator: (value) {
+                          //       if (_isCustomComplex &&
+                          //           (value == null || value.trim().isEmpty)) {
+                          //         return "Please enter your complex name";
+                          //       }
+                          //       return null;
+                          //     },
+                          //   ),
+                          // ],
+                          SizedBox(height: 14.h),
+                        ],
 
                         // 5. Care Package
                         fieldLabel("Care Package *"),
@@ -462,32 +588,19 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
                         ),
                         SizedBox(height: 14.h),
 
-                        // 6. Has MMC
-                        fieldLabel("Has MMC (Optional)"),
-                        _buildDropdownField(
-                          value: _hasMmc,
-                          hintText: "Select MMC",
-                          items: _binaryOptions,
-                          onChanged: (val) {
-                            if (val != null) {
-                              setState(() {
-                                _hasMmc = val;
-                              });
-                            }
-                          },
-                        ),
-                        SizedBox(height: 14.h),
+                        // 6. Monthly Maintenance Fee (Only for Apartment, Villa, or Commercial)
+                        if (_selectedPropertyType != null &&
+                            _selectedPropertyType != "independent_house") ...[
+                          fieldLabel("Monthly Maintenance Fee (Optional)"),
+                          customTextField(
+                            controller: _monthlyMaintenanceFeeController,
+                            hintText: "Enter Monthly Maintenance Fee",
+                            keyboardType: TextInputType.number,
+                          ),
+                          SizedBox(height: 14.h),
+                        ],
 
-                        // 7. Monthly Maintenance Fee
-                        fieldLabel("Monthly Maintenance Fee (Optional)"),
-                        customTextField(
-                          controller: _monthlyMaintenanceFeeController,
-                          hintText: "Enter Monthly Maintenance Fee",
-                          keyboardType: TextInputType.number,
-                        ),
-                        SizedBox(height: 14.h),
-
-                        // 8. Location
+                        // 7. Location
                         fieldLabel("Location (Optional)"),
                         customTextField(
                           controller: _locationController,
@@ -496,6 +609,7 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
                         ),
                         SizedBox(height: 14.h),
 
+                        // 8. Area
                         fieldLabel("Area (Optional)"),
                         customTextField(
                           controller: _areaController,
@@ -503,16 +617,34 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
                         ),
                         SizedBox(height: 14.h),
 
-                        // 10. Is Independent
-                        fieldLabel("Is Independent (Optional)"),
+                        // 9. No. of Bedrooms
+                        fieldLabel("No. of Bedrooms (Optional)"),
+                        customTextField(
+                          controller: _bedroomsController,
+                          hintText: "Enter number of bedrooms (e.g. 2, 3 BHK)",
+                          keyboardType: TextInputType.number,
+                        ),
+                        SizedBox(height: 14.h),
+
+                        // 10. No. of Floors
+                        fieldLabel("No. of Floors (Optional)"),
+                        customTextField(
+                          controller: _floorsController,
+                          hintText: "Enter number of floors (e.g. 1, 2, G+1)",
+                          keyboardType: TextInputType.number,
+                        ),
+                        SizedBox(height: 14.h),
+
+                        // 11. Occupancy Status
+                        fieldLabel("Occupancy Status (Optional)"),
                         _buildDropdownField(
-                          value: _isIndependent,
-                          hintText: "Select Independent",
-                          items: _independentOptions,
+                          value: _occupancyStatus,
+                          hintText: "Select Occupancy Status",
+                          items: _occupancyOptions,
                           onChanged: (val) {
                             if (val != null) {
                               setState(() {
-                                _isIndependent = val;
+                                _occupancyStatus = val;
                               });
                             }
                           },

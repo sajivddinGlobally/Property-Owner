@@ -541,14 +541,43 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                   ),
                 ),
                 const Spacer(),
-                Text(
-                  "${priority} Priority",
-                  style: GoogleFonts.outfit(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF101C16),
-                    letterSpacing: -0.3,
-                  ),
+                Builder(
+                  builder: (context) {
+                    final isHigh = priority.toLowerCase().contains("high");
+                    final isMedium = priority.toLowerCase().contains("medium");
+                    final Color pColor = isHigh
+                        ? const Color(0xFFD32F2F)
+                        : isMedium
+                        ? const Color(0xFFE65100)
+                        : const Color(0xFF2E7D32);
+                    final Color pBg = isHigh
+                        ? const Color(0xFFFFEBEE)
+                        : isMedium
+                        ? const Color(0xFFFFF3E0)
+                        : const Color(0xFFE8F5E9);
+                    return Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 3.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: pBg,
+                        borderRadius: BorderRadius.circular(4.r),
+                        border: Border.all(color: pColor, width: 1.w),
+                      ),
+                      child: Text(
+                        priority.toLowerCase().contains("priority")
+                            ? priority
+                            : "$priority Priority",
+                        style: GoogleFonts.outfit(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
+                          color: pColor,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(width: 5.w),
                 Text(

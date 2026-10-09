@@ -8,7 +8,6 @@ import 'package:property_care/OwnerScreen/login_screen.dart';
 import 'package:property_care/core/Utils/showMessage.dart';
 import 'package:property_care/core/constant/appColor.dart';
 import '../../core/AuthService/AuthServiceProvider.dart';
-import 'provider/availableFlatsProvider.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -52,7 +51,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final getAvailableFlatState = ref.watch(getAvailableFlatsProvider);
+    //  final getAvailableFlatState = ref.watch(getAvailableFlatsProvider);
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       body: Form(
@@ -231,124 +230,126 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       },
                     ),
                     SizedBox(height: 30.h),
-                    Text(
-                      "PROPERTY INFORMATION",
-                      style: GoogleFonts.outfit(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF000000),
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-
-                    SizedBox(height: 10.w),
-                    fieldLabel("Apartment / Flat Number (Optional)"),
-                    getAvailableFlatState.when(
-                      data: (data) {
-                        return DropdownButtonFormField<String>(
-                          isExpanded: true,
-                          value: selectedFlatNameNumber,
-                          // validator: (value) {
-                          //   if (value == null || value.isEmpty) {
-                          //     return "Please select an apartment / flat";
-                          //   }
-                          //   return null;
-                          // },
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: const Color(0xFF000000),
-                            size: 20.sp,
-                          ),
-                          style: GoogleFonts.outfit(
-                            fontSize: 17.sp,
-                            color: const Color(0xff101C16),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            hintText: 'Select Flat',
-                            hintStyle: GoogleFonts.outfit(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500,
-                              color: const Color.fromRGBO(0, 0, 0, 0.6),
-                              letterSpacing: -0.3,
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 10.h,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6.r),
-                              borderSide: BorderSide(
-                                color: const Color(0xFF000000),
-                                width: 1.w,
-                              ),
-                            ),
-                          ),
-                          items: data.data?.map((flat) {
-                            return DropdownMenuItem<String>(
-                              value: flat.propertyNameNumber.toString(),
-                              child: Text(
-                                "${flat.propertyNameNumber ?? ''} (${flat.complex?.name ?? ''})",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.outfit(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.heading,
-                                  letterSpacing: -0.2,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedFlatNameNumber = value;
-                            });
-                          },
-                        );
-                      },
-                      error: (e, s) {
-                        log("error $e");
-                        return Center(child: Text("Something went wrong"));
-                      },
-                      loading: () {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.heading,
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 20.w),
+                    // Text(
+                    //   "PROPERTY INFORMATION",
+                    //   style: GoogleFonts.outfit(
+                    //     fontSize: 18.sp,
+                    //     fontWeight: FontWeight.w500,
+                    //     color: Color(0xFF000000),
+                    //     letterSpacing: -0.3,
+                    //   ),
+                    // ),
+                    // SizedBox(height: 10.w),
+                    // fieldLabel("Apartment / Flat Number (Optional)"),
+                    // getAvailableFlatState.when(
+                    //   data: (data) {
+                    //     return DropdownButtonFormField<String>(
+                    //       isExpanded: true,
+                    //       value: selectedFlatNameNumber,
+                    //       // validator: (value) {
+                    //       //   if (value == null || value.isEmpty) {
+                    //       //     return "Please select an apartment / flat";
+                    //       //   }
+                    //       //   return null;
+                    //       // },
+                    //       icon: Icon(
+                    //         Icons.keyboard_arrow_down,
+                    //         color: const Color(0xFF000000),
+                    //         size: 20.sp,
+                    //       ),
+                    //       style: GoogleFonts.outfit(
+                    //         fontSize: 17.sp,
+                    //         color: const Color(0xff101C16),
+                    //       ),
+                    //       autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //       decoration: InputDecoration(
+                    //         isDense: true,
+                    //         hintText: 'Select Flat',
+                    //         hintStyle: GoogleFonts.outfit(
+                    //           fontSize: 15.sp,
+                    //           fontWeight: FontWeight.w500,
+                    //           color: const Color.fromRGBO(0, 0, 0, 0.6),
+                    //           letterSpacing: -0.3,
+                    //         ),
+                    //         contentPadding: EdgeInsets.symmetric(
+                    //           horizontal: 10.w,
+                    //           vertical: 10.h,
+                    //         ),
+                    //         enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(6.r),
+                    //           borderSide: BorderSide(
+                    //             color: const Color(0xFF000000),
+                    //             width: 1.w,
+                    //           ),
+                    //         ),
+                    //         focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(6.r),
+                    //           borderSide: BorderSide(
+                    //             color: const Color(0xFF000000),
+                    //             width: 1.w,
+                    //           ),
+                    //         ),
+                    //         border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(6.r),
+                    //           borderSide: BorderSide(
+                    //             color: const Color(0xFF000000),
+                    //             width: 1.w,
+                    //           ),
+                    //         ),
+                    //         errorBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(6.r),
+                    //           borderSide: BorderSide(
+                    //             color: const Color(0xFF000000),
+                    //             width: 1.w,
+                    //           ),
+                    //         ),
+                    //         focusedErrorBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(6.r),
+                    //           borderSide: BorderSide(
+                    //             color: const Color(0xFF000000),
+                    //             width: 1.w,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       items: data.data?.map((flat) {
+                    //         return DropdownMenuItem<String>(
+                    //           value: flat.propertyNameNumber.toString(),
+                    //           child: Text(
+                    //             // "${flat.propertyNameNumber ?? ''} (${flat.complex?.name ?? ''})",
+                    //             flat.complex?.name != null
+                    //                 ? "${flat.propertyNameNumber ?? ''} (${flat.complex!.name})"
+                    //                 : "${flat.propertyNameNumber ?? ''}",
+                    //             maxLines: 1,
+                    //             overflow: TextOverflow.ellipsis,
+                    //             style: GoogleFonts.outfit(
+                    //               fontSize: 18.sp,
+                    //               fontWeight: FontWeight.w500,
+                    //               color: AppColors.heading,
+                    //               letterSpacing: -0.2,
+                    //             ),
+                    //           ),
+                    //         );
+                    //       }).toList(),
+                    //       onChanged: (value) {
+                    //         setState(() {
+                    //           selectedFlatNameNumber = value;
+                    //         });
+                    //       },
+                    //     );
+                    //   },
+                    //   error: (e, s) {
+                    //     log("error $e");
+                    //     return Center(child: Text("Something went wrong"));
+                    //   },
+                    //   loading: () {
+                    //     return Center(
+                    //       child: CircularProgressIndicator(
+                    //         color: AppColors.heading,
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    // SizedBox(height: 20.w),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -423,8 +424,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     confirmPassword: confirmPasswordController
                                         .text
                                         .trim(),
-                                    propertyNameNumber:
-                                        selectedFlatNameNumber ?? "",
+                                    propertyNameNumber: "",
                                     role: 'property_owner',
                                   );
                                   if (response.status == true) {
@@ -621,7 +621,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           minWidth: 46.w,
           maxWidth: 46.w,
         ),
-
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6.r),
           borderSide: BorderSide(color: Color(0xFF000000), width: 1.w),

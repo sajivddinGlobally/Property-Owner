@@ -23,17 +23,33 @@ class OwnerDashboardModel {
 }
 
 class Data {
+  bool? isApproved;
+  String? approvalStatus;
+  bool? activeDashboard;
   Property? property;
+  Notice? notice;
   Widgets? widgets;
   int? unreadNotificationsCount;
 
-  Data({this.property, this.widgets, this.unreadNotificationsCount});
+  Data({
+    this.isApproved,
+    this.approvalStatus,
+    this.activeDashboard,
+    this.property,
+    this.notice,
+    this.widgets,
+    this.unreadNotificationsCount,
+  });
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
+      isApproved: json["is_approved"],
+      approvalStatus: json["approval_status"],
+      activeDashboard: json["active_dashboard"],
       property: json["property"] == null
           ? null
           : Property.fromJson(json["property"]),
+      notice: json["notice"] == null ? null : Notice.fromJson(json["notice"]),
       widgets: json["widgets"] == null
           ? null
           : Widgets.fromJson(json["widgets"]),
@@ -42,9 +58,33 @@ class Data {
   }
 
   Map<String, dynamic> toJson() => {
+    "is_approved": isApproved,
+    "approval_status": approvalStatus,
+    "active_dashboard": activeDashboard,
     "property": property?.toJson(),
+    "notice": notice?.toJson(),
     "widgets": widgets?.toJson(),
     "unread_notifications_count": unreadNotificationsCount,
+  };
+}
+
+class Notice {
+  String? title;
+  String? description;
+  String? badge;
+
+  Notice({this.title, this.description, this.badge});
+
+  factory Notice.fromJson(Map<String, dynamic> json) => Notice(
+    title: json["title"],
+    description: json["description"],
+    badge: json["badge"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "title": title,
+    "description": description,
+    "badge": badge,
   };
 }
 
@@ -55,6 +95,7 @@ class Property {
   String? location;
   String? area;
   String? status;
+  String? statusLabel;
   String? imageUrl;
   CarePackage? carePackage;
   double? overallScore;
@@ -71,6 +112,7 @@ class Property {
     this.location,
     this.area,
     this.status,
+    this.statusLabel,
     this.imageUrl,
     this.carePackage,
     this.overallScore,
@@ -89,6 +131,7 @@ class Property {
       location: json["location"],
       area: json["area"],
       status: json["status"],
+      statusLabel: json["status_label"],
       imageUrl: json["image_url"],
       carePackage: json["care_package"] == null
           ? null
@@ -111,6 +154,7 @@ class Property {
     "location": location,
     "area": area,
     "status": status,
+    "status_label": statusLabel,
     "image_url": imageUrl,
     "care_package": carePackage?.toJson(),
     "overall_score": overallScore,

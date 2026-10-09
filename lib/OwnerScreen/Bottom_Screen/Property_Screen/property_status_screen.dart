@@ -126,8 +126,8 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                                     Container(
                                       width: double.infinity,
                                       height: 151.h,
-                                      color: Colors.grey,
                                       decoration: BoxDecoration(
+                                        color: Colors.grey,
                                         borderRadius: BorderRadius.circular(
                                           8.r,
                                         ),

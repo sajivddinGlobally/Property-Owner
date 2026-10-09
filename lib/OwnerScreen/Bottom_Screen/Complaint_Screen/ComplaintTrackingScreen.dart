@@ -167,40 +167,60 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 13.w,
-                            vertical: 4.5.h,
+                          Builder(
+                            builder: (context) {
+                              final String statusPill = complainData?.header?.statusPill ?? "";
+                              final int rawPct = int.tryParse(complainData?.header?.completionPercentage?.toString() ?? "0") ?? 0;
+                              final bool isNew = statusPill.toLowerCase().contains("submit") ||
+                                                 statusPill.toLowerCase().contains("open") ||
+                                                 statusPill.toLowerCase().contains("pending");
+                              final int displayPct = (isNew && rawPct <= 17) ? 0 : rawPct;
+                              return Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 13.w,
+                                  vertical: 4.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40.r),
+                                  border: Border.all(
+                                    color: const Color(0xFF101C16),
+                                    width: 1.w,
+                                  ),
+                                ),
+                                child: Text(
+                                  "$displayPct% COMPLETE",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF101C16),
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40.r),
-                            border: Border.all(
-                              color: const Color(0xFF101C16),
-                              width: 1.w,
-                            ),
-                          ),
-                          child: Text(
-                            "${complainData?.header?.completionPercentage}% COMPLETE",
-                            style: GoogleFonts.outfit(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF101C16),
-                              letterSpacing: -0.3,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    Text(
-                      "Your complaint has been assigned to the maintenance team and the resolution process is currently underway.",
-                      style: GoogleFonts.outfit(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromARGB(178, 42, 41, 51),
-                        letterSpacing: -0.2,
+                        ],
                       ),
-                    ),
+                      SizedBox(height: 16.h),
+                      Builder(
+                        builder: (context) {
+                          final String statusPill = complainData?.header?.statusPill ?? "";
+                          final bool isNew = statusPill.toLowerCase().contains("submit") ||
+                                             statusPill.toLowerCase().contains("open") ||
+                                             statusPill.toLowerCase().contains("pending");
+                          return Text(
+                            isNew
+                                ? "Your complaint has been submitted and is currently pending review by the management team."
+                                : "Your complaint has been assigned to the maintenance team and the resolution process is currently underway.",
+                            style: GoogleFonts.outfit(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500,
+                              color: const Color.fromARGB(178, 42, 41, 51),
+                              letterSpacing: -0.2,
+                            ),
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),

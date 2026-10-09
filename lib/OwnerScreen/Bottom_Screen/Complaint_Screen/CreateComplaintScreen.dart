@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -838,7 +836,7 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
                         )),
                       );
                       if (mounted) {
-                        Navigator.pop(context);
+                        _showSuccessDialog(priorities[selectedPriority]);
                       }
                     } catch (e) {
                       showErrorSnackBar("Failed to submit Complaint.");
@@ -954,10 +952,38 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
     );
   }
 
+  Color _getPriorityColor(int index) {
+    switch (index) {
+      case 0:
+        return const Color(0xFF2E7D32); // Low = Green
+      case 1:
+        return const Color(0xFFE65100); // Medium = Amber / Orange
+      case 2:
+        return const Color(0xFFD32F2F); // High = Red
+      default:
+        return const Color(0xFF101C16);
+    }
+  }
+
+  Color _getPriorityBg(int index) {
+    switch (index) {
+      case 0:
+        return const Color(0xFFE8F5E9);
+      case 1:
+        return const Color(0xFFFFF3E0);
+      case 2:
+        return const Color(0xFFFFEBEE);
+      default:
+        return Colors.transparent;
+    }
+  }
+
   Widget _buildPriority() {
     return Row(
       children: List.generate(priorities.length, (index) {
         final bool isSelected = selectedPriority == index;
+        final Color color = _getPriorityColor(index);
+        final Color bg = _getPriorityBg(index);
         return Expanded(
           child: Padding(
             padding: EdgeInsets.only(
@@ -974,25 +1000,23 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
                 height: 38.h,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isSelected
-                      ? Color.fromARGB(102, 174, 129, 48)
-                      : Colors.transparent,
+                  color: isSelected ? bg : Colors.transparent,
                   borderRadius: BorderRadius.circular(8.r),
                   border: Border.all(
                     color: isSelected
-                        ? Color(0xFFAE8130)
-                        : Color.fromARGB(153, 42, 41, 51),
-                    width: 1.w,
+                        ? color
+                        : const Color.fromARGB(153, 42, 41, 51),
+                    width: isSelected ? 1.5.w : 1.w,
                   ),
                 ),
                 child: Text(
                   priorities[index],
                   style: GoogleFonts.outfit(
                     fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                     color: isSelected
-                        ? Color(0xFF2A2933)
-                        : Color.fromARGB(153, 42, 41, 51),
+                        ? color
+                        : const Color.fromARGB(153, 42, 41, 51),
                   ),
                 ),
               ),
@@ -1000,6 +1024,151 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
           ),
         );
       }),
+    );
+  }
+
+  void _showSuccessDialog(String priority) {
+    final Color priorityColor = priority.toLowerCase().contains("high")
+        ? const Color(0xFFD32F2F)
+        : priority.toLowerCase().contains("medium")
+        ? const Color(0xFFE65100)
+        : const Color(0xFF2E7D32);
+    final Color priorityBg = priority.toLowerCase().contains("high")
+        ? const Color(0xFFFFEBEE)
+        : priority.toLowerCase().contains("medium")
+        ? const Color(0xFFFFF3E0)
+        : const Color(0xFFE8F5E9);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+            side: BorderSide(color: const Color(0xFF101C16), width: 1.w),
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 24.h,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 60.w,
+                height: 60.w,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE8F5E9),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xFF2E7D32),
+                    width: 1.5.w,
+                  ),
+                ),
+                child: Icon(
+                  Icons.check_circle_outline,
+                  color: const Color(0xFF2E7D32),
+                  size: 36.sp,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                "Complaint Registered!",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.outfit(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF101C16),
+                  letterSpacing: -0.3,
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                "Your query has been submitted successfully to the management team.",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.outfit(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromARGB(178, 42, 41, 51),
+                  letterSpacing: -0.2,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(25, 16, 28, 22),
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    color: const Color(0xFF101C16),
+                    width: 1.w,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Priority Status:",
+                      style: GoogleFonts.outfit(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF101C16),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 4.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: priorityBg,
+                        borderRadius: BorderRadius.circular(4.r),
+                        border: Border.all(color: priorityColor, width: 1.w),
+                      ),
+                      child: Text(
+                        "$priority Priority",
+                        style: GoogleFonts.outfit(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                          color: priorityColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.h),
+              SizedBox(
+                width: double.infinity,
+                height: 44.h,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF101C16),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "View Complaints",
+                    style: GoogleFonts.outfit(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

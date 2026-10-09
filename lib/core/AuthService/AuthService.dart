@@ -63,7 +63,7 @@ class AuthService {
   Future<CreatePropertyResModel> createProperty({
     File? image,
     required String flatNumber,
-    required String complexId,
+    String? complexId,
     required String propertyType,
     required String carePackage,
     bool? hasMmc,
@@ -71,6 +71,9 @@ class AuthService {
     String? location,
     String? area,
     bool? isIndependent,
+    String? floors,
+    String? bedrooms,
+    String? occupancyStatus,
   }) async {
     try {
       final file = image != null
@@ -90,6 +93,9 @@ class AuthService {
         location,
         area,
         isIndependent,
+        floors,
+        bedrooms,
+        occupancyStatus,
       );
       log(response.toString());
       return response;
@@ -554,9 +560,14 @@ class AuthService {
     }
   }
 
-  Future<GetPropertyAssistantModel> getPropertyAssistant() async {
+  Future<GetPropertyAssistantModel> getPropertyAssistant({
+    dynamic propertyId,
+  }) async {
     try {
-      final response = await api.getPropertyAssistant();
+      final int? id = propertyId is int
+          ? propertyId
+          : int.tryParse(propertyId?.toString() ?? '');
+      final response = await api.getPropertyAssistant(id);
       return response;
     } catch (e) {
       rethrow;
@@ -565,10 +576,14 @@ class AuthService {
 
   Future<GetPropertyAssistantModel> sendMessageToAi({
     required String query,
+    dynamic propertyId,
   }) async {
     try {
-      final body = AiAssistanceBodyModel(query: query);
-      final response = await api.sendMessageToAi(body);
+      final int? id = propertyId is int
+          ? propertyId
+          : int.tryParse(propertyId?.toString() ?? '');
+      final body = AiAssistanceBodyModel(query: query, propertyId: id);
+      final response = await api.sendMessageToAi(body, id);
       return response;
     } catch (e) {
       rethrow;

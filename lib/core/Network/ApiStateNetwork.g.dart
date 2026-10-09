@@ -52,7 +52,7 @@ class _ApiStateNetwork implements ApiStateNetwork {
   Future<CreatePropertyResModel> createProperty(
     MultipartFile? image,
     String flatNumber,
-    String complexId,
+    String? complexId,
     String propertyType,
     String carePackage,
     bool? hasMmc,
@@ -60,6 +60,9 @@ class _ApiStateNetwork implements ApiStateNetwork {
     String? location,
     String? area,
     bool? isIndependent,
+    String? floors,
+    String? bedrooms,
+    String? occupancyStatus,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -70,7 +73,9 @@ class _ApiStateNetwork implements ApiStateNetwork {
       _data.files.add(MapEntry('image', image));
     }
     _data.fields.add(MapEntry('flat_number', flatNumber));
-    _data.fields.add(MapEntry('complex_id', complexId));
+    if (complexId != null) {
+      _data.fields.add(MapEntry('complex_id', complexId));
+    }
     _data.fields.add(MapEntry('property_type', propertyType));
     _data.fields.add(MapEntry('care_package', carePackage));
     if (hasMmc != null) {
@@ -89,6 +94,15 @@ class _ApiStateNetwork implements ApiStateNetwork {
     }
     if (isIndependent != null) {
       _data.fields.add(MapEntry('is_independent', isIndependent.toString()));
+    }
+    if (floors != null) {
+      _data.fields.add(MapEntry('floors', floors));
+    }
+    if (bedrooms != null) {
+      _data.fields.add(MapEntry('bedrooms', bedrooms));
+    }
+    if (occupancyStatus != null) {
+      _data.fields.add(MapEntry('occupancy_status', occupancyStatus));
     }
     final _options = _setStreamType<CreatePropertyResModel>(
       Options(
@@ -1162,9 +1176,12 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<GetPropertyAssistantModel> getPropertyAssistant() async {
+  Future<GetPropertyAssistantModel> getPropertyAssistant(
+    int? propertyId,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'property_id': propertyId};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetPropertyAssistantModel>(
@@ -1191,9 +1208,11 @@ class _ApiStateNetwork implements ApiStateNetwork {
   @override
   Future<GetPropertyAssistantModel> sendMessageToAi(
     AiAssistanceBodyModel body,
+    int? propertyId,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'property_id': propertyId};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
