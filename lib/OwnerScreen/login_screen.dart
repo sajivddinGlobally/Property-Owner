@@ -395,14 +395,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         (route) => false,
                                       );
                                     } else {
-                                      Navigator.pushAndRemoveUntil(
+                                      Navigator.push(
                                         context,
                                         CupertinoPageRoute(
                                           builder: (context) =>
-                                              const AddPropertyFormScreen(),
+                                              AddPropertyFormScreen(),
                                         ),
-                                        (route) => false,
                                       );
+                                      emailController.clear();
+                                      passwordController.clear();
                                     }
                                   }
                                 }
