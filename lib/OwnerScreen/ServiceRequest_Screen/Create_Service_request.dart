@@ -37,83 +37,100 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
   TimeOfDay? selectedTime;
 
   final List<String> categories = [
-    "Electrical",
-    "Plumbing",
-    "Civil",
     "Cleaning",
-    "Security",
+    "Painting",
+    "Carpentry",
+    "Pest Control",
+    "Appliance Service",
+    "Electrical Addon",
     "Other",
   ];
 
   final List<Map<String, dynamic>> serviceCategories = [
     {
-      "id": "plumbing",
-      "label": "plumbing",
+      "id": "cleaning",
+      "label": "cleaning",
       "types": [
-        "Tap & Faucet Repair / Leakage",
-        "Pipe Leakage / Drainage Blockage",
-        "Toilet & Flush Tank Mechanism Issue",
-        "Water Heater / Geyser Service",
-        "Low Water Pressure / Shower Issue",
-        "Sink & Basin Drainage Issue",
-        "Water Tank / Motor Issue",
-        "Other Plumbing Work",
-      ],
-    },
-    {
-      "id": "electrical",
-      "label": "electrical",
-      "types": [
-        "Light Fixture / Bulb Replacement",
-        "Switch, Socket & Plug Issue",
-        "Circuit Breaker / MCB Tripping",
-        "Ceiling Fan / Exhaust Fan Repair",
-        "Wiring & Short Circuit Inspection",
-        "Doorbell & Intercom Repair",
-        "Appliance Power Connection",
-        "Other Electrical Work",
-      ],
-    },
-    {
-      "id": "housekeeping",
-      "label": "housekeeping",
-      "types": [
-        "Full Deep Apartment Cleaning",
-        "Kitchen & Appliance Deep Cleaning",
-        "Bathroom Deep Sanitization",
+        "Full Apartment Deep Cleaning",
+        "Kitchen & Chimney Deep Cleaning",
+        "Bathroom Sanitization & Descaling",
         "Carpet & Sofa Shampooing",
-        "Balcony & Window Glass Cleaning",
+        "Balcony & Window Glass Washing",
         "Move-in / Move-out Cleaning",
-        "Garbage & Waste Disposal",
-        "Other Housekeeping Work",
+        "Post-Renovation Cleaning",
+        "Other Cleaning Service",
       ],
     },
     {
-      "id": "security",
-      "label": "security",
+      "id": "painting",
+      "label": "painting",
       "types": [
-        "Main Door Lock & Key Issue",
-        "Access Card & Key Fob Issue",
-        "CCTV & Video Doorbell Issue",
-        "Intercom & Security Screen Repair",
-        "Window Latch & Safety Grill Issue",
-        "Unauthorized Access / Noise Complaint",
-        "Security Guard Assistance",
-        "Other Security Request",
+        "Full Apartment Interior Painting",
+        "Feature / Accent Wall Painting",
+        "Minor Touch-up & Patch Painting",
+        "Door & Window Wood Polishing",
+        "Balcony Waterproof Coating",
+        "Other Painting Service",
       ],
     },
     {
-      "id": "general",
-      "label": "general",
+      "id": "carpentry",
+      "label": "carpentry",
       "types": [
-        "Handyman General Repairs",
-        "AC Filter Cleaning & Servicing",
-        "Wall Touch-up & Patch Painting",
-        "Door Hinge & Stopper Alignment",
-        "Curtain Rod & Wall Mounting",
-        "Tile, Grouting & Marble Repair",
-        "Pest Control Inspection",
-        "Other General Maintenance",
+        "Modular Kitchen Hinge & Drawer Repair",
+        "Custom Wardrobe / Shelf Installation",
+        "Door Lock & Handle Installation",
+        "Furniture Assembly & Dismantling",
+        "Curtain Rod & Blind Installation",
+        "Other Carpentry Service",
+      ],
+    },
+    {
+      "id": "pest_control",
+      "label": "pest_control",
+      "types": [
+        "General Pest Control (Cockroaches & Ants)",
+        "Termite Prevention Treatment",
+        "Bed Bug Specialized Treatment",
+        "Rodent & Rat Control",
+        "Mosquito & Fly Fogging",
+        "Bird Netting Installation",
+        "Other Pest Control",
+      ],
+    },
+    {
+      "id": "appliance_service",
+      "label": "appliance_service",
+      "types": [
+        "AC Servicing / Gas Charging",
+        "AC Installation / Uninstallation",
+        "Washing Machine Installation",
+        "RO Water Purifier Servicing",
+        "Geyser / Water Heater Installation",
+        "TV Wall Mount Setup",
+        "Other Appliance Service",
+      ],
+    },
+    {
+      "id": "electrical_addon",
+      "label": "electrical_addon",
+      "types": [
+        "New Light Point / Chandelier Installation",
+        "Inverter & UPS Setup / Battery Replacement",
+        "Smart Home Device & Sensor Installation",
+        "Additional Power Socket Installation",
+        "Decorative LED Strip Setup",
+        "Other Electrical Addition",
+      ],
+    },
+    {
+      "id": "other_services",
+      "label": "other_services",
+      "types": [
+        "Handyman General Assistance",
+        "Packing & Moving Support",
+        "Plant & Balcony Garden Setup",
+        "Custom Property Service",
       ],
     },
   ];
@@ -125,15 +142,24 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
     if (selectedCategory == null) {
       return [];
     }
+    final normalized = selectedCategory!.toLowerCase().replaceAll(' ', '_');
     final category = serviceCategories.firstWhere(
-      (item) => item["id"] == selectedCategory,
+      (item) => (item["id"] as String).toLowerCase() == normalized,
+      orElse: () => {"types": <String>[]},
     );
-    final List<String> types = List<String>.from(category["types"]);
+    final List<String> types = List<String>.from(category["types"] ?? []);
     return [...types, ...customServices];
   }
 
   String formatCategory(String value) {
-    return value[0].toUpperCase() + value.substring(1);
+    if (value.isEmpty) return value;
+    return value
+        .replaceAll('_', ' ')
+        .split(' ')
+        .map(
+          (w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '',
+        )
+        .join(' ');
   }
 
   File? selectedFile;
@@ -551,7 +577,11 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                     .toList(),
                 onChanged: (value) {
                   setState(() {
-                    selectedCategory = value?.toLowerCase();
+                    final match = serviceCategories.firstWhere(
+                      (item) => formatCategory(item["id"] as String) == value,
+                      orElse: () => {},
+                    );
+                    selectedCategory = match["id"] ?? value?.toLowerCase().replaceAll(' ', '_');
 
                     // Category change hone par purani service reset
                     selectedService = null;
@@ -920,7 +950,6 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                                 ),
                               ),
                             ),
-
                             Icon(
                               Icons.calendar_today_outlined,
                               size: 20.sp,
@@ -1118,13 +1147,6 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                       showErrorSnackBar("Please select a preferred time");
                       return;
                     }
-
-                    final servicesList = [
-                      "Plumbing",
-                      "Electrical",
-                      "AC Service",
-                      "General",
-                    ];
 
                     String formattedDate =
                         "${selectedDate!.year}-"

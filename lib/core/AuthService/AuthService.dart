@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:property_care/core/Data/Model/BodyModel/loginBodyModel.dart';
 import 'package:property_care/core/Data/Model/BodyModel/registerBodyModel.dart';

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/AddPropertyFormScreen.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/my_bottom_screen.dart';
 import 'package:property_care/OwnerScreen/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,8 +20,36 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
+      try {
+        var box = Hive.box("userdata");
+        final token = box.get("token");
+        if (token != null && token.toString().trim().isNotEmpty) {
+          final prop = box.get("property_name_number");
+          final bool hasProperty =
+              prop != null &&
+              prop.toString().trim().isNotEmpty &&
+              prop.toString().trim().toLowerCase() != 'null';
+
+          if (hasProperty) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const MyBottomScreen()),
+            );
+            return;
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => AddPropertyFormScreen()),
+            );
+            return;
+          }
+        }
+      } catch (e) {
+        // Fallback to login screen
+      }
+
       Navigator.pushReplacement(
-        context, ////////// Owner
+        context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     });

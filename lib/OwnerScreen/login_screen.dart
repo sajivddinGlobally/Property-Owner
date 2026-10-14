@@ -28,6 +28,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool isLoading = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedCredentials();
+  }
+
+  void _loadSavedCredentials() {
+    try {
+      var box = Hive.box("userdata");
+      final bool isRemembered = box.get("remember_me", defaultValue: false);
+      if (isRemembered) {
+        final savedEmail = box.get("saved_email", defaultValue: "");
+        if (savedEmail.isNotEmpty) {
+          emailController.text = savedEmail;
+          rememberMe = true;
+        }
+      }
+    } catch (e) {
+      log("Error loading credentials: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -327,27 +350,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       onPressed: isLoading
                           ? null
                           : () async {
-                              if (emailController.text.trim().isEmpty) {
+                              final email = emailController.text.trim();
+                              final password = passwordController.text.trim();
+
+                              if (email.isEmpty) {
+                                showErrorSnackBar(
+                                  "Please enter Email or Mobile number",
+                                );
                                 return;
                               }
-                              if (passwordController.text.trim().isEmpty) {
+                              if (password.isEmpty) {
+                                showErrorSnackBar("Please enter your Password");
                                 return;
                               }
-                              // if (rememberMe == false) {
-                              //   showErrorSnackBar("Please checked Remember Me");
-                              //   return;
-                              // }
+
                               try {
                                 setState(() {
                                   isLoading = true;
                                 });
                                 final service = ref.read(authServiceProvider);
                                 final response = await service.login(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
+                                  email: email,
+                                  password: password,
                                   role: "property_owner",
                                 );
-                                if (response.status == true) {
+                                if (response.status == true &&
+                                    response.data != null) {
                                   var box = Hive.box("userdata");
                                   await box.put("token", response.data!.token);
                                   await box.put("id", response.data!.user!.id);
@@ -359,6 +387,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     "role",
                                     response.data!.user!.role,
                                   );
+
+                                  // Handle Optional Remember Me
+                                  if (rememberMe) {
+                                    await box.put("remember_me", true);
+                                    await box.put("saved_email", email);
+                                  } else {
+                                    await box.put("remember_me", false);
+                                    await box.delete("saved_email");
+                                  }
 
                                   final propertyNameNumber =
                                       response.data?.user?.propertyNameNumber ??
@@ -406,9 +443,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       passwordController.clear();
                                     }
                                   }
+                                } else {
+                                  showErrorSnackBar(
+                                    response.message ??
+                                        "Invalid login credentials",
+                                  );
                                 }
                               } catch (e) {
                                 log(e.toString());
+                                showErrorSnackBar(
+                                  "Login failed. Please check your credentials.",
+                                );
                               } finally {
                                 if (mounted) {
                                   setState(() {

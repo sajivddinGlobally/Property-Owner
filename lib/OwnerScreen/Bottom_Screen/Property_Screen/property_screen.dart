@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Property_Screen/Provider/propertyDetailsProvider.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Property_Screen/property_status_screen.dart';
+import 'package:property_care/OwnerScreen/MaintenancePaymentStatusScreen/Maintenance_Payment_Status.dart';
 import 'package:property_care/OwnerScreen/PropertyPerformanceScreen/Property_Performance_Screen.dart';
 import 'package:property_care/core/constant/appColor.dart';
 
@@ -208,7 +209,11 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
                             SizedBox(height: 6.h),
                             Text(
                               (propertyDetails.data?.complex?.name != null &&
-                                      propertyDetails.data!.complex!.name!.isNotEmpty)
+                                      propertyDetails
+                                          .data!
+                                          .complex!
+                                          .name!
+                                          .isNotEmpty)
                                   ? "${propertyDetails.data?.complex?.name} · ${propertyDetails.data?.location ?? 'N/A'}"
                                   : (propertyDetails.data?.location ?? "N/A"),
                               style: GoogleFonts.outfit(
@@ -613,6 +618,77 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) =>
+                              const MaintenancePaymentStatus(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 14.h,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.heading),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 38.w,
+                            width: 38.w,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.heading),
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Icon(
+                              Icons.credit_card_outlined,
+                              size: 20.sp,
+                              color: AppColors.heading,
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Ascent Service Charge",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 17.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.heading,
+                                    letterSpacing: -0.2,
+                                  ),
+                                ),
+                                SizedBox(height: 2.h),
+                                Text(
+                                  "Service charge to be paid to Ascent",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF777777),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.chevron_right,
+                            size: 22.sp,
+                            color: AppColors.heading,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 30.h),

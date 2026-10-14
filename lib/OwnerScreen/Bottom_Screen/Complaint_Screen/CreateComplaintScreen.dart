@@ -28,11 +28,11 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
   bool isLoading = false;
 
   final List<String> categories = [
-    "Electrical",
     "Plumbing",
+    "Electrical",
     "Civil",
-    "Cleaning",
     "Security",
+    "General Maintenance",
     "Other",
   ];
 
@@ -41,70 +41,65 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
       "id": "plumbing",
       "label": "plumbing",
       "types": [
-        "Tap & Faucet Repair / Leakage",
+        "Tap & Faucet Leakage / Breakdown",
         "Pipe Leakage / Drainage Blockage",
-        "Toilet & Flush Tank Mechanism Issue",
-        "Water Heater / Geyser Service",
+        "Toilet & Flush Tank Mechanism Failure",
+        "Water Heater / Geyser Malfunction",
         "Low Water Pressure / Shower Issue",
-        "Sink & Basin Drainage Issue",
-        "Water Tank / Motor Issue",
-        "Other Plumbing Work",
+        "Sink & Basin Drainage Blockage",
+        "Water Tank / Motor Breakdown",
+        "Other Plumbing Breakdown",
       ],
     },
     {
       "id": "electrical",
       "label": "electrical",
       "types": [
-        "Light Fixture / Bulb Replacement",
-        "Switch, Socket & Plug Issue",
-        "Circuit Breaker / MCB Tripping",
-        "Ceiling Fan / Exhaust Fan Repair",
-        "Wiring & Short Circuit Inspection",
-        "Doorbell & Intercom Repair",
-        "Appliance Power Connection",
-        "Other Electrical Work",
+        "Circuit Breaker / MCB Frequent Tripping",
+        "Power Outage / Phase Fault",
+        "Wiring Burning Smell / Short Circuit Risk",
+        "Switch, Socket & Plug Sparks / Broken",
+        "Ceiling Fan / Exhaust Fan Breakdown",
+        "Light Fixture / Bulb Malfunction",
+        "Inverter & Backup Failure",
+        "Other Electrical Fault",
       ],
     },
     {
-      "id": "housekeeping",
-      "label": "housekeeping",
+      "id": "civil",
+      "label": "civil",
       "types": [
-        "Full Deep Apartment Cleaning",
-        "Kitchen & Appliance Deep Cleaning",
-        "Bathroom Deep Sanitization",
-        "Carpet & Sofa Shampooing",
-        "Balcony & Window Glass Cleaning",
-        "Move-in / Move-out Cleaning",
-        "Garbage & Waste Disposal",
-        "Other Housekeeping Work",
+        "Wall Cracks & Structural Fissures",
+        "Ceiling Seepage & Water Leakage",
+        "Floor Tile Cracking / Sinking",
+        "Balcony & Window Seepage",
+        "Plaster Peeling & External Cracks",
+        "Other Structural / Civil Issue",
       ],
     },
     {
       "id": "security",
       "label": "security",
       "types": [
-        "Main Door Lock & Key Issue",
-        "Access Card & Key Fob Issue",
+        "Main Door Lock Damaged / Jammed",
+        "Access Card & Key Fob Malfunction",
         "CCTV & Video Doorbell Issue",
-        "Intercom & Security Screen Repair",
+        "Intercom & Security Screen Failure",
         "Window Latch & Safety Grill Issue",
-        "Unauthorized Access / Noise Complaint",
-        "Security Guard Assistance",
-        "Other Security Request",
+        "Unauthorized Intrusion / Noise Hazard",
+        "Other Security Failure",
       ],
     },
     {
-      "id": "general",
-      "label": "general",
+      "id": "general_maintenance",
+      "label": "general_maintenance",
       "types": [
-        "Handyman General Repairs",
-        "AC Filter Cleaning & Servicing",
-        "Wall Touch-up & Patch Painting",
-        "Door Hinge & Stopper Alignment",
-        "Curtain Rod & Wall Mounting",
+        "AC Cooling Breakdown / Water Leakage",
+        "Door & Window Jammed / Broken",
         "Tile, Grouting & Marble Repair",
-        "Pest Control Inspection",
-        "Other General Maintenance",
+        "Severe Pest Infestation",
+        "Lift / Elevator Malfunction",
+        "Other Maintenance Breakdown",
       ],
     },
   ];
@@ -116,15 +111,22 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
     if (selectedCategory == null) {
       return [];
     }
+    final normalized = selectedCategory!.toLowerCase().replaceAll(' ', '_');
     final category = complaintCategories.firstWhere(
-      (item) => item["id"] == selectedCategory,
+      (item) => (item["id"] as String).toLowerCase() == normalized,
+      orElse: () => {"types": <String>[]},
     );
-    final List<String> types = List<String>.from(category["types"]);
+    final List<String> types = List<String>.from(category["types"] ?? []);
     return [...types, ...customServices];
   }
 
   String formatCategory(String value) {
-    return value[0].toUpperCase() + value.substring(1);
+    if (value.isEmpty) return value;
+    return value
+        .replaceAll('_', ' ')
+        .split(' ')
+        .map((w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '')
+        .join(' ');
   }
 
   int selectedPriority = 1;
@@ -574,7 +576,11 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
                     .toList(),
                 onChanged: (value) {
                   setState(() {
-                    selectedCategory = value?.toLowerCase();
+                    final match = complaintCategories.firstWhere(
+                      (item) => formatCategory(item["id"] as String) == value,
+                      orElse: () => {},
+                    );
+                    selectedCategory = match["id"] ?? value?.toLowerCase().replaceAll(' ', '_');
                     // Category change hone par purani service reset
                     selectedSubject = null;
                   });

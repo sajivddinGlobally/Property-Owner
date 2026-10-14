@@ -656,121 +656,121 @@ class _ServiceRequestDetailsState extends ConsumerState<ServiceRequestDetails> {
                       }),
                     ],
                     SizedBox(height: 16.h),
-                    Text(
-                      "Latest Update",
-                      style: GoogleFonts.outfit(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: const Color(0xffFFFCEF),
-                        border: Border.all(color: const Color(0xff101C16)),
-                        borderRadius: BorderRadius.circular(14.r),
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 75.h,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.w,
-                              vertical: 9.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xffFFFCEF),
-                              border: Border.all(
-                                color: const Color(0xff101C16),
-                              ),
-                              borderRadius: BorderRadius.circular(14.r),
-                            ),
-                            child: TextField(
-                              maxLines: null,
-                              expands: true,
-                              textAlignVertical: TextAlignVertical.top,
-                              keyboardType: TextInputType.multiline,
-                              decoration: InputDecoration(
-                                hintText: "Write an additional message...",
-                                hintStyle: GoogleFonts.outfit(
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xff292832),
-                                  letterSpacing: -0.4,
-                                ),
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                                isDense: true,
-                              ),
-                            ),
-                          ),
+                    // Text(
+                    //   "Latest Update",
+                    //   style: GoogleFonts.outfit(
+                    //     fontSize: 17.sp,
+                    //     fontWeight: FontWeight.w500,
+                    //     color: AppColors.heading,
+                    //     letterSpacing: -0.3,
+                    //   ),
+                    // ),
+                    // SizedBox(height: 10.h),
+                    // Container(
+                    //   width: double.infinity,
+                    //   padding: EdgeInsets.all(12),
+                    //   decoration: BoxDecoration(
+                    //     color: const Color(0xffFFFCEF),
+                    //     border: Border.all(color: const Color(0xff101C16)),
+                    //     borderRadius: BorderRadius.circular(14.r),
+                    //   ),
+                    //   child: Column(
+                    //     children: [
+                    //       Container(
+                    //         width: double.infinity,
+                    //         height: 75.h,
+                    //         padding: EdgeInsets.symmetric(
+                    //           horizontal: 8.w,
+                    //           vertical: 9.h,
+                    //         ),
+                    //         decoration: BoxDecoration(
+                    //           color: const Color(0xffFFFCEF),
+                    //           border: Border.all(
+                    //             color: const Color(0xff101C16),
+                    //           ),
+                    //           borderRadius: BorderRadius.circular(14.r),
+                    //         ),
+                    //         child: TextField(
+                    //           maxLines: null,
+                    //           expands: true,
+                    //           textAlignVertical: TextAlignVertical.top,
+                    //           keyboardType: TextInputType.multiline,
+                    //           decoration: InputDecoration(
+                    //             hintText: "Write an additional message...",
+                    //             hintStyle: GoogleFonts.outfit(
+                    //               fontSize: 17.sp,
+                    //               fontWeight: FontWeight.w500,
+                    //               color: const Color(0xff292832),
+                    //               letterSpacing: -0.4,
+                    //             ),
+                    //             border: InputBorder.none,
+                    //             enabledBorder: InputBorder.none,
+                    //             focusedBorder: InputBorder.none,
+                    //             contentPadding: EdgeInsets.zero,
+                    //             isDense: true,
+                    //           ),
+                    //         ),
+                    //       ),
 
-                          SizedBox(height: 10.h),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              width: double.infinity,
-                              height: 33.h,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff0D1B15),
-                                borderRadius: BorderRadius.circular(7.r),
-                              ),
-                              child: Text(
-                                "Add Update",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                  letterSpacing: -0.2,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: double.infinity,
-                        height: 35.h,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.heading),
-                          borderRadius: BorderRadius.circular(7.r),
-                        ),
-                        child: Text(
-                          "Request Closure",
-                          style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.heading,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5.h),
-                    Center(
-                      child: Text(
-                        "You can request closure after the service issue has been resolved.",
-                        style: GoogleFonts.outfit(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.heading,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                    ),
+                    //       SizedBox(height: 10.h),
+                    //       GestureDetector(
+                    //         onTap: () {},
+                    //         child: Container(
+                    //           width: double.infinity,
+                    //           height: 33.h,
+                    //           alignment: Alignment.center,
+                    //           decoration: BoxDecoration(
+                    //             color: const Color(0xff0D1B15),
+                    //             borderRadius: BorderRadius.circular(7.r),
+                    //           ),
+                    //           child: Text(
+                    //             "Add Update",
+                    //             style: GoogleFonts.outfit(
+                    //               fontSize: 15.sp,
+                    //               fontWeight: FontWeight.w500,
+                    //               color: Colors.white,
+                    //               letterSpacing: -0.2,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // SizedBox(height: 16.h),
+                    // GestureDetector(
+                    //   onTap: () {},
+                    //   child: Container(
+                    //     width: double.infinity,
+                    //     height: 35.h,
+                    //     alignment: Alignment.center,
+                    //     decoration: BoxDecoration(
+                    //       border: Border.all(color: AppColors.heading),
+                    //       borderRadius: BorderRadius.circular(7.r),
+                    //     ),
+                    //     child: Text(
+                    //       "Request Closure",
+                    //       style: GoogleFonts.outfit(
+                    //         fontSize: 16.sp,
+                    //         fontWeight: FontWeight.w500,
+                    //         color: AppColors.heading,
+                    //         letterSpacing: -0.2,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(height: 5.h),
+                    // Center(
+                    //   child: Text(
+                    //     "You can request closure after the service issue has been resolved.",
+                    //     style: GoogleFonts.outfit(
+                    //       fontSize: 16.sp,
+                    //       fontWeight: FontWeight.w500,
+                    //       color: AppColors.heading,
+                    //       letterSpacing: -0.3,
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(height: 20.h),
                   ],
                 ),
