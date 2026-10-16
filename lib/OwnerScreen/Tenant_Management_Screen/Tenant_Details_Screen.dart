@@ -27,7 +27,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
   Widget build(BuildContext context) {
     final tenantDetailState = ref.watch(
       getTenantDetailsProvider(widget.tenantId),
-    );  
+    );
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
@@ -811,6 +811,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
         error: (error, stackTrace) {
           log(error.toString());
           log(stackTrace.toString());
+
           return Center(
             child: Padding(
               padding: EdgeInsets.all(20.w),
@@ -818,7 +819,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Failed to load tenant details",
+                    "Failed to load tenant details/n ${error.toString()}",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
                       color: AppColors.heading,

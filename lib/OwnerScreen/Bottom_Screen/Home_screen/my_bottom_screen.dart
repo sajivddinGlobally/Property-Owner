@@ -1283,16 +1283,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   letterSpacing: -0.54,
                                 ),
                               ),
-                              Spacer(),
-                              Text(
-                                "View All",
-                                style: GoogleFonts.outfit(
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xff2A2933),
-                                  fontSize: 16.sp,
-                                  letterSpacing: -0.24,
-                                ),
-                              ),
+                              // Spacer(),
+                              // Text(
+                              //   "View All",
+                              //   style: GoogleFonts.outfit(
+                              //     fontWeight: FontWeight.w500,
+                              //     color: Color(0xff2A2933),
+                              //     fontSize: 16.sp,
+                              //     letterSpacing: -0.24,
+                              //   ),
+                              // ),
                             ],
                           ),
                           SizedBox(height: 17.h),

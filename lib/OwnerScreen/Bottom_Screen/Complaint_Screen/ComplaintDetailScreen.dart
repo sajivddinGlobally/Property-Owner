@@ -643,37 +643,21 @@ class _ComplaintDetailScreenState extends ConsumerState<ComplaintDetailScreen> {
                     );
                   }),
                   SizedBox(height: 27.h),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildButton(
-                          title: "Close Complaint",
-                          backgroundColor: Colors.transparent,
-                          borderColor: const Color(0xFF101C16),
-                          textColor: const Color(0xFF101C16),
-                          onTap: () {},
+                  _buildButton(
+                    title: "Track Resolution",
+                    backgroundColor: const Color(0xFF101C16),
+                    borderColor: const Color(0xFF101C16),
+                    textColor: Colors.white,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => ComplaintTrackingScreen(
+                            complaintData: data.data!,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 20.w),
-                      Expanded(
-                        child: _buildButton(
-                          title: "Track Resolution",
-                          backgroundColor: const Color(0xFF101C16),
-                          borderColor: const Color(0xFF101C16),
-                          textColor: Colors.white,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => ComplaintTrackingScreen(
-                                  complaintData: data.data!,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                   SizedBox(height: 20.h),
                 ],

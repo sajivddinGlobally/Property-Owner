@@ -34,7 +34,7 @@ class Data {
     String? tenantType;
     String? tenantStatus;
     String? propertyName;
-    String? currentOutstanding;
+    num? currentOutstanding;
     String? monthlyRent;
     String? dueDate;
     CurrentRentStatus? currentRentStatus;

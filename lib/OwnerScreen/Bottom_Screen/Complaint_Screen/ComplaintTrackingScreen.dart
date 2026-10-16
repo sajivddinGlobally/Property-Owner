@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Complaint_Screen/Complaints_screen.dart';
 import 'package:property_care/core/Data/Model/ResponseModel/getServiceRequestDetailsModel.dart';
 import 'package:property_care/core/constant/appColor.dart';
 
@@ -595,7 +596,15 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                       backgroundColor: Colors.transparent,
                       borderColor: const Color(0xFF101C16),
                       textColor: const Color(0xFF101C16),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => ComplaintsScreen(
+                          ),
+                        ),
+                      );
+                      },
                     ),
                   ),
                   SizedBox(width: 20.w),
