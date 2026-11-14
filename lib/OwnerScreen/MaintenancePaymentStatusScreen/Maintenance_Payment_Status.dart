@@ -592,7 +592,7 @@ class _MaintenancePaymentStatusState
                     SizedBox(height: 3.h),
 
                     Text(
-                      "₹ $amount",
+                      "$amount",
                       style: GoogleFonts.outfit(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,

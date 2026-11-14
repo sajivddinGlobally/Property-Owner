@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Complaint_Screen/Complaints_screen.dart';
 import 'package:property_care/core/Data/Model/ResponseModel/getServiceRequestDetailsModel.dart';
 import 'package:property_care/core/constant/appColor.dart';
+import 'package:property_care/core/Utils/property_type_helper.dart';
 
 class ComplaintTrackingScreen extends StatefulWidget {
   final Data complaintData;
@@ -37,7 +38,7 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
     {
       "title": "Site Inspection Scheduled",
       "date": "21 Aug 2026 · 02:30 PM",
-      "description": "Maintenance visit scheduled for apartment A-204.",
+      "description": "Maintenance visit scheduled for Community Care A-204.",
     },
     {
       "title": "Issue Resolution",
@@ -168,60 +169,73 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                             ],
                           ),
                         ),
-                          Builder(
-                            builder: (context) {
-                              final String statusPill = complainData?.header?.statusPill ?? "";
-                              final int rawPct = int.tryParse(complainData?.header?.completionPercentage?.toString() ?? "0") ?? 0;
-                              final bool isNew = statusPill.toLowerCase().contains("submit") ||
-                                                 statusPill.toLowerCase().contains("open") ||
-                                                 statusPill.toLowerCase().contains("pending");
-                              final int displayPct = (isNew && rawPct <= 17) ? 0 : rawPct;
-                              return Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 13.w,
-                                  vertical: 4.5.h,
+                        Builder(
+                          builder: (context) {
+                            final String statusPill =
+                                complainData?.header?.statusPill ?? "";
+                            final int rawPct =
+                                int.tryParse(
+                                  complainData?.header?.completionPercentage
+                                          ?.toString() ??
+                                      "0",
+                                ) ??
+                                0;
+                            final bool isNew =
+                                statusPill.toLowerCase().contains("submit") ||
+                                statusPill.toLowerCase().contains("open") ||
+                                statusPill.toLowerCase().contains("pending");
+                            final int displayPct = (isNew && rawPct <= 17)
+                                ? 0
+                                : rawPct;
+                            return Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 13.w,
+                                vertical: 4.5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40.r),
+                                border: Border.all(
+                                  color: const Color(0xFF101C16),
+                                  width: 1.w,
                                 ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40.r),
-                                  border: Border.all(
-                                    color: const Color(0xFF101C16),
-                                    width: 1.w,
-                                  ),
+                              ),
+                              child: Text(
+                                "$displayPct% COMPLETE",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF101C16),
+                                  letterSpacing: -0.3,
                                 ),
-                                child: Text(
-                                  "$displayPct% COMPLETE",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF101C16),
-                                    letterSpacing: -0.3,
-                                  ),
-                                ),
-                              );
-                            },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16.h),
+                    Builder(
+                      builder: (context) {
+                        final String statusPill =
+                            complainData?.header?.statusPill ?? "";
+                        final bool isNew =
+                            statusPill.toLowerCase().contains("submit") ||
+                            statusPill.toLowerCase().contains("open") ||
+                            statusPill.toLowerCase().contains("pending");
+                        return Text(
+                          complainData.requestDetails ?? "No Description",
+                          // isNew
+                          //     ? "Your complaint has been submitted and is currently pending review by the management team."
+                          //     : "Your complaint has been assigned to the maintenance team and the resolution process is currently underway.",
+                          style: GoogleFonts.outfit(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromARGB(178, 42, 41, 51),
+                            letterSpacing: -0.2,
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 16.h),
-                      Builder(
-                        builder: (context) {
-                          final String statusPill = complainData?.header?.statusPill ?? "";
-                          final bool isNew = statusPill.toLowerCase().contains("submit") ||
-                                             statusPill.toLowerCase().contains("open") ||
-                                             statusPill.toLowerCase().contains("pending");
-                          return Text(
-                            isNew
-                                ? "Your complaint has been submitted and is currently pending review by the management team."
-                                : "Your complaint has been assigned to the maintenance team and the resolution process is currently underway.",
-                            style: GoogleFonts.outfit(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
-                              color: const Color.fromARGB(178, 42, 41, 51),
-                              letterSpacing: -0.2,
-                            ),
-                          );
-                        },
-                      ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -239,25 +253,28 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          // "Water Leakage in Bathroom",
-                          complainData?.header?.title ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF101C16),
-                            letterSpacing: -0.3,
+                        Expanded(
+                          child: Text(
+                            // "Water Leakage in Bathroom",
+                            formatPropertyTitle(
+                              complainData?.header?.title ?? "",
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.outfit(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF101C16),
+                              letterSpacing: -0.3,
+                            ),
                           ),
                         ),
+                        SizedBox(width: 8.w),
                         Text(
                           // "CMP-2026-00124",
                           complainData?.header?.ticketNumber ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
-                            fontSize: 16.sp,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF101C16),
                             letterSpacing: -0.3,
@@ -266,12 +283,14 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    Row(
+                    Wrap(
+                      spacing: 8.w,
+                      runSpacing: 8.h,
                       children: [
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 6.w,
+                            horizontal: 10.w,
+                            vertical: 5.h,
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6.r),
@@ -280,43 +299,40 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                               width: 1.w,
                             ),
                           ),
-                          child: Center(
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Category: ",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(16, 28, 22, 0.5),
-                                      letterSpacing: -0.2,
-                                    ),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Category: ",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromRGBO(16, 28, 22, 0.5),
+                                    letterSpacing: -0.2,
                                   ),
-                                  TextSpan(
-                                    text:
-                                        complainData
-                                            ?.requestInformation
-                                            ?.serviceCategory ??
-                                        "",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF101C16),
-                                      letterSpacing: -0.2,
-                                    ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      complainData
+                                          ?.requestInformation
+                                          ?.serviceCategory ??
+                                      "",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF101C16),
+                                    letterSpacing: -0.2,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 6.w,
+                            horizontal: 10.w,
+                            vertical: 5.h,
                           ),
-                          margin: EdgeInsets.only(left: 5.w),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6.r),
                             border: Border.all(
@@ -324,34 +340,32 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                               width: 1.w,
                             ),
                           ),
-                          child: Center(
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Priority: ",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(16, 28, 22, 0.5),
-                                      letterSpacing: -0.2,
-                                    ),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Priority: ",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromRGBO(16, 28, 22, 0.5),
+                                    letterSpacing: -0.2,
                                   ),
-                                  TextSpan(
-                                    text:
-                                        complainData
-                                            ?.requestInformation
-                                            ?.priority ??
-                                        "",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF101C16),
-                                      letterSpacing: -0.2,
-                                    ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      complainData
+                                          ?.requestInformation
+                                          ?.priority ??
+                                      "",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF101C16),
+                                    letterSpacing: -0.2,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -479,13 +493,18 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                           ),
                         ),
                         SizedBox(width: 10.w),
-                        Text(
-                          "${complainData.requestInformation?.property}",
-                          style: GoogleFonts.outfit(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF101C16),
-                            letterSpacing: -0.2,
+                        Expanded(
+                          child: Text(
+                            formatPropertyTitle(
+                              complainData.requestInformation?.property ??
+                                  "Community Care A-204",
+                            ),
+                            style: GoogleFonts.outfit(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF101C16),
+                              letterSpacing: -0.2,
+                            ),
                           ),
                         ),
                       ],
@@ -598,25 +617,24 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                       textColor: const Color(0xFF101C16),
                       onTap: () {
                         Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => ComplaintsScreen(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => ComplaintsScreen(),
                           ),
-                        ),
-                      );
+                        );
                       },
                     ),
                   ),
-                  SizedBox(width: 20.w),
-                  Expanded(
-                    child: _buildButton(
-                      title: "Need Help?",
-                      backgroundColor: const Color(0xFF101C16),
-                      borderColor: const Color(0xFF101C16),
-                      textColor: Colors.white,
-                      onTap: () {},
-                    ),
-                  ),
+                  // SizedBox(width: 20.w),
+                  // Expanded(
+                  //   child: _buildButton(
+                  //     title: "Need Help?",
+                  //     backgroundColor: const Color(0xFF101C16),
+                  //     borderColor: const Color(0xFF101C16),
+                  //     textColor: Colors.white,
+                  //     onTap: () {},
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(height: 20.h),

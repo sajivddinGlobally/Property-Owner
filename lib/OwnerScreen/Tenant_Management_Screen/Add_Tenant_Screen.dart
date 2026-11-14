@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/getPropertyListProvider.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/selectedPropertyProvider.dart';
 import 'package:property_care/OwnerScreen/Tenant_Management_Screen/Provider/getTenantDetailsProvider.dart';
 import 'package:property_care/OwnerScreen/Tenant_Management_Screen/Provider/getTenantListProvider.dart';
 import 'package:property_care/core/AuthService/AuthServiceProvider.dart';
@@ -402,26 +403,33 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
   @override
   Widget build(BuildContext context) {
     final propertyListState = ref.watch(getPropertyListProvider);
+    final currentSelectedId = ref.watch(selectedPropertyIdProvider);
     final selectedProperty = propertyListState.valueOrNull?.data?.firstWhere(
-      (p) => p.isSelected == true,
+      (p) =>
+          (currentSelectedId != null && p.id == currentSelectedId) ||
+          p.isSelected == true,
       orElse: () => propertyListState.valueOrNull?.data?.isNotEmpty == true
           ? propertyListState.valueOrNull!.data!.first
           : Datum(
-              id: 20,
-              propertyNameNumber: "Apartment A-204",
-              complexName: "Green Valley Residency",
+              id: currentSelectedId is int
+                  ? currentSelectedId
+                  : int.tryParse(currentSelectedId?.toString() ?? ''),
+              propertyNameNumber: "",
+              complexName: "",
             ),
     );
 
-    final resolvedPropertyId = widget.propertyId ?? selectedProperty?.id ?? 20;
+    final resolvedPropertyId =
+        widget.propertyId ??
+        selectedProperty?.id ??
+        (currentSelectedId is int
+            ? currentSelectedId
+            : int.tryParse(currentSelectedId?.toString() ?? '')) ??
+        20;
     final resolvedPropertyName =
-        widget.propertyName ??
-        selectedProperty?.propertyNameNumber ??
-        "Apartment A-204";
+        widget.propertyName ?? selectedProperty?.propertyNameNumber ?? "";
     final resolvedComplexName =
-        widget.complexName ??
-        selectedProperty?.complexName ??
-        "Green Valley Residency";
+        widget.complexName ?? selectedProperty?.complexName ?? "";
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
@@ -744,7 +752,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                           Text(
                             "Move-in Date",
                             style: GoogleFonts.inter(
-                              fontSize: 18.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
@@ -768,7 +776,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                               child: Text(
                                 formatDate(moveInDate),
                                 style: GoogleFonts.inter(
-                                  fontSize: 18.sp,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w500,
                                   color: moveInDate == null
                                       ? const Color(0xff8C8C8C)
@@ -787,14 +795,16 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                         children: [
                           Text(
                             "Expected Move-out",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.inter(
-                              fontSize: 18.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColors.heading,
                               letterSpacing: -0.2,
                             ),
                           ),
-                          SizedBox(height: 7.h),
+                          SizedBox(height: 6.h),
                           GestureDetector(
                             onTap: selectMoveOutDate,
                             child: Container(
@@ -812,7 +822,7 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
                               child: Text(
                                 formatDate(moveOutDate),
                                 style: GoogleFonts.inter(
-                                  fontSize: 18.sp,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w500,
                                   color: moveOutDate == null
                                       ? const Color(0xff8C8C8C)

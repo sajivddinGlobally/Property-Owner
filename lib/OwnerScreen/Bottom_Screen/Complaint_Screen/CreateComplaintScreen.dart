@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
@@ -14,6 +13,7 @@ import 'package:property_care/core/constant/appColor.dart';
 
 import '../../ServiceRequest_Screen/Provider/getServiceProvider.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/getPropertyListProvider.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/selectedPropertyProvider.dart';
 import 'package:property_care/core/Data/Model/ResponseModel/propertyListModel.dart';
 
 class CreateComplaintScreen extends ConsumerStatefulWidget {
@@ -31,8 +31,7 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
     "Plumbing",
     "Electrical",
     "Civil",
-    "Security",
-    "General Maintenance",
+    "House Keeping",
     "Other",
   ];
 
@@ -78,27 +77,29 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
       ],
     },
     {
-      "id": "security",
-      "label": "security",
+      "id": "house_keeping",
+      "label": "house_keeping",
       "types": [
-        "Main Door Lock Damaged / Jammed",
-        "Access Card & Key Fob Malfunction",
-        "CCTV & Video Doorbell Issue",
-        "Intercom & Security Screen Failure",
-        "Window Latch & Safety Grill Issue",
-        "Unauthorized Intrusion / Noise Hazard",
-        "Other Security Failure",
+        "Floor Deep Cleaning & Stain Removal",
+        "Corridor & Common Area Cleaning",
+        "Garbage Disposal & Waste Clearance",
+        "Bathroom & Washroom Sanitization",
+        "Window & Glass Pane Cleaning",
+        "Balcony & Terrace Cleaning",
+        "Pest Control & Disinfection",
+        "Other House Keeping Issue",
       ],
     },
     {
-      "id": "general_maintenance",
-      "label": "general_maintenance",
+      "id": "other",
+      "label": "other",
       "types": [
         "AC Cooling Breakdown / Water Leakage",
         "Door & Window Jammed / Broken",
         "Tile, Grouting & Marble Repair",
         "Severe Pest Infestation",
         "Lift / Elevator Malfunction",
+        "Carpentry & Furniture Repair",
         "Other Maintenance Breakdown",
       ],
     },
@@ -125,7 +126,9 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
     return value
         .replaceAll('_', ' ')
         .split(' ')
-        .map((w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '')
+        .map(
+          (w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '',
+        )
         .join(' ');
   }
 
@@ -334,15 +337,18 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
       )),
     );
 
+    final currentSelectedId = ref.watch(selectedPropertyIdProvider);
     final activeProperty = propertyListState.valueOrNull?.data?.firstWhere(
-      (p) => p.isSelected == true,
+      (p) =>
+          (currentSelectedId != null && p.id == currentSelectedId) ||
+          p.isSelected == true,
       orElse: () =>
           (propertyListState.valueOrNull?.data != null &&
               propertyListState.valueOrNull!.data!.isNotEmpty)
           ? propertyListState.valueOrNull!.data!.first
           : Datum(),
     );
-    final proprtyId = activeProperty?.id;
+    final proprtyId = activeProperty?.id ?? currentSelectedId;
 
     final ticket =
         (serviceState.valueOrNull?.data?.tickets != null &&
@@ -355,7 +361,7 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
         ? activeProperty!.propertyNameNumber!
         : (ticket?.propertyNameNumber?.isNotEmpty == true)
         ? ticket!.propertyNameNumber!
-        : "Apartment A-204";
+        : "Community Care A-204";
 
     final complexName = (activeProperty?.complexName?.isNotEmpty == true)
         ? activeProperty!.complexName!
@@ -580,7 +586,9 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
                       (item) => formatCategory(item["id"] as String) == value,
                       orElse: () => {},
                     );
-                    selectedCategory = match["id"] ?? value?.toLowerCase().replaceAll(' ', '_');
+                    selectedCategory =
+                        match["id"] ??
+                        value?.toLowerCase().replaceAll(' ', '_');
                     // Category change hone par purani service reset
                     selectedSubject = null;
                   });

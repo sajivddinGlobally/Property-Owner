@@ -418,7 +418,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         _accountSettingTab(
                           image: "assets/SvgImage/addicon.svg",
                           name: "Tenant Management",
-                          title: "Add or manage your tenant",
+                          title: "Manage your tenant",
                           callback: () {
                             Navigator.push(
                               context,
@@ -485,21 +485,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             );
                           },
                         ),
-                        Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
-                        _accountSettingTab(
-                          image: "assets/SvgImage/history.svg",
-                          name: "Maintenance History",
-                          title: "Audit Reports history",
-                          callback: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) =>
-                                    MaintenancehistoryScreen(),
-                              ),
-                            );
-                          },
-                        ),
+                        // Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
+                        // _accountSettingTab(
+                        //   image: "assets/SvgImage/history.svg",
+                        //   name: "Maintenance History",
+                        //   title: "Audit Reports history",
+                        //   callback: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       CupertinoPageRoute(
+                        //         builder: (context) =>
+                        //             MaintenancehistoryScreen(),
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
                         Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
                         _accountSettingTab(
                           image: "assets/SvgImage/notifi.svg",
@@ -667,6 +667,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     if (context.mounted) {
                                       var box = Hive.box("userdata");
                                       await box.delete("token");
+                                      await box.delete("selected_property_id");
                                       showSuccessSnackBar(
                                         respos.message ??
                                             "Successfully logged out",
@@ -684,6 +685,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                       Navigator.pop(context);
                                       var box = Hive.box("userdata");
                                       await box.delete("token");
+                                      await box.delete("selected_property_id");
                                       showSuccessSnackBar(
                                         "Successfully logged out",
                                       );
@@ -824,34 +826,40 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               child: Center(child: SvgPicture.asset(image)),
             ),
             SizedBox(width: 11.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: GoogleFonts.outfit(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF000000),
-                    letterSpacing: -0.2,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.outfit(
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF000000),
+                      letterSpacing: -0.2,
+                    ),
                   ),
-                ),
-                Text(
-                  title,
-                  style: GoogleFonts.outfit(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(0, 0, 0, 0.7),
-                    letterSpacing: -0.3,
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.outfit(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromRGBO(0, 0, 0, 0.7),
+                      letterSpacing: -0.3,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Spacer(),
+            SizedBox(width: 8.w),
             Icon(
               Icons.arrow_forward_ios,
               color: Color(0xFF2A2933),
-              size: 18.sp,
+              size: 16.sp,
             ),
           ],
         ),
@@ -864,8 +872,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     switch (type.trim().toLowerCase()) {
       case "independent_house":
         return "Independent House";
+      case "home_care":
+        return "Home Care";
       case "apartment":
         return "Apartment";
+      case "community_care":
+        return "Community Care";
       case "villa_compound":
         return "Villa Compound";
       case "commercial":

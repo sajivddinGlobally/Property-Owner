@@ -28,11 +28,13 @@ import 'package:retrofit/retrofit.dart';
 import '../Data/Model/BodyModel/addPropertyRequestBodyModel.dart';
 import '../Data/Model/BodyModel/aiAssistanceBodyModel.dart';
 import '../Data/Model/BodyModel/changePasswordBodyModel.dart';
+import '../Data/Model/BodyModel/closeBodyModel.dart';
 import '../Data/Model/BodyModel/forgotPassBodyModel.dart';
 import '../Data/Model/BodyModel/loginBodyModel.dart';
 import '../Data/Model/BodyModel/registerBodyModel.dart';
 import '../Data/Model/BodyModel/selectPropertyBodyModel.dart';
 import '../Data/Model/ResponseModel/GetUnAssignedResModel.dart';
+import '../Data/Model/ResponseModel/MarkNotificationReadResModel.dart';
 import '../Data/Model/ResponseModel/addPropertyRequestResModel.dart';
 import '../Data/Model/ResponseModel/changePassResModel.dart';
 import '../Data/Model/ResponseModel/createPropertyResModel.dart';
@@ -117,8 +119,9 @@ abstract class ApiStateNetwork {
 
   @GET("/api/v1/property-scores")
   Future<GetPropertyScoreModel> getPropertyScore(
-    @Query("property_id") int? propertyId,
-  );
+    @Query("property_id") int? propertyId, {
+    @Query("period") String? period,
+  });
 
   @GET("/api/v1/owner/property/consolidated-status")
   Future<ConsolidatedStatusModel> propertyConsolidateStatus(
@@ -244,6 +247,7 @@ abstract class ApiStateNetwork {
   @GET("/api/v1/notifications")
   Future<GetNotificaionListModel> getNotificaionList(
     @Query("filter") String filter,
+    @Query("property_id") int? propertyId,
   );
 
   @GET("/api/v1/inspections")
@@ -272,5 +276,16 @@ abstract class ApiStateNetwork {
   @POST("/api/v1/owner/properties/request")
   Future<AddPropertyRequestResModel> addPropertyRequest(
     @Body() AddPropertyRequestBodyModel body,
+  );
+
+  @POST("/api/v1/notifications/{id}/read")
+  Future<MarkNotificationReadResModel> markNotificationRead(
+    @Path("id") String id,
+  );
+
+  @POST("/api/v1/owner/tickets/{id}/status")
+  Future<dynamic> closeTicket(
+    @Path("id") String id,
+    @Body() CloseBodyModel body,
   );
 }

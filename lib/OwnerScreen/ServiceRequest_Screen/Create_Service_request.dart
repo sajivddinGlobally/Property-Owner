@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:property_care/core/AuthService/AuthServiceProvider.dart';
 import 'package:dio/dio.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/getPropertyListProvider.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/selectedPropertyProvider.dart';
 import 'package:property_care/core/Data/Model/ResponseModel/propertyListModel.dart';
 
 class CreateServiceRequest extends ConsumerStatefulWidget {
@@ -355,8 +356,11 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
   Widget build(BuildContext context) {
     final propertyListState = ref.watch(getPropertyListProvider);
 
+    final currentSelectedId = ref.watch(selectedPropertyIdProvider);
     final activeProperty = propertyListState.valueOrNull?.data?.firstWhere(
-      (p) => p.isSelected == true,
+      (p) =>
+          (currentSelectedId != null && p.id == currentSelectedId) ||
+          p.isSelected == true,
       orElse: () =>
           (propertyListState.valueOrNull?.data != null &&
               propertyListState.valueOrNull!.data!.isNotEmpty)
@@ -364,12 +368,12 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
           : Datum(),
     );
 
-    final propertyId = activeProperty?.id;
+    final propertyId = activeProperty?.id ?? currentSelectedId;
 
     final propertyName =
         (activeProperty?.propertyNameNumber?.isNotEmpty == true)
         ? activeProperty!.propertyNameNumber!
-        : "Apartment A-204";
+        : "Community Care A-204";
 
     final complexName = (activeProperty?.complexName?.isNotEmpty == true)
         ? activeProperty!.complexName!

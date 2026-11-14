@@ -14,6 +14,9 @@ import 'package:property_care/OwnerScreen/forgot_password/forgot_password_screen
 
 import '../core/AuthService/AuthServiceProvider.dart';
 import 'Bottom_Screen/Home_screen/AddPropertyFormScreen.dart';
+import 'Bottom_Screen/Home_screen/Provider/selectedPropertyProvider.dart';
+import 'Bottom_Screen/Home_screen/Provider/getPropertyListProvider.dart';
+import 'Bottom_Screen/Home_screen/Provider/ownerDashboardProvider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -378,6 +381,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     response.data != null) {
                                   var box = Hive.box("userdata");
                                   await box.put("token", response.data!.token);
+                                   await box.delete("selected_property_id");
                                   await box.put("id", response.data!.user!.id);
                                   await box.put(
                                     "name",
@@ -423,7 +427,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                                   if (context.mounted) {
                                     if (hasProperty) {
-                                      Navigator.pushAndRemoveUntil(
+                                      ref.read(selectedPropertyIdProvider.notifier).state = null;
+                                    ref.invalidate(getPropertyListProvider);
+                                    ref.invalidate(ownerDashboardProvider);
+                                    Navigator.pushAndRemoveUntil(
                                         context,
                                         CupertinoPageRoute(
                                           builder: (context) =>
@@ -451,9 +458,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 }
                               } catch (e) {
                                 log(e.toString());
-                                showErrorSnackBar(
-                                  "Login failed. Please check your credentials.",
-                                );
                               } finally {
                                 if (mounted) {
                                   setState(() {

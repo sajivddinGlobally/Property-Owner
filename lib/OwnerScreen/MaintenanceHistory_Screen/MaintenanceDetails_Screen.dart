@@ -464,17 +464,60 @@ class _MaintenancedetailsScreenState
                             children: [
                               ...List.generate(timeline.length, (index) {
                                 final activity = timeline[index];
-                                final isCompleted =
-                                    activity.status?.toLowerCase() ==
-                                        "completed" ||
-                                    (activity.timestamp != null &&
-                                        activity.timestamp!.isNotEmpty &&
-                                        activity.timestamp!.toLowerCase() !=
-                                            "pending");
+                                final statusLower =
+                                    activity.status?.toLowerCase().trim() ?? "";
+                                final dateLower =
+                                    activity.timestamp?.toLowerCase().trim() ??
+                                        "";
+
+                                final bool isCompleted;
+                                if (statusLower.isNotEmpty) {
+                                  isCompleted = statusLower == "completed";
+                                } else {
+                                  isCompleted = dateLower.isNotEmpty &&
+                                      dateLower != "pending" &&
+                                      dateLower != "current status";
+                                }
+
+                                final bool isInProgress =
+                                    statusLower == "in_progress" ||
+                                        statusLower == "in progress" ||
+                                        statusLower == "active";
+
+                                bool isLineCompleted = false;
+                                if (index < timeline.length - 1) {
+                                  final nextActivity = timeline[index + 1];
+                                  final nextStatusLower =
+                                      nextActivity.status
+                                          ?.toLowerCase()
+                                          .trim() ??
+                                      "";
+                                  final nextDateLower =
+                                      nextActivity.timestamp
+                                          ?.toLowerCase()
+                                          .trim() ??
+                                      "";
+
+                                  if (nextStatusLower.isNotEmpty) {
+                                    isLineCompleted =
+                                        nextStatusLower == "completed" ||
+                                        nextStatusLower == "in_progress" ||
+                                        nextStatusLower == "in progress" ||
+                                        nextStatusLower == "active";
+                                  } else {
+                                    isLineCompleted =
+                                        nextDateLower.isNotEmpty &&
+                                        nextDateLower != "pending" &&
+                                        nextDateLower != "current status";
+                                  }
+                                }
+
                                 return _TimelineItem(
                                   title: activity.title ?? "",
                                   date: activity.timestamp ?? "",
                                   isCompleted: isCompleted,
+                                  isInProgress: isInProgress,
+                                  isLineCompleted: isLineCompleted,
                                   isLast: index == timeline.length - 1,
                                 );
                               }),
@@ -900,21 +943,32 @@ class _TimelineItem extends StatelessWidget {
   final String title;
   final String date;
   final bool isCompleted;
+  final bool isInProgress;
+  final bool isLineCompleted;
   final bool isLast;
 
   const _TimelineItem({
     required this.title,
     required this.date,
-    this.isCompleted = true,
+    this.isCompleted = false,
+    this.isInProgress = false,
+    this.isLineCompleted = false,
     required this.isLast,
   });
 
   @override
   Widget build(BuildContext context) {
-    final bool showFilledDot =
-        isCompleted &&
-        date.toLowerCase() != "pending" &&
-        date.toLowerCase() != "current status";
+    final Color circleBorderColor = isCompleted
+        ? const Color(0xFF101C16)
+        : isInProgress
+            ? const Color(0xFFB78932)
+            : const Color(0xFFC8C8C1);
+
+    final Color? innerDotColor = isCompleted
+        ? const Color(0xFF101C16)
+        : isInProgress
+            ? const Color(0xFFB78932)
+            : null;
 
     return IntrinsicHeight(
       child: Row(
@@ -931,20 +985,18 @@ class _TimelineItem extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: const Color(0xFFFFFEF4),
                     border: Border.all(
-                      color: showFilledDot
-                          ? const Color(0xFF101C16)
-                          : const Color(0xFFC8C8C1),
+                      color: circleBorderColor,
                       width: 1.w,
                     ),
                   ),
-                  child: showFilledDot
+                  child: innerDotColor != null
                       ? Center(
                           child: Container(
                             width: 10.w,
                             height: 10.h,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Color(0xFF101C16),
+                              color: innerDotColor,
                             ),
                           ),
                         )
@@ -955,8 +1007,8 @@ class _TimelineItem extends StatelessWidget {
                   Expanded(
                     child: Container(
                       width: 1.w,
-                      color: showFilledDot
-                          ? const Color(0xFF000000)
+                      color: isLineCompleted
+                          ? const Color(0xFF101C16)
                           : const Color(0xFFC8C8C1),
                     ),
                   ),
@@ -972,15 +1024,17 @@ class _TimelineItem extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
                       height: 1.1,
                       fontWeight: FontWeight.w500,
-                      color: showFilledDot
+                      color: isCompleted
                           ? const Color(0xFF101C16)
-                          : const Color.fromRGBO(42, 41, 51, 0.4),
+                          : isInProgress
+                              ? const Color(0xFFB78932)
+                              : const Color.fromRGBO(42, 41, 51, 0.4),
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -990,9 +1044,11 @@ class _TimelineItem extends StatelessWidget {
                     style: GoogleFonts.outfit(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
-                      color: showFilledDot
+                      color: isCompleted
                           ? const Color.fromRGBO(42, 41, 51, 0.5)
-                          : const Color.fromRGBO(42, 41, 51, 0.3),
+                          : isInProgress
+                              ? const Color.fromRGBO(183, 137, 50, 0.8)
+                              : const Color.fromRGBO(42, 41, 51, 0.3),
                       letterSpacing: -0.2,
                     ),
                   ),

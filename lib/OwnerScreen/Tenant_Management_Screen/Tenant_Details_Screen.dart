@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:property_care/OwnerScreen/RentPaymentStatusScreen/RentPaymentStatus_Screen.dart';
 import 'package:property_care/OwnerScreen/UtilityPaymentStatusScreen/UtilityPayment_Status.dart';
 import 'package:property_care/core/constant/appColor.dart';
+import 'package:property_care/core/Utils/property_type_helper.dart';
 import 'package:svg_flutter/svg.dart';
 
 import 'Provider/getTenantDetailsProvider.dart';
@@ -290,7 +291,7 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                                           .data
                                           ?.propertyDetails
                                           ?.apartmentNo ??
-                                      "Apartment A-204",
+                                      "Community Care A-204",
                                   style: GoogleFonts.outfit(
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.w500,
@@ -349,11 +350,12 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                tenantDetailsData
-                                        .data
-                                        ?.propertyDetails
-                                        ?.propertyType ??
-                                    "Apartment",
+                                _formatPropertyType(
+                                  tenantDetailsData
+                                      .data
+                                      ?.propertyDetails
+                                      ?.propertyType,
+                                ),
                                 style: GoogleFonts.outfit(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
@@ -970,5 +972,31 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
         ],
       ),
     );
+  }
+
+  String _formatPropertyType(String? type) {
+    if (type == null || type.trim().isEmpty) return "Apartment";
+    final lower = type.trim().toLowerCase();
+    if (lower == "apartment") {
+      return "Apartment";
+    }
+    if (lower == "community_care") {
+      return "Community Care";
+    }
+    if (lower == "independent_house") {
+      return "Independent House";
+    }
+    if (lower == "home_care") {
+      return "Home Care";
+    }
+    return type
+        .replaceAll('_', ' ')
+        .split(' ')
+        .map(
+          (w) => w.isNotEmpty
+              ? '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}'
+              : '',
+        )
+        .join(' ');
   }
 }

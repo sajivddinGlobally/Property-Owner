@@ -7,7 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:property_care/OwnerScreen/login_screen.dart';
 import 'package:property_care/core/Utils/showMessage.dart';
 import 'package:property_care/core/constant/appColor.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../core/AuthService/AuthServiceProvider.dart';
+import 'provider/availableFlatsProvider.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -51,7 +54,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //  final getAvailableFlatState = ref.watch(getAvailableFlatsProvider);
+    final getAvailableFlatState = ref.watch(getAvailableFlatsProvider);
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       body: Form(
@@ -113,7 +116,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     SizedBox(height: 10.h),
                     Text(
                       textAlign: TextAlign.center,
-                      "REGISTER TO MANAGE YOR PROPERTY",
+                      "REGISTER TO MANAGE YOUR PROPERTY",
                       style: GoogleFonts.outfit(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
@@ -173,19 +176,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     SizedBox(height: 13.w),
                     fieldLabel("MOBILE NUMBER"),
-                    customTextField(
+                    customPhoneField(
                       controller: mobileController,
-                      hintText: "Enter Your Mobile Number ",
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your mobile number";
-                        }
-                        if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-                          return "Please enter a valid 10-digit mobile number";
-                        }
-                        return null;
-                      },
+                      hintText: "Enter Your Mobile Number",
                     ),
                     SizedBox(height: 13.w),
                     fieldLabel("PASSWORD"),
@@ -567,6 +560,111 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           fontWeight: FontWeight.w500,
           color: Color(0xFF000000),
           letterSpacing: -0.3,
+        ),
+      ),
+    );
+  }
+
+  Widget customPhoneField({
+    required TextEditingController controller,
+    required String hintText,
+  }) {
+    return IntlPhoneField(
+      controller: controller,
+      initialCountryCode: 'IN',
+      cursorColor: const Color(0xff101C16),
+      textAlignVertical: TextAlignVertical.center,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      style: GoogleFonts.outfit(
+        fontSize: 18.sp,
+        color: const Color(0xff101C16),
+        letterSpacing: -0.2,
+      ),
+      dropdownTextStyle: GoogleFonts.outfit(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w500,
+        color: const Color(0xff101C16),
+        letterSpacing: -0.2,
+      ),
+      dropdownIconPosition: IconPosition.trailing,
+      dropdownIcon: Icon(
+        Icons.arrow_drop_down,
+        color: const Color(0xff101C16),
+        size: 20.sp,
+      ),
+      flagsButtonMargin: EdgeInsets.only(left: 4.w, right: 6.w),
+      flagsButtonPadding: EdgeInsets.zero,
+      showCountryFlag: true,
+      invalidNumberMessage: "Please enter a valid 10-digit mobile number",
+      validator: (phone) {
+        if (phone == null || phone.number.trim().isEmpty) {
+          return "Please enter your mobile number";
+        }
+        if (!RegExp(r'^[0-9]{10}$').hasMatch(phone.number.trim())) {
+          return "Please enter a valid 10-digit mobile number";
+        }
+        return null;
+      },
+      pickerDialogStyle: PickerDialogStyle(
+        backgroundColor: Colors.white,
+        countryCodeStyle: GoogleFonts.outfit(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+          color: const Color(0xff101C16),
+        ),
+        countryNameStyle: GoogleFonts.outfit(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500,
+          color: const Color(0xff101C16),
+        ),
+        searchFieldCursorColor: const Color(0xff101C16),
+        searchFieldInputDecoration: InputDecoration(
+          hintText: "Search country",
+          hintStyle: GoogleFonts.outfit(
+            fontSize: 15.sp,
+            color: const Color.fromRGBO(0, 0, 0, 0.5),
+          ),
+          prefixIcon: const Icon(Icons.search, color: Color(0xff101C16)),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 12.w,
+            vertical: 10.h,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6.r),
+            borderSide: BorderSide(color: const Color(0xFF000000), width: 1.w),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6.r),
+            borderSide: BorderSide(color: const Color(0xFF000000), width: 1.w),
+          ),
+        ),
+      ),
+      decoration: InputDecoration(
+        isDense: true,
+        counter: const SizedBox.shrink(),
+        hintText: hintText,
+        hintStyle: GoogleFonts.outfit(
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w500,
+          color: const Color.fromRGBO(0, 0, 0, 0.6),
+          letterSpacing: -0.3,
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6.r),
+          borderSide: BorderSide(color: const Color(0xFF000000), width: 1.w),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6.r),
+          borderSide: BorderSide(color: const Color(0xFF000000), width: 1.w),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6.r),
+          borderSide: BorderSide(color: Colors.red, width: 1.w),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6.r),
+          borderSide: BorderSide(color: Colors.red, width: 1.w),
         ),
       ),
     );

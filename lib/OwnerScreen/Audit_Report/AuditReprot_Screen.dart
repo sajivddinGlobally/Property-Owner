@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:property_care/OwnerScreen/Audit_Report/AuditReport_Details_Screen.dart';
 import 'package:property_care/core/Data/Model/ResponseModel/getInspectionReportModel.dart';
 import 'package:property_care/core/constant/appColor.dart';
+import 'package:property_care/core/Utils/property_type_helper.dart';
 
 import '../inspectionReport/Provider/getInspectionReportProvider.dart';
 
@@ -101,52 +104,91 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
         loading: () => const Center(
           child: CircularProgressIndicator(color: Color(0xff101C16)),
         ),
-        error: (error, stackTrace) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Failed to load audit reports",
-                style: GoogleFonts.outfit(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xff101C16),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff101C16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                ),
-                onPressed: () => ref.refresh(
-                  getInspectionReportProvider((
-                    filter: selectedFilterValue,
-                    type: "audit",
-                  )),
-                ),
-                child: Text(
-                  "Retry",
+        error: (error, stackTrace) {
+          log(error.toString());
+          log(stackTrace.toString());
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Failed to load audit reports",
                   style: GoogleFonts.outfit(
-                    color: Colors.white,
-                    fontSize: 16.sp,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xff101C16),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
+                SizedBox(height: 12.h),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff101C16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  onPressed: () => ref.refresh(
+                    getInspectionReportProvider((
+                      filter: selectedFilterValue,
+                      type: "audit",
+                    )),
+                  ),
+                  child: Text(
+                    "Retry",
+                    style: GoogleFonts.outfit(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
         data: (modelData) {
           final allReports = modelData.data ?? [];
-          final firstProperty = allReports.isNotEmpty
-              ? allReports.first.property
-              : null;
-          final propertyName =
-              firstProperty?.propertyNameNumber ?? "Apartment A-204";
-          final propertyLocation =
-              firstProperty?.location ?? "Green Valley Residency · Jaipur";
+          final firstReport = allReports.isNotEmpty ? allReports.first : null;
+          final firstProperty = firstReport?.property;
+          final firstComplex = firstReport?.complex;
+
+          String propertyName = "";
+          if (firstProperty?.propertyNameNumber != null &&
+              firstProperty!.propertyNameNumber!.trim().isNotEmpty) {
+            final propNum = firstProperty.propertyNameNumber!.trim();
+            final dispType = firstProperty.displayType?.trim() ?? "";
+            if (dispType.isNotEmpty &&
+                !propNum.toLowerCase().contains(dispType.toLowerCase())) {
+              propertyName = "$dispType $propNum";
+            } else {
+              propertyName = formatPropertyTitle(propNum);
+            }
+          } else if (firstComplex?.name != null &&
+              firstComplex!.name!.trim().isNotEmpty) {
+            propertyName = firstComplex.name!;
+          } else {
+            propertyName = "Property Audit";
+          }
+
+          String propertyLocation = "";
+          final loc = firstProperty?.location?.trim() ?? "";
+          final complexName = firstComplex?.name?.trim() ?? "";
+          final complexAddr = firstComplex?.address?.trim() ?? "";
+
+          if (complexName.isNotEmpty && loc.isNotEmpty) {
+            propertyLocation = "$complexName · $loc";
+          } else if (loc.isNotEmpty) {
+            propertyLocation =
+                complexAddr.isNotEmpty ? "$loc · $complexAddr" : loc;
+          } else if (complexAddr.isNotEmpty) {
+            propertyLocation =
+                complexName.isNotEmpty
+                    ? "$complexName · $complexAddr"
+                    : complexAddr;
+          } else {
+            propertyLocation =
+                complexName.isNotEmpty ? complexName : "Location not specified";
+          }
+
           final filteredReports = allReports;
 
           return RefreshIndicator(
@@ -325,48 +367,82 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
   }
 
   Widget _auditCard(Datum item) {
-    final reportDate = item.inspectionDate ?? item.createdAt;
-    final displayDate = reportDate != null
-        ? DateFormat("dd MMMM yyyy").format(reportDate)
-        : "";
-
     final statusText = item.status != null && item.status!.isNotEmpty
         ? "${item.status![0].toUpperCase()}${item.status!.substring(1)}"
         : "Completed";
-
-    final auditDateText = item.inspectionDate != null
-        ? DateFormat("dd MMM yyyy").format(item.inspectionDate!)
-        : (item.createdAt != null
-              ? DateFormat("dd MMM yyyy").format(item.createdAt!)
-              : "N/A");
 
     final auditTypeText =
         (item.auditType != null && item.auditType.toString().trim().isNotEmpty)
         ? item.auditType.toString()
         : "Property Audit";
 
+    final auditDateText = item.inspectionDateFormatted?.trim().isNotEmpty == true
+        ? item.inspectionDateFormatted!
+        : (item.dateFormatted?.trim().isNotEmpty == true
+            ? item.dateFormatted!
+            : (item.inspectionDate?.trim().isNotEmpty == true
+                ? item.inspectionDate!
+                : (item.createdAt != null
+                    ? DateFormat("dd MMM yyyy").format(item.createdAt!)
+                    : "--")));
+
     final findingsText =
         (item.findings != null && item.findings!.trim().isNotEmpty)
         ? "Available"
-        : "None";
+        : (item.categoryRemarks != null ? "Available" : "None");
+
+    final hasFindings = item.findings != null && item.findings!.trim().isNotEmpty;
+    final hasRecommendations =
+        item.recommendations != null && item.recommendations!.trim().isNotEmpty;
+
+    final String observationsText;
+    if (hasFindings && hasRecommendations) {
+      observationsText = "Findings & recommendations available";
+    } else if (hasFindings) {
+      observationsText = "Findings available";
+    } else if (hasRecommendations) {
+      observationsText = "Recommendations available";
+    } else {
+      observationsText = "Audit details available";
+    }
+
+    final propTitle = (item.property?.propertyNameNumber != null &&
+            item.property!.propertyNameNumber!.trim().isNotEmpty)
+        ? (item.property?.displayType != null &&
+                item.property!.displayType!.trim().isNotEmpty &&
+                !item.property!.propertyNameNumber!
+                    .toLowerCase()
+                    .contains(item.property!.displayType!.toLowerCase())
+            ? "${item.property!.displayType} ${item.property!.propertyNameNumber}"
+            : formatPropertyTitle(item.property!.propertyNameNumber))
+        : (item.complex?.name ?? "Property");
+
+    final cardTitle = (item.auditType != null &&
+            item.auditType.toString().trim().isNotEmpty)
+        ? item.auditType.toString()
+        : (item.reportType != null && item.reportType!.trim().isNotEmpty
+            ? "${item.reportType![0].toUpperCase()}${item.reportType!.substring(1)} Report"
+            : "Property Audit Report");
+
+    void openDetails() {
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => AuditreportDetailsScreen(
+            id: item.id?.toString() ?? "",
+            title: cardTitle,
+            date: auditDateText,
+            property: propTitle,
+            auditType: auditTypeText,
+            auditDate: auditDateText,
+            status: statusText,
+          ),
+        ),
+      );
+    }
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => AuditreportDetailsScreen(
-              id: item.id?.toString() ?? "",
-              title: "Property Audit Report",
-              date: displayDate,
-              property: item.property?.propertyNameNumber ?? "Apartment A-204",
-              auditType: auditTypeText,
-              auditDate: auditDateText,
-              status: statusText,
-            ),
-          ),
-        );
-      },
+      onTap: openDetails,
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 15.h),
@@ -405,7 +481,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Property Audit Report",
+                        cardTitle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.outfit(
@@ -417,7 +493,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                       ),
                       SizedBox(height: 7.h),
                       Text(
-                        displayDate,
+                        auditDateText,
                         style: GoogleFonts.outfit(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w500,
@@ -461,7 +537,10 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                 ),
                 SizedBox(width: 15.w),
                 Expanded(
-                  child: _infoItem(title: "AUDIT DATE", value: auditDateText),
+                  child: _infoItem(
+                    title: "AUDIT DATE",
+                    value: auditDateText,
+                  ),
                 ),
               ],
             ),
@@ -483,7 +562,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
               children: [
                 Expanded(
                   child: Text(
-                    "Findings & recommendations available",
+                    observationsText,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
@@ -495,24 +574,7 @@ class _AuditreprotScreenState extends ConsumerState<AuditreprotScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => AuditreportDetailsScreen(
-                          id: item.id?.toString() ?? "",
-                          title: "Property Audit Report",
-                          date: displayDate,
-                          property:
-                              item.property?.propertyNameNumber ??
-                              "Apartment A-204",
-                          auditType: auditTypeText,
-                          auditDate: auditDateText,
-                          status: statusText,
-                        ),
-                      ),
-                    );
-                  },
+                  onTap: openDetails,
                   child: Text(
                     "View Report →",
                     style: GoogleFonts.outfit(

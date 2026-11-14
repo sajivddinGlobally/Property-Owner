@@ -27,8 +27,10 @@ import 'package:property_care/core/Network/ApiStateNetwork.dart';
 import '../Data/Model/BodyModel/addPropertyRequestBodyModel.dart';
 import '../Data/Model/BodyModel/aiAssistanceBodyModel.dart';
 import '../Data/Model/BodyModel/changePasswordBodyModel.dart';
+import '../Data/Model/BodyModel/closeBodyModel.dart';
 import '../Data/Model/BodyModel/forgotPassBodyModel.dart';
 import '../Data/Model/ResponseModel/GetUnAssignedResModel.dart';
+import '../Data/Model/ResponseModel/MarkNotificationReadResModel.dart';
 import '../Data/Model/ResponseModel/addPropertyRequestResModel.dart';
 import '../Data/Model/ResponseModel/changePassResModel.dart';
 import '../Data/Model/ResponseModel/createPropertyResModel.dart';
@@ -242,9 +244,12 @@ class AuthService {
     }
   }
 
-  Future<GetPropertyScoreModel> getPropertyScore({dynamic propertyId}) async {
+  Future<GetPropertyScoreModel> getPropertyScore({
+    dynamic propertyId,
+    String? period,
+  }) async {
     try {
-      final response = await api.getPropertyScore(propertyId);
+      final response = await api.getPropertyScore(propertyId, period: period);
       return response;
     } catch (e) {
       rethrow;
@@ -524,11 +529,27 @@ class AuthService {
     }
   }
 
+  // Future<GetNotificaionListModel> getNotificaionList({
+  //   required String filter,
+  // }) async {
+  //   try {
+  //     final response = await api.getNotificaionList(filter);
+  //     return response;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
   Future<GetNotificaionListModel> getNotificaionList({
     required String filter,
+    dynamic propertyId,
   }) async {
     try {
-      final response = await api.getNotificaionList(filter);
+      final int? pid = propertyId == null
+          ? null
+          : (propertyId is int
+                ? propertyId
+                : int.tryParse(propertyId.toString()));
+      final response = await api.getNotificaionList(filter, pid);
       return response;
     } catch (e) {
       rethrow;
@@ -607,6 +628,34 @@ class AuthService {
         complexes: complexes,
       );
       final response = await api.addPropertyRequest(body);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<MarkNotificationReadResModel?> markMultipleNotificationsRead({
+    required List<String> ids,
+  }) async {
+    if (ids.isEmpty) return null;
+    try {
+      final joinedIds = ids.join(',');
+      final response = await api.markNotificationRead(joinedIds);
+      return response;
+    } catch (e) {
+      log("Error marking notifications as read: $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> closeTicket({
+    required String id,
+    required String status,
+    String? notes,
+  }) async {
+    try {
+      final body = CloseBodyModel(status: status, notes: notes);
+      final response = await api.closeTicket(id, body);
       return response;
     } catch (e) {
       rethrow;

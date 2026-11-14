@@ -51,7 +51,19 @@ class MyApp extends StatelessWidget {
               navigatorKey: navigatorKey,
               scaffoldMessengerKey: snackBarKey,
               debugShowCheckedModeBanner: false,
-              title: 'Property Care',
+              title: 'Property Owner',
+              builder: (context, child) {
+                final mediaQuery = MediaQuery.of(context);
+                return MediaQuery(
+                  data: mediaQuery.copyWith(
+                    textScaler: mediaQuery.textScaler.clamp(
+                      minScaleFactor: 0.85,
+                      maxScaleFactor: 1.15,
+                    ),
+                  ),
+                  child: child ?? const SizedBox(),
+                );
+              },
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               ),

@@ -39,7 +39,7 @@ class Data {
   double? overallScoreOutOf10;
   bool? isIndependent;
   bool? hasMmc;
-  dynamic caretaker;
+  Caretaker? caretaker;
   Complex? complex;
   Widgets? widgets;
 
@@ -76,7 +76,13 @@ class Data {
     overallScoreOutOf10: json["overall_score_out_of_10"]?.toDouble(),
     isIndependent: json["is_independent"],
     hasMmc: json["has_mmc"],
-    caretaker: json["caretaker"],
+    caretaker: json["caretaker"] == null
+        ? null
+        : json["caretaker"] is Map<String, dynamic>
+            ? Caretaker.fromJson(json["caretaker"])
+            : (json["caretaker"] is Map
+                ? Caretaker.fromJson(Map<String, dynamic>.from(json["caretaker"]))
+                : Caretaker(name: json["caretaker"].toString())),
     complex: json["complex"] == null ? null : Complex.fromJson(json["complex"]),
     widgets: json["widgets"] == null ? null : Widgets.fromJson(json["widgets"]),
   );
@@ -95,7 +101,7 @@ class Data {
     "overall_score_out_of_10": overallScoreOutOf10,
     "is_independent": isIndependent,
     "has_mmc": hasMmc,
-    "caretaker": caretaker,
+    "caretaker": caretaker?.toJson(),
     "complex": complex?.toJson(),
     "widgets": widgets?.toJson(),
   };
@@ -263,5 +269,30 @@ class MaintenancePayment {
     "upcoming": upcoming,
     "overdue": overdue,
     "remaining": remaining,
+  };
+}
+
+class Caretaker {
+  int? id;
+  String? name;
+  String? phone;
+  String? email;
+
+  Caretaker({this.id, this.name, this.phone, this.email});
+
+  factory Caretaker.fromJson(Map<String, dynamic> json) => Caretaker(
+    id: json["id"] is int
+        ? json["id"]
+        : int.tryParse(json["id"]?.toString() ?? ''),
+    name: json["name"]?.toString(),
+    phone: json["phone"]?.toString(),
+    email: json["email"]?.toString(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "phone": phone,
+    "email": email,
   };
 }

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/getPropertyListProvider.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/selectedPropertyProvider.dart';
 import 'package:property_care/OwnerScreen/Tenant_Management_Screen/Add_Tenant_Screen.dart';
 import 'package:property_care/OwnerScreen/Tenant_Management_Screen/Tenant_Details_Screen.dart';
 import 'package:property_care/core/Data/Model/ResponseModel/getTenantListModel.dart';
@@ -29,14 +30,20 @@ class _TenantmanagementScreenState
     final getTenantListState = ref.watch(getTenantListProvider);
     final propertyListState = ref.watch(getPropertyListProvider);
 
+    final currentSelectedId = ref.watch(selectedPropertyIdProvider);
     final activeProperty = propertyListState.valueOrNull?.data?.firstWhere(
-      (p) => p.isSelected == true || p.status?.toLowerCase() == "active",
+      (p) =>
+          (currentSelectedId != null && p.id == currentSelectedId) ||
+          p.isSelected == true ||
+          p.status?.toLowerCase() == "active",
       orElse: () => propertyListState.valueOrNull?.data?.isNotEmpty == true
           ? propertyListState.valueOrNull!.data!.first
           : Datum(
-              id: 18,
-              propertyNameNumber: "Villa A-104",
-              complexName: "Grand Horizon Towers & Villas",
+              id: currentSelectedId is int
+                  ? currentSelectedId
+                  : int.tryParse(currentSelectedId?.toString() ?? ''),
+              propertyNameNumber: "",
+              complexName: "",
             ),
     );
 
@@ -390,41 +397,41 @@ class _TenantmanagementScreenState
                       },
                     ),
                   SizedBox(height: 15.h),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 36.h,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.heading,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
-                      ),
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => AddTenantScreen(
-                              propertyId: activeProperty?.id,
-                              propertyName: propName,
-                              complexName: compName,
-                            ),
-                          ),
-                        );
-                        ref.invalidate(getTenantListProvider);
-                      },
-                      child: Text(
-                        "+ Add New Tenant",
-                        style: GoogleFonts.outfit(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30.h),
+                  // SizedBox(
+                  //   width: double.infinity,
+                  //   height: 36.h,
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: AppColors.heading,
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(4.r),
+                  //       ),
+                  //     ),
+                  //     onPressed: () async {
+                  //       await Navigator.push(
+                  //         context,
+                  //         CupertinoPageRoute(
+                  //           builder: (context) => AddTenantScreen(
+                  //             propertyId: activeProperty?.id,
+                  //             propertyName: propName,
+                  //             complexName: compName,
+                  //           ),
+                  //         ),
+                  //       );
+                  //       ref.invalidate(getTenantListProvider);
+                  //     },
+                  //     child: Text(
+                  //       "+ Add New Tenant",
+                  //       style: GoogleFonts.outfit(
+                  //         fontSize: 16.sp,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Colors.white,
+                  //         letterSpacing: -0.2,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // SizedBox(height: 30.h),
                 ],
               ),
             ),
@@ -666,33 +673,33 @@ class _TenantmanagementScreenState
                   ),
                 ),
               ),
-              SizedBox(width: 15.w),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) =>
-                          AddTenantScreen(tenantId: tenant.id.toString()),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: 36.w,
-                  height: 34.h,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffFFFCEF),
-                    border: Border.all(color: AppColors.heading, width: 1.2),
-                    borderRadius: BorderRadius.circular(7.r),
-                  ),
-                  child: Icon(
-                    Icons.edit_outlined,
-                    size: 16.sp,
-                    color: AppColors.heading,
-                  ),
-                ),
-              ),
+              // SizedBox(width: 15.w),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       CupertinoPageRoute(
+              //         builder: (context) =>
+              //             AddTenantScreen(tenantId: tenant.id.toString()),
+              //       ),
+              //     );
+              //   },
+              //   child: Container(
+              //     width: 36.w,
+              //     height: 34.h,
+              //     alignment: Alignment.center,
+              //     decoration: BoxDecoration(
+              //       color: const Color(0xffFFFCEF),
+              //       border: Border.all(color: AppColors.heading, width: 1.2),
+              //       borderRadius: BorderRadius.circular(7.r),
+              //     ),
+              //     child: Icon(
+              //       Icons.edit_outlined,
+              //       size: 16.sp,
+              //       color: AppColors.heading,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ],

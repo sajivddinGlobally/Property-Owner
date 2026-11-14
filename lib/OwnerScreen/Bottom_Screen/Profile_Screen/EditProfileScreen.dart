@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Profile_Screen/Provider/getProfileProvider.dart';
 import 'package:property_care/core/Utils/showMessage.dart';
 import 'package:property_care/core/constant/appColor.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../core/AuthService/AuthServiceProvider.dart';
 
@@ -92,12 +94,16 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
     });
   }
 
-  void fetchProfile() async {
-    final data = await ref.read(getProfileProvider);
+  void fetchProfile() {
+    final data = ref.read(getProfileProvider);
     data.whenData((value) {
       nameController.text = value.data?.name ?? "";
       emailController.text = value.data?.email ?? "";
-      phoneController.text = value.data?.phone ?? "";
+      String rawPhone = value.data?.phone ?? "";
+      if (rawPhone.startsWith("+91")) {
+        rawPhone = rawPhone.substring(3).trim();
+      }
+      phoneController.text = rawPhone;
       accountTypeController.text = value.data?.role ?? "";
       setState(() {
         existingImageUrl = value.data?.avatarUrl ?? "";
@@ -320,10 +326,9 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
                       isReadOnly: true,
                     ),
                     SizedBox(height: 14.h),
-                    _buildTextfield(
+                    _buildPhoneField(
                       label: "Phone Number",
                       hintText: "Enter Phone Number",
-                      keyboardType: TextInputType.number,
                       controller: phoneController,
                       isReadOnly: true,
                     ),
@@ -432,6 +437,123 @@ class _EditprofilescreenState extends ConsumerState<Editprofilescreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPhoneField({
+    required String label,
+    required String hintText,
+    required TextEditingController controller,
+    bool isReadOnly = false,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.heading,
+            letterSpacing: -0.2,
+          ),
+        ),
+        SizedBox(height: 7.h),
+        IntlPhoneField(
+          controller: controller,
+          initialCountryCode: 'IN',
+          readOnly: isReadOnly,
+          cursorHeight: 22.h,
+          cursorColor: AppColors.heading,
+          cursorWidth: 1.5.w,
+          textAlignVertical: TextAlignVertical.center,
+          style: GoogleFonts.outfit(
+            fontSize: 19.sp,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xff101C16),
+            letterSpacing: -0.2,
+          ),
+          dropdownTextStyle: GoogleFonts.outfit(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xff101C16),
+            letterSpacing: -0.2,
+          ),
+          dropdownIconPosition: IconPosition.trailing,
+          dropdownIcon: Icon(
+            Icons.arrow_drop_down,
+            color: const Color(0xff101C16),
+            size: 20.sp,
+          ),
+          flagsButtonMargin: EdgeInsets.only(left: 4.w, right: 6.w),
+          flagsButtonPadding: EdgeInsets.zero,
+          showCountryFlag: true,
+          pickerDialogStyle: PickerDialogStyle(
+            backgroundColor: Colors.white,
+            countryCodeStyle: GoogleFonts.outfit(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xff101C16),
+            ),
+            countryNameStyle: GoogleFonts.outfit(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xff101C16),
+            ),
+            searchFieldCursorColor: AppColors.heading,
+            searchFieldInputDecoration: InputDecoration(
+              hintText: "Search country",
+              hintStyle: GoogleFonts.outfit(
+                fontSize: 15.sp,
+                color: const Color.fromRGBO(0, 0, 0, 0.5),
+              ),
+              prefixIcon: const Icon(Icons.search, color: Color(0xff101C16)),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: const BorderSide(
+                  color: Color.fromRGBO(16, 28, 22, 0.6),
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: const BorderSide(
+                  color: AppColors.heading,
+                  width: 1.5,
+                ),
+              ),
+            ),
+          ),
+          decoration: InputDecoration(
+            isDense: true,
+            counter: const SizedBox.shrink(),
+            hintText: hintText,
+            hintStyle: GoogleFonts.outfit(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(16, 28, 22, 0.6),
+              letterSpacing: -0.2,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: const BorderSide(
+                color: AppColors.heading,
+                width: 1.5,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: const BorderSide(
+                color: Color.fromRGBO(16, 28, 22, 0.6),
+              ),
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 14.w,
+              vertical: 14.h,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

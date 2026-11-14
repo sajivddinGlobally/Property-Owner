@@ -49,7 +49,13 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
     },
   ];
 
-  final List<String> filters = ["All", "Open", "In Progress", "Resolved"];
+  final List<String> filters = [
+    "All",
+    "Open",
+    "In Progress",
+    "Resolved",
+    "Closed",
+  ];
   @override
   void dispose() {
     searchController.dispose();
@@ -65,6 +71,8 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
       statusFilter = "in_progress";
     else if (selectedFilter == 3)
       statusFilter = "resolved";
+    else if (selectedFilter == 4)
+      statusFilter = "closed";
 
     final state = ref.watch(
       getServiceRequestProvider((
@@ -320,7 +328,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
           ),
           icon: Icon(Icons.add, size: 20.sp),
           label: Text(
-            "New Complaint",
+            "Post Complaint",
             style: GoogleFonts.outfit(
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:property_care/OwnerScreen/AIDocumentAssistant_Screen/AIDocumentAssistant_Screen.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Document_Screen/Provider/getDocumentListProvider.dart';
 import 'package:property_care/core/constant/appColor.dart';
+import 'package:property_care/core/Utils/property_type_helper.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Document_Screen/document_details_screen.dart';
 
 class DocumentScreen extends ConsumerStatefulWidget {
@@ -293,7 +294,8 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        overview.propertyNumber!,
+                                        formatPropertyTitle(
+                                            overview.propertyNumber),
                                         style: GoogleFonts.outfit(
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
@@ -314,7 +316,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    overview?.propertyName ?? "",
+                                    formatPropertyTitle(overview?.propertyName),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(
@@ -326,7 +328,8 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                                   ),
                                   SizedBox(height: 5.h),
                                   Text(
-                                    overview?.complexLocation ?? "",
+                                    formatPropertyTitle(
+                                        overview?.complexLocation),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(

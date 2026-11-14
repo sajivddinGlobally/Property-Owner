@@ -72,30 +72,32 @@ class _MaintenancehistoryScreenState
                 ),
               ),
               SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Maintenance History",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Maintenance History",
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff292832),
+                        letterSpacing: -0.64,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "View previous and current maintenance activities",
-                    style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "View previous and current maintenance activities",
+                      style: GoogleFonts.outfit(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(42, 41, 51, 0.6),
+                        letterSpacing: -0.24,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -386,6 +388,7 @@ class _MaintenancehistoryScreenState
                           borderRadius: BorderRadius.circular(13.r),
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -422,9 +425,7 @@ class _MaintenancehistoryScreenState
                                           letterSpacing: -0.2,
                                         ),
                                       ),
-
                                       SizedBox(height: 5.h),
-
                                       Text(
                                         records[index].headerSubtitle ?? "",
                                         style: GoogleFonts.outfit(
@@ -442,10 +443,11 @@ class _MaintenancehistoryScreenState
                                     ],
                                   ),
                                 ),
+                                SizedBox(width: 8.w),
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                    vertical: 6.h,
-                                    horizontal: 18.w,
+                                    vertical: 5.h,
+                                    horizontal: 12.w,
                                   ),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
@@ -458,7 +460,7 @@ class _MaintenancehistoryScreenState
                                   child: Text(
                                     records![index].status ?? "",
                                     style: GoogleFonts.outfit(
-                                      fontSize: 16.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.heading,
                                       letterSpacing: -0.2,
@@ -513,6 +515,13 @@ class _MaintenancehistoryScreenState
                                   ),
                                 ),
                               ],
+                            ),
+                            SizedBox(height: 16.h),
+                            _detailItem(
+                              title: "Cost",
+                              value: records![index].cost != null
+                                  ? "₹${records[index].cost!.toStringAsFixed(2)}"
+                                  : "₹0",
                             ),
 
                             SizedBox(height: 16.h),
@@ -590,8 +599,10 @@ class _MaintenancehistoryScreenState
 
         Text(
           value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.inter(
-            fontSize: 18.sp,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w500,
             color: AppColors.heading,
             letterSpacing: -0.2,

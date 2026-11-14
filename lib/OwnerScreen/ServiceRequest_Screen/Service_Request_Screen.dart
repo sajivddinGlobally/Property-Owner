@@ -21,7 +21,13 @@ class ServiceRequestScreen extends ConsumerStatefulWidget {
 class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
   int selectedFilter = 0;
   int selectedSummary = 0;
-  final List<String> filters = ["All", "Open", "In Progress", "Resolved"];
+  final List<String> filters = [
+    "All",
+    "Open",
+    "In Progress",
+    "Resolved",
+    "Closed",
+  ];
   String searchQuery = "";
   final TextEditingController searchController = TextEditingController();
 
@@ -40,6 +46,8 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
       statusFilter = "in_progress";
     else if (selectedFilter == 3)
       statusFilter = "resolved";
+    else if (selectedFilter == 4)
+      statusFilter = "closed";
 
     final state = ref.watch(
       getServiceRequestProvider((
@@ -85,30 +93,36 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                 ),
               ),
               SizedBox(width: 10.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Service Requests",
-                    style: GoogleFonts.outfit(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff292832),
-                      letterSpacing: -0.64,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Service Requests",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff292832),
+                        letterSpacing: -0.64,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    "PROPERTY SERVICE MANAGEMENT",
-                    style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(42, 41, 51, 0.6),
-                      letterSpacing: -0.24,
+                    SizedBox(height: 2.h),
+                    Text(
+                      "PROPERTY SERVICE MANAGEMENT",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.outfit(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(42, 41, 51, 0.6),
+                        letterSpacing: -0.24,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -579,7 +593,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
   Widget _requestCountBox({required String count, required String title}) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 12.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.heading, width: 1.w),
         borderRadius: BorderRadius.circular(10.r),
@@ -607,7 +621,7 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 16.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w500,
               color: const Color.fromRGBO(42, 41, 51, 0.6),
               letterSpacing: -0.24,

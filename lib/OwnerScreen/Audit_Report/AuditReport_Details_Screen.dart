@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -5,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:property_care/core/Utils/showMessage.dart';
 import 'package:property_care/core/constant/appColor.dart';
+import 'package:property_care/core/Utils/property_type_helper.dart';
 
 import '../inspectionReport/Provider/getInspectionReportDeailsProvider.dart';
 
@@ -42,27 +46,63 @@ class AuditreportDetailsScreen extends ConsumerStatefulWidget {
 class _AuditreportDetailsScreenState
     extends ConsumerState<AuditreportDetailsScreen> {
   bool _isDownloading = false;
+  bool _isViewing = false;
+  bool _isAttachedPdfLoading = false;
 
   Future<void> _handlePdfAction({
     required String? url,
     required bool openImmediately,
+    String? defaultFileName,
+    bool isAttachment = false,
   }) async {
     if (url == null || url.trim().isEmpty) {
-      showErrorSnackBar("Audit report PDF is not available");
+      showErrorSnackBar(
+        isAttachment
+            ? "Attached document is not available"
+            : "Checklist PDF is not available",
+      );
       return;
     }
 
-    if (_isDownloading) return;
+    if (_isDownloading || _isViewing || _isAttachedPdfLoading) return;
 
     setState(() {
-      _isDownloading = true;
+      if (isAttachment) {
+        _isAttachedPdfLoading = true;
+      } else if (openImmediately) {
+        _isViewing = true;
+      } else {
+        _isDownloading = true;
+      }
     });
 
     try {
-      final uri = Uri.tryParse(url);
-      final resolvedFileName = uri != null && uri.pathSegments.isNotEmpty
-          ? uri.pathSegments.last.replaceAll(RegExp(r'[^\w\s\.-]'), '_')
-          : 'audit_report_${widget.id}.pdf';
+      String resolvedUrl = url.trim();
+      if (!resolvedUrl.startsWith('http://') &&
+          !resolvedUrl.startsWith('https://')) {
+        final clean = resolvedUrl.startsWith('/')
+            ? resolvedUrl.substring(1)
+            : resolvedUrl;
+        resolvedUrl = 'https://realestate.gwsstaging.com/public/$clean';
+      }
+
+      final uri = Uri.tryParse(resolvedUrl);
+      String resolvedFileName =
+          defaultFileName ??
+          (isAttachment
+              ? 'attachment_${widget.id}.pdf'
+              : 'audit_checklist_${widget.id}.pdf');
+      if (uri != null && uri.pathSegments.isNotEmpty) {
+        final lastSegment = uri.pathSegments.last.replaceAll(
+          RegExp(r'[^\w\s\.-]'),
+          '_',
+        );
+        if (lastSegment.toLowerCase().endsWith('.pdf')) {
+          resolvedFileName = lastSegment;
+        } else {
+          resolvedFileName = '${lastSegment}_${widget.id}.pdf';
+        }
+      }
 
       Directory? targetDir;
       if (Platform.isAndroid) {
@@ -87,18 +127,44 @@ class _AuditreportDetailsScreenState
       final savePath = '${targetDir.path}/$resolvedFileName';
       final file = File(savePath);
 
-      if (await file.exists() && await file.length() > 0) {
-        if (openImmediately) {
-          showSuccessSnackBar("Opening audit report...");
-          await OpenFilex.open(savePath);
+      // Check if file already exists and is valid
+      if (await file.exists()) {
+        final len = await file.length();
+        if (len > 10) {
+          final headerBytes = await file.openRead(0, 5).first;
+          final header = String.fromCharCodes(headerBytes);
+          if (header == '%PDF-') {
+            if (openImmediately) {
+              showSuccessSnackBar("Opening document...");
+              final openResult = await OpenFilex.open(savePath);
+              if (openResult.type != ResultType.done) {
+                if (openResult.type == ResultType.noAppToOpen) {
+                  showErrorSnackBar(
+                    "No app found to open PDF files. Please install a PDF viewer.",
+                  );
+                } else {
+                  showErrorSnackBar(
+                    "Could not open file: ${openResult.message}",
+                  );
+                }
+              }
+              return;
+            } else {
+              showSuccessSnackBar(
+                "Document already saved to ${targetDir.path}",
+              );
+              return;
+            }
+          } else {
+            await file.delete();
+          }
         } else {
-          showSuccessSnackBar("Report downloaded to ${targetDir.path}");
+          await file.delete();
         }
-        return;
       }
 
       showSuccessSnackBar(
-        openImmediately ? "Opening document..." : "Downloading report...",
+        openImmediately ? "Opening document..." : "Downloading document...",
       );
 
       final dio = Dio(
@@ -108,23 +174,72 @@ class _AuditreportDetailsScreenState
         ),
       );
 
-      await dio.download(url, savePath);
+      final box = Hive.isBoxOpen("userdata")
+          ? Hive.box("userdata")
+          : await Hive.openBox("userdata");
+      final token = box.get("token");
+
+      final options = Options(
+        headers: {
+          if (token != null && token.toString().isNotEmpty)
+            "Authorization": "Bearer $token",
+          "Accept": "application/pdf, application/json, */*",
+        },
+      );
+
+      await dio.download(resolvedUrl, savePath, options: options);
+
+      // Validate downloaded content
+      if (await file.exists()) {
+        final len = await file.length();
+        if (len > 10) {
+          final headerBytes = await file.openRead(0, 5).first;
+          final header = String.fromCharCodes(headerBytes);
+          if (header != '%PDF-') {
+            String errorMsg = "The server did not return a valid PDF";
+            try {
+              final text = await file.readAsString();
+              if (text.contains('"message"')) {
+                final decoded = json.decode(text);
+                if (decoded is Map && decoded['message'] != null) {
+                  errorMsg = decoded['message'].toString();
+                }
+              }
+            } catch (_) {}
+            await file.delete();
+            showErrorSnackBar("Failed: $errorMsg");
+            return;
+          }
+        }
+      }
 
       showSuccessSnackBar(
         openImmediately
-            ? "Report opened successfully"
-            : "Report downloaded successfully",
+            ? "Document opened successfully"
+            : "Document downloaded successfully to ${targetDir.path}",
       );
 
       if (openImmediately) {
-        await OpenFilex.open(savePath);
+        final openResult = await OpenFilex.open(savePath);
+        if (openResult.type != ResultType.done) {
+          if (openResult.type == ResultType.noAppToOpen) {
+            showErrorSnackBar(
+              "No app found to open PDF files. Please install a PDF viewer.",
+            );
+          } else {
+            showErrorSnackBar("Could not open file: ${openResult.message}");
+          }
+        }
       }
     } catch (e) {
-      showErrorSnackBar("Failed to load audit report PDF");
+      log("Error loading PDF: $e");
+      showErrorSnackBar("Failed to load PDF document");
     } finally {
       if (mounted) {
         setState(() {
           _isDownloading = false;
+          _isViewing = false;
+          _isAttachedPdfLoading = false;
         });
       }
     }
@@ -176,6 +291,208 @@ class _AuditreportDetailsScreenState
     );
   }
 
+  Widget _buildPdfAttachmentCard(String url) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: (_isAttachedPdfLoading || _isViewing || _isDownloading)
+          ? null
+          : () => _handlePdfAction(
+              url: url,
+              openImmediately: true,
+              defaultFileName: 'attachment_${widget.id}.pdf',
+              isAttachment: true,
+            ),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 12.w),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.heading, width: 1.1),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 36.w,
+              height: 36.h,
+              decoration: BoxDecoration(
+                color: const Color(0xffF8F5ED),
+                border: Border.all(color: AppColors.heading, width: 1.1),
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+              child: Center(
+                child: _isAttachedPdfLoading
+                    ? SizedBox(
+                        width: 18.sp,
+                        height: 18.sp,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Color(0xff101C16),
+                        ),
+                      )
+                    : Icon(
+                        Icons.picture_as_pdf_outlined,
+                        size: 20.sp,
+                        color: AppColors.heading,
+                      ),
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Attached Document",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.outfit(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (_isAttachedPdfLoading) ...[
+                        SizedBox(
+                          width: 12.sp,
+                          height: 12.sp,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                            color: Color(0xff101C16),
+                          ),
+                        ),
+                        SizedBox(width: 6.w),
+                      ],
+                      Text(
+                        _isAttachedPdfLoading ? "Opening..." : "View PDF",
+                        style: GoogleFonts.outfit(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromRGBO(16, 28, 22, 0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImagesAttachmentCard(List<String> images) {
+    return GestureDetector(
+      onTap: () {
+        if (images.isNotEmpty) {
+          _showImagePreview(images.first);
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 12.w),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.heading, width: 1.1),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6.r),
+              child: Image.network(
+                images.first,
+                width: 36.w,
+                height: 36.h,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: 36.w,
+                  height: 36.h,
+                  color: const Color(0xffF8F5ED),
+                  child: Icon(
+                    Icons.image,
+                    size: 20.sp,
+                    color: AppColors.heading,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Photos (${images.length})",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.outfit(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.heading,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    "Tap to preview",
+                    style: GoogleFonts.outfit(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(16, 28, 22, 0.6),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImagesGallery(List<String> images) {
+    return SizedBox(
+      height: 90.h,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        separatorBuilder: (_, __) => SizedBox(width: 12.w),
+        itemBuilder: (context, index) {
+          final imgUrl = images[index];
+          return GestureDetector(
+            onTap: () => _showImagePreview(imgUrl),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.r),
+              child: Image.network(
+                imgUrl,
+                width: 90.w,
+                height: 90.h,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: 90.w,
+                  height: 90.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xffE8E6DE),
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(color: AppColors.heading),
+                  ),
+                  child: Icon(
+                    Icons.broken_image,
+                    size: 24.sp,
+                    color: AppColors.heading,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final getInspectionReportDetailsData = ref.watch(
@@ -186,6 +503,7 @@ class _AuditreportDetailsScreenState
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBg,
+        elevation: 0,
         automaticallyImplyLeading: false,
         titleSpacing: 20.w,
         title: Align(
@@ -218,19 +536,19 @@ class _AuditreportDetailsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Audit Report Details",
+                    "AUDIT REPORTS",
                     style: GoogleFonts.outfit(
                       fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: const Color(0xff292832),
                       letterSpacing: -0.64,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    "COMPLETE AUDIT REPORT",
+                    "AUDIT REPORT DETAILS",
                     style: GoogleFonts.outfit(
-                      fontSize: 16.sp,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color.fromRGBO(42, 41, 51, 0.6),
                       letterSpacing: -0.24,
@@ -246,60 +564,72 @@ class _AuditreportDetailsScreenState
         loading: () => const Center(
           child: CircularProgressIndicator(color: Color(0xff101C16)),
         ),
-        error: (error, stackTrace) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Failed to load audit details",
-                style: GoogleFonts.outfit(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xff101C16),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff101C16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                ),
-                onPressed: () =>
-                    ref.refresh(getInspectionReportDetailsProvider(widget.id)),
-                child: Text(
-                  "Retry",
+        error: (error, stackTrace) {
+          log(error.toString());
+          log(stackTrace.toString());
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Failed to load audit details",
                   style: GoogleFonts.outfit(
-                    color: Colors.white,
-                    fontSize: 16.sp,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xff101C16),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
+                SizedBox(height: 12.h),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff101C16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  onPressed: () => ref.refresh(
+                    getInspectionReportDetailsProvider(widget.id),
+                  ),
+                  child: Text(
+                    "Retry",
+                    style: GoogleFonts.outfit(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
         data: (modelData) {
           final data = modelData.data;
 
           final title = widget.title ?? "Property Audit Report";
 
-          final rawDate = data?.inspectionDate ?? widget.date;
-          String headerDate = "12 August 2026";
-          String auditDate = "12 Aug 2026";
-          if (rawDate != null && rawDate.isNotEmpty) {
-            final parsed = DateTime.tryParse(rawDate);
-            if (parsed != null) {
-              headerDate = DateFormat("dd MMMM yyyy").format(parsed);
-              auditDate = DateFormat("dd MMM yyyy").format(parsed);
-            } else {
-              headerDate = rawDate;
-              auditDate = rawDate;
+          String headerDate = data?.dateFormatted ?? widget.date ?? "--";
+          String auditDate =
+              data?.dateFormatted ?? widget.auditDate ?? widget.date ?? "--";
+          if (data?.dateFormatted == null) {
+            final rawDate = data?.inspectionDate ?? widget.date;
+            if (rawDate != null && rawDate.isNotEmpty) {
+              final parsed = DateTime.tryParse(rawDate);
+              if (parsed != null) {
+                headerDate = DateFormat("dd MMMM yyyy").format(parsed);
+                auditDate = DateFormat("dd MMM yyyy").format(parsed);
+              } else {
+                headerDate = rawDate;
+                auditDate = rawDate;
+              }
             }
           }
 
-          final property =
-              data?.propertyName ?? widget.property ?? "Apartment A-204";
+          final property = formatPropertyTitle(
+            data?.propertyName ??
+                data?.complexName ??
+                widget.property ??
+                "Property",
+          );
           final auditType =
               (data?.auditType != null &&
                   data!.auditType.toString().trim().isNotEmpty)
@@ -307,7 +637,7 @@ class _AuditreportDetailsScreenState
               : (widget.auditType ?? "Property Audit");
           final rawStatus = data?.status ?? widget.status ?? "Completed";
           final status = rawStatus.isNotEmpty
-              ? "${rawStatus[0].toUpperCase()}${rawStatus.substring(1)}"
+              ? "${rawStatus[0].toUpperCase()}${rawStatus.substring(1).replaceAll('_', ' ')}"
               : "Completed";
 
           final overviewText =
@@ -322,8 +652,59 @@ class _AuditreportDetailsScreenState
               : "Recommended actions based on the audit findings are available for review.";
 
           final checklist = data?.digitalChecklist ?? [];
-          final pdfUrl = data?.attachments?.pdf;
-          final images = data?.attachments?.images ?? [];
+
+          // Use checklist_pdf_url as per user instruction. Do NOT use download_url.
+          String? checklistPdfUrl = data?.checklistPdfUrl;
+          if (checklistPdfUrl == null || checklistPdfUrl.trim().isEmpty) {
+            checklistPdfUrl = data?.reportPdfUrl;
+          }
+          if (checklistPdfUrl != null &&
+              checklistPdfUrl.isNotEmpty &&
+              !checklistPdfUrl.startsWith("http")) {
+            final clean = checklistPdfUrl.startsWith("/")
+                ? checklistPdfUrl.substring(1)
+                : checklistPdfUrl;
+            checklistPdfUrl = "https://realestate.gwsstaging.com/public/$clean";
+          }
+
+          // Attachments logic:
+          String? attachedPdf =
+              (data?.attachmentsUrls?.pdf != null &&
+                  data!.attachmentsUrls!.pdf!.trim().isNotEmpty)
+              ? data.attachmentsUrls!.pdf!.trim()
+              : (data?.attachments?.pdf != null &&
+                        data!.attachments!.pdf!.trim().isNotEmpty
+                    ? data.attachments!.pdf!.trim()
+                    : null);
+          if (attachedPdf != null &&
+              attachedPdf.isNotEmpty &&
+              !attachedPdf.startsWith("http")) {
+            final clean = attachedPdf.startsWith("/")
+                ? attachedPdf.substring(1)
+                : attachedPdf;
+            attachedPdf = "https://realestate.gwsstaging.com/public/$clean";
+          }
+
+          final rawImages =
+              (data?.attachmentsUrls?.images != null &&
+                  data!.attachmentsUrls!.images!.isNotEmpty)
+              ? data.attachmentsUrls!.images!
+              : (data?.attachments?.images ?? []);
+          final images = rawImages.where((img) => img.trim().isNotEmpty).map((
+            img,
+          ) {
+            final trimmed = img.trim();
+            if (trimmed.startsWith("http")) return trimmed;
+            final clean = trimmed.startsWith("/")
+                ? trimmed.substring(1)
+                : trimmed;
+            return "https://realestate.gwsstaging.com/public/$clean";
+          }).toList();
+
+          final bool hasAttachedPdf =
+              attachedPdf != null && attachedPdf.isNotEmpty;
+          final bool hasAttachedImages = images.isNotEmpty;
+          final bool hasAttachments = hasAttachedPdf || hasAttachedImages;
 
           return RefreshIndicator(
             color: const Color(0xff101C16),
@@ -337,6 +718,9 @@ class _AuditreportDetailsScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 12.h),
+
+                    // Overview Card
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
@@ -433,14 +817,13 @@ class _AuditreportDetailsScreenState
                             ],
                           ),
                           SizedBox(height: 14.h),
-                          const Divider(
+                          Divider(
                             height: 1,
-                            thickness: 1,
-                            color: Color(0xff777970),
+                            thickness: 0.8,
+                            color: const Color(0xffD0D2C8),
                           ),
-                          SizedBox(height: 17.h),
+                          SizedBox(height: 14.h),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: _infoItem(
@@ -448,7 +831,7 @@ class _AuditreportDetailsScreenState
                                   value: property,
                                 ),
                               ),
-                              SizedBox(width: 15.w),
+                              SizedBox(width: 10.w),
                               Expanded(
                                 child: _infoItem(
                                   title: "AUDIT TYPE",
@@ -459,7 +842,6 @@ class _AuditreportDetailsScreenState
                           ),
                           SizedBox(height: 14.h),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: _infoItem(
@@ -467,7 +849,7 @@ class _AuditreportDetailsScreenState
                                   value: auditDate,
                                 ),
                               ),
-                              SizedBox(width: 15.w),
+                              SizedBox(width: 10.w),
                               Expanded(
                                 child: _infoItem(
                                   title: "STATUS",
@@ -479,42 +861,10 @@ class _AuditreportDetailsScreenState
                         ],
                       ),
                     ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      "Audit Overview",
-                      style: GoogleFonts.outfit(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
-                        fontSize: 19.sp,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                    SizedBox(height: 7.h),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 15.w,
-                        vertical: 10.h,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromRGBO(42, 41, 51, 0.6),
-                        ),
-                        borderRadius: BorderRadius.circular(5.r),
-                      ),
-                      child: Text(
-                        overviewText,
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(42, 41, 51, 0.6),
-                          fontSize: 16.sp,
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                    ),
+
                     SizedBox(height: 30.h),
                     Text(
-                      "Audit Findings",
+                      "Overview",
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w500,
                         color: AppColors.heading,
@@ -522,19 +872,48 @@ class _AuditreportDetailsScreenState
                         letterSpacing: -0.2,
                       ),
                     ),
-                    SizedBox(height: 16.h),
+                    SizedBox(height: 14.h),
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 17.h,
+                        vertical: 14.h,
+                        horizontal: 14.w,
                       ),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color(0xff999999),
-                          width: 1.5,
+                        border: Border.all(color: AppColors.heading),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Text(
+                        overviewText,
+                        style: GoogleFonts.outfit(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
                         ),
-                        borderRadius: BorderRadius.circular(18.r),
+                      ),
+                    ),
+
+                    SizedBox(height: 30.h),
+                    Text(
+                      "Findings",
+                      style: GoogleFonts.outfit(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.heading,
+                        fontSize: 18.sp,
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                    SizedBox(height: 14.h),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 14.h,
+                        horizontal: 14.w,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.heading),
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: checklist.isNotEmpty
                           ? ListView.separated(
@@ -543,13 +922,13 @@ class _AuditreportDetailsScreenState
                               physics: const NeverScrollableScrollPhysics(),
                               separatorBuilder: (context, index) => Column(
                                 children: [
-                                  SizedBox(height: 12.h),
-                                  Container(
-                                    width: double.infinity,
-                                    height: 1.h,
-                                    color: const Color(0xff202820),
+                                  SizedBox(height: 14.h),
+                                  Divider(
+                                    height: 1,
+                                    thickness: 0.8,
+                                    color: const Color(0xff777970),
                                   ),
-                                  SizedBox(height: 12.h),
+                                  SizedBox(height: 14.h),
                                 ],
                               ),
                               itemBuilder: (context, index) {
@@ -563,8 +942,7 @@ class _AuditreportDetailsScreenState
                                   icon: isPass ? "✓" : "!",
                                   title: checkItem.itemName ?? "Audit Item",
                                   description:
-                                      checkItem.remarks ??
-                                      "Observations recorded in the audit.",
+                                      checkItem.remarks ?? "Observation logged",
                                 );
                               },
                             )
@@ -572,332 +950,295 @@ class _AuditreportDetailsScreenState
                               children: [
                                 _auditItem(
                                   icon: "✓",
-                                  title: "Property Condition",
+                                  title: "Physical Infrastructure",
                                   description:
-                                      "Overall property condition was reviewed during the scheduled audit.",
+                                      "Building structures, foundation and common areas are in standard operational condition.",
                                 ),
-                                SizedBox(height: 12.h),
-                                Container(
-                                  width: double.infinity,
-                                  height: 1.h,
-                                  color: const Color(0xff202820),
+                                SizedBox(height: 14.h),
+                                Divider(
+                                  height: 1,
+                                  thickness: 0.8,
+                                  color: const Color(0xff777970),
                                 ),
-                                SizedBox(height: 12.h),
+                                SizedBox(height: 14.h),
                                 _auditItem(
                                   icon: "!",
-                                  title: "Maintenance Observation",
+                                  title: "Service Requirements",
                                   description:
-                                      "Maintenance observations identified during the audit are\nrecorded in the report.",
+                                      "Follow-up inspections recommended for electrical and plumbing distribution points.",
                                 ),
-                                SizedBox(height: 12.h),
-                                Container(
-                                  width: double.infinity,
-                                  height: 1.h,
-                                  color: const Color(0xff202820),
+                                SizedBox(height: 14.h),
+                                Divider(
+                                  height: 1,
+                                  thickness: 0.8,
+                                  color: const Color(0xff777970),
                                 ),
-                                SizedBox(height: 12.h),
+                                SizedBox(height: 14.h),
                                 _auditItem(
                                   icon: "✓",
-                                  title: "Compliance Check",
+                                  title: "Statutory Compliance",
                                   description:
-                                      "Relevant property audit checks and observations have been recorded.",
+                                      "Safety and regulatory compliance verified for the property audit cycle.",
                                 ),
                               ],
                             ),
                     ),
-                    SizedBox(height: 30.h),
-                    Text(
-                      "Recommendations",
-                      style: GoogleFonts.outfit(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
-                        fontSize: 18.sp,
-                        letterSpacing: -0.2,
+
+                    // SizedBox(height: 30.h),
+                    // Text(
+                    //   "Recommendations",
+                    //   style: GoogleFonts.outfit(
+                    //     fontWeight: FontWeight.w500,
+                    //     color: AppColors.heading,
+                    //     fontSize: 18.sp,
+                    //     letterSpacing: -0.2,
+                    //   ),
+                    // ),
+                    // SizedBox(height: 14.h),
+                    // Container(
+                    //   width: double.infinity,
+                    //   padding: EdgeInsets.symmetric(
+                    //     vertical: 14.h,
+                    //     horizontal: 14.w,
+                    //   ),
+                    //   decoration: BoxDecoration(
+                    //     border: Border.all(color: AppColors.heading),
+                    //     borderRadius: BorderRadius.circular(10.r),
+                    //   ),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text(
+                    //         recommendationsText,
+                    //         style: GoogleFonts.outfit(
+                    //           fontWeight: FontWeight.w500,
+                    //           color: AppColors.heading,
+                    //           fontSize: 15.sp,
+                    //           letterSpacing: -0.2,
+                    //         ),
+                    //       ),
+                    //       SizedBox(height: 14.h),
+                    //       Container(
+                    //         padding: EdgeInsets.symmetric(
+                    //           vertical: 5.h,
+                    //           horizontal: 21.w,
+                    //         ),
+                    //         decoration: BoxDecoration(
+                    //           border: Border.all(color: AppColors.heading),
+                    //           borderRadius: BorderRadius.circular(50.r),
+                    //         ),
+                    //         child: Text(
+                    //           "Review Recommended Actions",
+                    //           style: GoogleFonts.outfit(
+                    //             fontWeight: FontWeight.w500,
+                    //             color: AppColors.heading,
+                    //             fontSize: 15.sp,
+                    //             letterSpacing: -0.2,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
+                    // Audit Checklist Document Card with Eye (View) and Download icons
+                    if (checklistPdfUrl != null &&
+                        checklistPdfUrl.isNotEmpty) ...[
+                      SizedBox(height: 24.h),
+                      Text(
+                        "Audit Checklist Document",
+                        style: GoogleFonts.outfit(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 16.h),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                        vertical: 18.h,
-                        horizontal: 15.w,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.heading),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            recommendationsText,
-                            style: GoogleFonts.outfit(
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.heading,
-                              fontSize: 15.sp,
-                              letterSpacing: -0.2,
-                            ),
+                      SizedBox(height: 12.h),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 14.w,
+                          vertical: 14.h,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color(0xff101C16),
+                            width: 1.1,
                           ),
-                          SizedBox(height: 14.h),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 5.h,
-                              horizontal: 21.w,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.heading),
-                              borderRadius: BorderRadius.circular(50.r),
-                            ),
-                            child: Text(
-                              "Review Recommended Actions",
-                              style: GoogleFonts.outfit(
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.heading,
-                                fontSize: 15.sp,
-                                letterSpacing: -0.2,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 30.h),
-                    Text(
-                      "Attached Documents",
-                      style: GoogleFonts.outfit(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
-                        fontSize: 18.sp,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    Row(
-                      children: [
-                        // PDF Box
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _handlePdfAction(
-                              url: pdfUrl,
-                              openImmediately: true,
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 14.h,
-                              ),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 44.w,
+                              height: 44.h,
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: AppColors.heading,
-                                  width: 1,
+                                  color: const Color(0xff101C16),
+                                  width: 1.1,
                                 ),
-                                borderRadius: BorderRadius.circular(10.r),
+                                borderRadius: BorderRadius.circular(6.r),
                               ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.picture_as_pdf_outlined,
+                                  size: 22.sp,
+                                  color: const Color(0xff101C16),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 12.w),
+                            Expanded(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    width: 32.w,
-                                    height: 32.h,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: AppColors.heading,
+                                  Text(
+                                    "Checklist Report PDF",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xff101C16),
+                                    ),
+                                  ),
+                                  SizedBox(height: 3.h),
+                                  Text(
+                                    "Official Audit Checklist",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromRGBO(
+                                        16,
+                                        28,
+                                        22,
+                                        0.6,
                                       ),
-                                    ),
-                                    child: const Icon(
-                                      Icons.description_outlined,
-                                      size: 16,
-                                      color: Color(0xff17231F),
-                                    ),
-                                  ),
-                                  SizedBox(height: 5.h),
-                                  Text(
-                                    "Audit Report",
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.heading,
-                                    ),
-                                  ),
-                                  Text(
-                                    "PDF",
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.heading,
-                                      letterSpacing: -0.2,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                        SizedBox(width: 20.w),
-                        // Audit Images Box
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              if (images.isNotEmpty) {
-                                _showImagePreview(images.first);
-                              } else {
-                                showErrorSnackBar("No audit images available");
-                              }
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 14.h,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColors.heading,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 32.w,
-                                    height: 32.h,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: AppColors.heading,
-                                        width: 1.5,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: images.isNotEmpty
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(2.r),
-                                              child: Image.network(
-                                                images.first,
-                                                width: 18.w,
-                                                height: 18.h,
-                                                fit: BoxFit.cover,
-                                                errorBuilder: (c, e, s) =>
-                                                    Container(
-                                                      height: 6.h,
-                                                      width: 6.w,
-                                                      color: AppColors.heading,
-                                                    ),
-                                              ),
-                                            )
-                                          : Container(
-                                              height: 6.h,
-                                              width: 6.w,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.heading,
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 5.h),
-                                  Text(
-                                    "Audit Images",
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.heading,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Images",
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.heading,
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 41.h,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.scaffoldBg,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: AppColors.heading),
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                              ),
-                              onPressed: _isDownloading
+
+                            // Eye Icon: View / Open PDF
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap:
+                                  (_isViewing ||
+                                      _isDownloading ||
+                                      _isAttachedPdfLoading)
                                   ? null
                                   : () => _handlePdfAction(
-                                      url: pdfUrl,
+                                      url: checklistPdfUrl,
                                       openImmediately: true,
+                                      defaultFileName:
+                                          'audit_checklist_${widget.id}.pdf',
                                     ),
-                              child: _isDownloading
-                                  ? SizedBox(
-                                      width: 16.w,
-                                      height: 16.h,
-                                      child: const CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Color(0xff101C16),
-                                      ),
-                                    )
-                                  : Text(
-                                      "View Full Report",
-                                      style: GoogleFonts.outfit(
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.heading,
-                                        fontSize: 15.sp,
-                                        letterSpacing: -0.2,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 20.w),
-                        Expanded(
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 41.h,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.heading,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w,
+                                  vertical: 6.h,
                                 ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: const Color(0xff101C16),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(6.r),
+                                ),
+                                child: _isViewing
+                                    ? SizedBox(
+                                        width: 18.sp,
+                                        height: 18.sp,
+                                        child: const CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Color(0xff101C16),
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.visibility_outlined,
+                                        size: 18.sp,
+                                        color: const Color(0xff101C16),
+                                      ),
                               ),
-                              onPressed: _isDownloading
+                            ),
+
+                            SizedBox(width: 8.w),
+
+                            // Download Icon: Download PDF to device
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap:
+                                  (_isViewing ||
+                                      _isDownloading ||
+                                      _isAttachedPdfLoading)
                                   ? null
                                   : () => _handlePdfAction(
-                                      url: pdfUrl,
+                                      url: checklistPdfUrl,
                                       openImmediately: false,
+                                      defaultFileName:
+                                          'audit_checklist_${widget.id}.pdf',
                                     ),
-                              child: Text(
-                                "Download Report",
-                                style: GoogleFonts.outfit(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                  letterSpacing: -0.2,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w,
+                                  vertical: 6.h,
                                 ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff101C16),
+                                  borderRadius: BorderRadius.circular(6.r),
+                                ),
+                                child: _isDownloading
+                                    ? SizedBox(
+                                        width: 18.sp,
+                                        height: 18.sp,
+                                        child: const CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.file_download_outlined,
+                                        size: 18.sp,
+                                        color: Colors.white,
+                                      ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
+                      ),
+                    ],
+
+                    // Attached Documents / Images (only shown if attachments exist)
+                    if (hasAttachments) ...[
+                      SizedBox(height: 24.h),
+                      Text(
+                        "Attached Documents / Images",
+                        style: GoogleFonts.outfit(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.heading,
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+
+                      if (hasAttachedPdf && hasAttachedImages) ...[
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildPdfAttachmentCard(attachedPdf),
+                            ),
+                            SizedBox(width: 14.w),
+                            Expanded(child: _buildImagesAttachmentCard(images)),
+                          ],
+                        ),
+                      ] else if (hasAttachedPdf) ...[
+                        _buildPdfAttachmentCard(attachedPdf),
+                      ] else if (hasAttachedImages) ...[
+                        _buildImagesGallery(images),
                       ],
-                    ),
+                    ],
+
                     SizedBox(height: 30.h),
                   ],
                 ),

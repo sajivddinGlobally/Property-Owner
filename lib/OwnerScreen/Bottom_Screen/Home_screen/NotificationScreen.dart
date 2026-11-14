@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/getNotificaionListProvider.dart';
+import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/markReadNotificatonProvider.dart';
 import 'package:property_care/core/Data/Model/ResponseModel/getNotificaionListModel.dart'
     as notif_model;
 import 'package:property_care/core/constant/appColor.dart';
@@ -16,6 +19,26 @@ class Notificationscreen extends ConsumerStatefulWidget {
 
 class _NotificationscreenState extends ConsumerState<Notificationscreen> {
   int selectedFilter = 0;
+  final Set<String> _markedIds = {};
+
+  void _markUnreadNotifications(List<String> ids) {
+    final unreadToMark = ids.where((id) => !_markedIds.contains(id)).toList();
+    if (unreadToMark.isEmpty) return;
+    _markedIds.addAll(unreadToMark);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(markMultipleNotificationsReadProvider(unreadToMark).future)
+          .then((res) {
+            log(
+              "Marked notifications as read: $unreadToMark, status: ${res?.status}, message: ${res?.message}",
+            );
+          })
+          .catchError((err) {
+            log("Error marking notifications as read: $err");
+          });
+    });
+  }
 
   final List<String> defaultFilters = [
     "All",
@@ -181,6 +204,27 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                   final sections = resData?.sections ?? [];
                   final allNotifications = resData?.notifications ?? [];
 
+                  final unreadIds = <String>[];
+                  if (sections.isNotEmpty) {
+                    for (final section in sections) {
+                      for (final item in section.items ?? []) {
+                        if (item.id != null && item.isRead == false) {
+                          unreadIds.add(item.id.toString());
+                        }
+                      }
+                    }
+                  } else if (allNotifications.isNotEmpty) {
+                    for (final item in allNotifications) {
+                      if (item.id != null && item.isRead == false) {
+                        unreadIds.add(item.id.toString());
+                      }
+                    }
+                  }
+
+                  if (unreadIds.isNotEmpty) {
+                    _markUnreadNotifications(unreadIds);
+                  }
+
                   bool matchesFilter(notif_model.Notification item) {
                     if (selectedFilterText.toLowerCase() == "all") return true;
                     final tag = item.tag?.toLowerCase() ?? "";
@@ -255,6 +299,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                     return RefreshIndicator(
                       color: AppColors.heading,
                       onRefresh: () async {
+                        _markedIds.clear();
                         ref.invalidate(getNotificaionListProvider);
                       },
                       child: ListView(
@@ -283,6 +328,7 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                   return RefreshIndicator(
                     color: AppColors.heading,
                     onRefresh: () async {
+                      _markedIds.clear();
                       ref.invalidate(getNotificaionListProvider);
                     },
                     child: ListView.builder(
@@ -347,393 +393,113 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
   }
 
   Widget _buildNotificationCard(notif_model.Notification item) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 12.h),
-      margin: EdgeInsets.only(bottom: 16.h),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border.all(color: const Color(0xff101010), width: 1),
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 42.w,
-            height: 42.h,
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xff101010), width: 1.1),
-              borderRadius: BorderRadius.circular(4.r),
-            ),
-            child: Center(
-              child: Icon(
-                _getNotificationIcon(item.iconType),
-                color: AppColors.heading,
-                size: 18.sp,
+    return GestureDetector(
+      onTap: () {
+        if (item.id != null && item.isRead == false) {
+          _markUnreadNotifications([item.id.toString()]);
+          setState(() {
+            item.isRead = true;
+          });
+        }
+      },
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 12.h),
+        margin: EdgeInsets.only(bottom: 16.h),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(color: const Color(0xff101010), width: 1),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 42.w,
+              height: 42.h,
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xff101010), width: 1.1),
+                borderRadius: BorderRadius.circular(4.r),
+              ),
+              child: Center(
+                child: Icon(
+                  _getNotificationIcon(item.iconType),
+                  color: AppColors.heading,
+                  size: 18.sp,
+                ),
               ),
             ),
-          ),
-          SizedBox(width: 14.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        item.title ?? "",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.outfit(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.heading,
-                          letterSpacing: -0.3,
+            SizedBox(width: 14.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          item.title ?? "",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.outfit(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.heading,
+                            letterSpacing: -0.3,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      item.time ?? "",
-                      style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.heading,
+                      SizedBox(width: 8.w),
+                      Text(
+                        item.time ?? "",
+                        style: GoogleFonts.outfit(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.heading,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 5.h),
-                Text(
-                  item.message ?? "",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.outfit(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(0, 0, 0, 0.7),
-                    letterSpacing: -0.2,
+                    ],
                   ),
-                ),
-                SizedBox(height: 8.h),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 14.w,
-                    vertical: 3.h,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xff101010)),
-                    borderRadius: BorderRadius.circular(25.r),
-                  ),
-                  child: Text(
-                    item.tag ?? "General",
+                  SizedBox(height: 5.h),
+                  Text(
+                    item.message ?? "",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
-                      fontSize: 14.sp,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
-                      color: const Color(0xff101010),
+                      color: const Color.fromRGBO(0, 0, 0, 0.7),
                       letterSpacing: -0.2,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 8.h),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 14.w,
+                      vertical: 3.h,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xff101010)),
+                      borderRadius: BorderRadius.circular(25.r),
+                    ),
+                    child: Text(
+                      item.tag ?? "General",
+                      style: GoogleFonts.outfit(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff101010),
+                        letterSpacing: -0.2,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/getNotificaionListProvider.dart';
-// import 'package:property_care/core/constant/appColor.dart';
-
-// class Notificationscreen extends ConsumerStatefulWidget {
-//   const Notificationscreen({super.key});
-
-//   @override
-//   ConsumerState<Notificationscreen> createState() => _NotificationscreenState();
-// }
-
-// class _NotificationscreenState extends ConsumerState<Notificationscreen> {
-//   int selectedFilter = 0;
-
-//   final List<String> filters = [
-//     "All",
-//     "Maintenance",
-//     "Inspections",
-//     "Complaints",
-//     "Services",
-//   ];
-//   @override
-//   Widget build(BuildContext context) {
-//     final getNotificaionState = ref.watch(getNotificaionListProvider);
-//     return Scaffold(
-//       backgroundColor: AppColors.scaffoldBg,
-//       appBar: AppBar(
-//         backgroundColor: AppColors.scaffoldBg,
-//         automaticallyImplyLeading: false,
-//         titleSpacing: 20.w,
-//         title: Align(
-//           alignment: Alignment.centerLeft,
-//           child: Row(
-//             children: [
-//               GestureDetector(
-//                 onTap: () {
-//                   Navigator.pop(context);
-//                 },
-//                 child: Container(
-//                   width: 41.w,
-//                   height: 41.h,
-//                   decoration: BoxDecoration(
-//                     border: Border.all(
-//                       color: const Color.fromRGBO(16, 28, 22, 0.3),
-//                     ),
-//                     borderRadius: BorderRadius.circular(4.r),
-//                   ),
-//                   child: Icon(
-//                     Icons.arrow_back,
-//                     color: const Color(0xff101C16),
-//                     size: 16.sp,
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(width: 10.w),
-//               Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     "Notifications",
-//                     style: GoogleFonts.outfit(
-//                       fontSize: 18.sp,
-//                       fontWeight: FontWeight.w500,
-//                       color: const Color(0xff292832),
-//                       letterSpacing: -0.64,
-//                     ),
-//                   ),
-//                   SizedBox(height: 2.h),
-//                   Text(
-//                     "Stay updated with your propertys",
-//                     style: GoogleFonts.outfit(
-//                       fontSize: 16.sp,
-//                       fontWeight: FontWeight.w500,
-//                       color: Color.fromRGBO(42, 41, 51, 0.6),
-//                       letterSpacing: -0.24,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//       body: Padding(
-//         padding: EdgeInsets.symmetric(horizontal: 20.w),
-//         child: Column(
-//           children: [
-//             SizedBox(height: 16.h),
-//             SingleChildScrollView(
-//               scrollDirection: Axis.horizontal,
-//               child: Row(
-//                 children: List.generate(filters.length, (index) {
-//                   final bool isSelected = selectedFilter == index;
-
-//                   return Padding(
-//                     padding: EdgeInsets.only(right: 10.w),
-//                     child: GestureDetector(
-//                       onTap: () {
-//                         setState(() {
-//                           selectedFilter = index;
-//                         });
-//                       },
-//                       child: AnimatedContainer(
-//                         duration: const Duration(milliseconds: 200),
-//                         // height: 27.h,
-//                         padding: EdgeInsets.symmetric(
-//                           vertical: 5.h,
-//                           horizontal: 13.w,
-//                         ),
-//                         decoration: BoxDecoration(
-//                           color: isSelected
-//                               ? const Color(0xff101C16)
-//                               : Colors.transparent,
-//                           borderRadius: BorderRadius.circular(40.r),
-//                           border: Border.all(
-//                             color: const Color(0xff101C16),
-//                             width: 1,
-//                           ),
-//                         ),
-//                         alignment: Alignment.center,
-//                         child: Text(
-//                           filters[index],
-//                           style: GoogleFonts.outfit(
-//                             fontSize: 13.sp,
-//                             fontWeight: FontWeight.w500,
-//                             color: isSelected
-//                                 ? Colors.white
-//                                 : const Color(0xff101C16),
-//                             letterSpacing: -0.3,
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   );
-//                 }),
-//               ),
-//             ),
-//             SizedBox(height: 20.h),
-//             Row(
-//               children: [
-//                 Text(
-//                   "Today",
-//                   style: GoogleFonts.outfit(
-//                     fontSize: 16.sp,
-//                     fontWeight: FontWeight.w500,
-//                     color: AppColors.heading,
-//                     letterSpacing: -0.2,
-//                   ),
-//                 ),
-//                 Spacer(),
-//                 Text(
-//                   "3 New",
-//                   style: GoogleFonts.outfit(
-//                     fontSize: 14.sp,
-//                     fontWeight: FontWeight.w500,
-//                     color: AppColors.heading,
-//                     letterSpacing: -0.2,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             SizedBox(height: 18.h),
-//             ListView.builder(
-//               itemCount: 3,
-//               shrinkWrap: true,
-//               physics: const NeverScrollableScrollPhysics(),
-//               itemBuilder: (context, index) {
-//                 return Container(
-//                   width: double.infinity,
-//                   padding: EdgeInsets.symmetric(
-//                     horizontal: 13.w,
-//                     vertical: 12.h,
-//                   ),
-//                   margin: EdgeInsets.only(bottom: 16.h),
-//                   decoration: BoxDecoration(
-//                     border: Border.all(color: const Color(0xff101010)),
-//                     borderRadius: BorderRadius.circular(8.r),
-//                   ),
-//                   child: Row(
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-//                       Container(
-//                         width: 42.w,
-//                         height: 42.h,
-//                         decoration: BoxDecoration(
-//                           border: Border.all(
-//                             color: const Color(0xff101010),
-//                             width: 1.1,
-//                           ),
-//                           borderRadius: BorderRadius.circular(4.r),
-//                         ),
-//                         child: Center(
-//                           child: Icon(
-//                             Icons.check,
-//                             color: AppColors.heading,
-//                             size: 16.sp,
-//                           ),
-//                         ),
-//                       ),
-
-//                       SizedBox(width: 20.w),
-//                       Expanded(
-//                         child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           mainAxisSize: MainAxisSize.min,
-//                           children: [
-//                             Row(
-//                               crossAxisAlignment: CrossAxisAlignment.start,
-//                               children: [
-//                                 Expanded(
-//                                   child: Text(
-//                                     "Maintenance Payment Reminder",
-//                                     maxLines: 1,
-//                                     overflow: TextOverflow.ellipsis,
-//                                     style: GoogleFonts.outfit(
-//                                       fontSize: 18.sp,
-//                                       fontWeight: FontWeight.w500,
-//                                       color: AppColors.heading,
-//                                       letterSpacing: -0.3,
-//                                     ),
-//                                   ),
-//                                 ),
-
-//                                 SizedBox(width: 8.w),
-
-//                                 Text(
-//                                   "09:45 AM",
-//                                   style: GoogleFonts.outfit(
-//                                     fontSize: 13.sp,
-//                                     fontWeight: FontWeight.w500,
-//                                     color: AppColors.heading,
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-
-//                             SizedBox(height: 5.h),
-//                             Text(
-//                               "Your monthly maintenance charge is pending. Please contact the administration for payment details.",
-//                               maxLines: 2,
-//                               overflow: TextOverflow.ellipsis,
-//                               style: GoogleFonts.outfit(
-//                                 fontSize: 15.sp,
-//                                 fontWeight: FontWeight.w500,
-//                                 color: const Color.fromRGBO(0, 0, 0, 0.7),
-//                                 letterSpacing: -0.2,
-//                               ),
-//                             ),
-
-//                             SizedBox(height: 5.h),
-
-//                             Container(
-//                               height: 23.h,
-//                               width: 106.w,
-//                               decoration: BoxDecoration(
-//                                 border: Border.all(
-//                                   color: const Color(0xff101010),
-//                                 ),
-//                                 borderRadius: BorderRadius.circular(25.r),
-//                               ),
-//                               alignment: Alignment.center,
-//                               child: Text(
-//                                 "Maintenance",
-//                                 style: GoogleFonts.outfit(
-//                                   fontSize: 14.sp,
-//                                   fontWeight: FontWeight.w500,
-//                                   color: const Color(0xff101010),
-//                                   letterSpacing: -0.2,
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 );
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

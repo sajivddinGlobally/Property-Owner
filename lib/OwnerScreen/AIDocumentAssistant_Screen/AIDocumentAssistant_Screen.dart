@@ -88,11 +88,7 @@ class _AIDocumentAssistantScreenState
 
     setState(() {
       _messages.add(
-        _DocChatMessage(
-          sender: 'user',
-          text: query,
-          timestamp: DateTime.now(),
-        ),
+        _DocChatMessage(sender: 'user', text: query, timestamp: DateTime.now()),
       );
       _isSending = true;
     });
@@ -258,10 +254,7 @@ class _AIDocumentAssistantScreenState
               decoration: BoxDecoration(
                 color: const Color(0xFF101C16),
                 borderRadius: BorderRadius.circular(10.r),
-                border: Border.all(
-                  color: const Color(0xFFB8860B),
-                  width: 1.2,
-                ),
+                border: Border.all(color: const Color(0xFFB8860B), width: 1.2),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -436,8 +429,9 @@ class _AIDocumentAssistantScreenState
                 final isUser = msg.sender == 'user';
 
                 return Align(
-                  alignment:
-                      isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: isUser
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: EdgeInsets.only(bottom: 12.h),
                     constraints: BoxConstraints(
@@ -559,8 +553,7 @@ class _AIDocumentAssistantScreenState
                       onSubmitted: (_) => _sendMessage(),
                       style: GoogleFonts.outfit(fontSize: 16.sp),
                       decoration: InputDecoration(
-                        hintText:
-                            "Ask about leases, clauses, or documents...",
+                        hintText: "Ask about leases, clauses, or documents...",
                         hintStyle: GoogleFonts.outfit(
                           fontSize: 15.sp,
                           color: Colors.grey.shade600,

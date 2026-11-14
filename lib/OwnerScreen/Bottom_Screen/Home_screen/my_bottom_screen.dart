@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +12,7 @@ import 'package:property_care/OwnerScreen/Bottom_Screen/Complaint_Screen/Complai
 import 'package:property_care/OwnerScreen/Bottom_Screen/Document_Screen/document_screen.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/NotificationScreen.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/ownerDashboardProvider.dart';
+import 'package:property_care/OwnerScreen/PropertyPerformanceScreen/Property_Performance_Screen.dart';
 import 'package:property_care/core/Data/Model/ResponseModel/ownerDashboardModel.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Profile_Screen/profile_screen.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Property_Screen/property_screen.dart';
@@ -24,7 +24,6 @@ import 'package:property_care/core/AuthService/AuthServiceProvider.dart';
 import 'package:property_care/core/constant/appColor.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
-import 'AddPropertyBottomSheet.dart';
 import 'Provider/getPropertyListProvider.dart';
 import 'Provider/selectedPropertyProvider.dart';
 
@@ -48,6 +47,11 @@ class _MyBottomScreenState extends State<MyBottomScreen> {
       onDocumentTap: () {
         setState(() {
           selectIndex = 3;
+        });
+      },
+      onComplaintTap: () {
+        setState(() {
+          selectIndex = 2;
         });
       },
     ),
@@ -100,7 +104,6 @@ class _MyBottomScreenState extends State<MyBottomScreen> {
                   image: "assets/SvgImage/bottom3.svg",
                   title: "Complaints",
                 ),
-                SizedBox(width: 7.w),
                 _bottomItem(
                   index: 3,
                   image: "assets/SvgImage/bottom4.svg",
@@ -150,17 +153,24 @@ class _MyBottomScreenState extends State<MyBottomScreen> {
                 ),
               ),
               SizedBox(height: 2.h),
-              Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.outfit(
-                  fontSize: 16.sp,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected
-                      ? Color(0xFF17221D)
-                      : const Color(0xffA0A5A2),
-                  letterSpacing: -0.4,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 2.w),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    style: GoogleFonts.outfit(
+                      fontSize: 16.sp,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
+                      color: isSelected
+                          ? Color(0xFF17221D)
+                          : const Color(0xffA0A5A2),
+                      letterSpacing: -0.3,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -174,10 +184,12 @@ class _MyBottomScreenState extends State<MyBottomScreen> {
 class HomeScreen extends ConsumerStatefulWidget {
   final VoidCallback onProfileTap;
   final VoidCallback onDocumentTap;
+  final VoidCallback onComplaintTap;
   const HomeScreen({
     super.key,
     required this.onProfileTap,
     required this.onDocumentTap,
+    required this.onComplaintTap,
   });
 
   @override
@@ -265,98 +277,142 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             )
                           else
                             Flexible(
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                itemCount: properties.length,
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(height: 16.h),
-                                itemBuilder: (context, index) {
-                                  final property = properties[index];
-                                  final hasBackendSelected = properties.any(
-                                    (p) => p.isSelected == true,
-                                  );
-                                  final isSelected =
-                                      currentSelectedPropertyId != null
-                                      ? property.id == currentSelectedPropertyId
-                                      : (hasBackendSelected
-                                            ? property.isSelected == true
-                                            : index == 0);
-                                  return propertyItem(
-                                    property.imageUrl ?? "",
-                                    "${_formatPropertyType(property.propertyType)} ${property.propertyNameNumber ?? ''}"
-                                        .trim(),
-                                    (property.complexName != null &&
-                                            property.complexName!.isNotEmpty)
-                                        ? "${property.complexName} - ${property.location ?? ''}"
-                                        : (property.location ?? ""),
-                                    isSelected,
-                                    onTap: () async {
-                                      final propertyId = property.id;
-                                      if (propertyId == null) return;
-
-                                      // 1. Pehle selectedPropertyId state update karein
-                                      ref
-                                              .read(
-                                                selectedPropertyIdProvider
-                                                    .notifier,
-                                              )
-                                              .state =
-                                          propertyId;
-
-                                      // 2. Bottom sheet close karein
-                                      if (bottomSheetContext.mounted) {
-                                        Navigator.pop(bottomSheetContext);
-                                      }
-
-                                      log(
-                                        "${property.propertyNameNumber} Selected (ID: $propertyId)",
+                              child: Builder(
+                                builder: (context) {
+                                  final hasMatchingSelectedId =
+                                      currentSelectedPropertyId != null &&
+                                      properties.any(
+                                        (p) =>
+                                            p.id == currentSelectedPropertyId,
                                       );
 
-                                      // 3. POST API hit karein aur dashboard/list refresh karein
-                                      try {
-                                        final service = ref.read(
-                                          authServiceProvider,
-                                        );
-                                        await service.selectProperty(
-                                          propertyId: propertyId,
+                                  final effectiveSelectedProperty =
+                                      hasMatchingSelectedId
+                                      ? properties.firstWhere(
+                                          (p) =>
+                                              p.id == currentSelectedPropertyId,
+                                        )
+                                      : properties.firstWhere(
+                                          (p) => p.isSelected == true,
+                                          orElse: () => properties.first,
                                         );
 
-                                        ref.invalidate(getPropertyListProvider);
-                                        ref.invalidate(ownerDashboardProvider);
-                                      } catch (e) {
-                                        log("Error in selectProperty API: $e");
-                                      }
+                                  if (effectiveSelectedProperty.id != null &&
+                                      currentSelectedPropertyId !=
+                                          effectiveSelectedProperty.id) {
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                          ref
+                                                  .read(
+                                                    selectedPropertyIdProvider
+                                                        .notifier,
+                                                  )
+                                                  .state =
+                                              effectiveSelectedProperty.id;
+                                          persistSelectedPropertyId(
+                                            effectiveSelectedProperty.id,
+                                          );
+                                        });
+                                  }
+
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.zero,
+                                    itemCount: properties.length,
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(height: 16.h),
+                                    itemBuilder: (context, index) {
+                                      final property = properties[index];
+                                      final isSelected =
+                                          property.id ==
+                                          effectiveSelectedProperty.id;
+
+                                      return propertyItem(
+                                        property.imageUrl ?? "",
+                                        "${_formatPropertyType(property.propertyType)} ${property.propertyNameNumber ?? ''}"
+                                            .trim(),
+                                        (property.complexName != null &&
+                                                property
+                                                    .complexName!
+                                                    .isNotEmpty)
+                                            ? "${property.complexName} - ${property.location ?? ''}"
+                                            : (property.location ?? ""),
+                                        isSelected,
+                                        onTap: () async {
+                                          final propertyId = property.id;
+                                          if (propertyId == null) return;
+
+                                          // 1. Update selectedPropertyId state & Hive
+                                          ref
+                                                  .read(
+                                                    selectedPropertyIdProvider
+                                                        .notifier,
+                                                  )
+                                                  .state =
+                                              propertyId;
+                                          persistSelectedPropertyId(propertyId);
+
+                                          // 2. Bottom sheet close karein
+                                          if (bottomSheetContext.mounted) {
+                                            Navigator.pop(bottomSheetContext);
+                                          }
+
+                                          log(
+                                            "${property.propertyNameNumber} Selected (ID: $propertyId)",
+                                          );
+
+                                          // 3. POST API hit karein aur dashboard/list refresh karein
+                                          try {
+                                            final service = ref.read(
+                                              authServiceProvider,
+                                            );
+                                            await service.selectProperty(
+                                              propertyId: propertyId,
+                                            );
+
+                                            ref.invalidate(
+                                              getPropertyListProvider,
+                                            );
+                                            ref.invalidate(
+                                              ownerDashboardProvider,
+                                            );
+                                          } catch (e) {
+                                            log(
+                                              "Error in selectProperty API: $e",
+                                            );
+                                          }
+                                        },
+                                      );
                                     },
                                   );
                                 },
                               ),
                             ),
-                          SizedBox(height: 16.h),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(bottomSheetContext);
-                              showAddPropertyBottomSheet(context);
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              height: 34.h,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: const Color(0xff777777),
-                                ),
-                              ),
-                              child: Text(
-                                "+  Add New Property",
-                                style: GoogleFonts.outfit(
-                                  fontSize: 16.sp,
-                                  color: const Color(0xff171717),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
+                          // SizedBox(height: 16.h),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.pop(bottomSheetContext);
+                          //     showAddPropertyBottomSheet(context);
+                          //   },
+                          //   child: Container(
+                          //     width: double.infinity,
+                          //     height: 34.h,
+                          //     alignment: Alignment.center,
+                          //     decoration: BoxDecoration(
+                          //       border: Border.all(
+                          //         color: const Color(0xff777777),
+                          //       ),
+                          //     ),
+                          //     child: Text(
+                          //       "+  Add New Property",
+                          //       style: GoogleFonts.outfit(
+                          //         fontSize: 16.sp,
+                          //         color: const Color(0xff171717),
+                          //         fontWeight: FontWeight.w500,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(height: 30.h),
                         ],
                       );
@@ -415,6 +471,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final getOnwerDashboardState = ref.watch(ownerDashboardProvider);
+    final count =
+        getOnwerDashboardState.valueOrNull?.data?.unreadNotificationsCount;
     var box = Hive.box("userdata");
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
@@ -460,34 +518,54 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ],
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => Notificationscreen(),
-                    ),
-                  );
-                },
-                child: Container(
-                  height: 36.h,
-                  width: 36.w,
-                  decoration: BoxDecoration(
-                    color: AppColors.scaffoldBg,
-                    borderRadius: BorderRadius.circular(6.r),
-                    border: Border.all(
-                      color: const Color(0xffB8BCB8),
-                      width: 1.w,
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => Notificationscreen(),
+                        ),
+                      ).then((value) {
+                        ref.invalidate(ownerDashboardProvider);
+                      });
+                    },
+                    child: Container(
+                      height: 36.h,
+                      width: 36.w,
+                      decoration: BoxDecoration(
+                        color: AppColors.scaffoldBg,
+                        borderRadius: BorderRadius.circular(6.r),
+                        border: Border.all(
+                          color: const Color(0xffB8BCB8),
+                          width: 1.w,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.notifications_none_outlined,
+                          size: 24.sp,
+                          color: const Color(0xff101C16),
+                        ),
+                      ),
                     ),
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.notifications_none_outlined,
-                      size: 24.sp,
-                      color: const Color(0xff101C16),
+                  if (count != null && count > 0)
+                    Positioned(
+                      right: 0.w,
+                      top: -2.h,
+                      child: Container(
+                        width: 8.w,
+                        height: 8.w,
+                        decoration: const BoxDecoration(
+                          color: Color(0xffD5A52C),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                ],
               ),
 
               SizedBox(width: 8.w),
@@ -617,20 +695,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   width: 15.w,
                                 ),
                                 SizedBox(width: 10.w),
-                                Text(
-                                  // "Apartment A-204",
-                                  "${_formatPropertyType(ownerDashboard.data?.property?.type)} ${ownerDashboard.data?.property?.nameNumber ?? ''}"
-                                      .trim(),
-                                  style: GoogleFonts.outfit(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18.sp,
-                                    color: Colors.white,
-                                    letterSpacing: -0.54,
+                                Expanded(
+                                  child: Text(
+                                    // "Apartment A-204",
+                                    "${_formatPropertyType(ownerDashboard.data?.property?.type)} ${ownerDashboard.data?.property?.nameNumber ?? ''}"
+                                        .trim(),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.outfit(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16.sp,
+                                      color: Colors.white,
+                                      letterSpacing: -0.54,
+                                    ),
                                   ),
                                 ),
-
-                                const Spacer(),
-
+                                SizedBox(width: 8.w),
                                 Container(
                                   height: 30.h,
                                   width: 30.w,
@@ -649,6 +729,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                       ),
+
                       Positioned(
                         left: 20.w,
                         right: 20.w,
@@ -657,7 +738,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             Container(
                               height: 31.h,
-                              width: 106.w,
+                              padding: EdgeInsets.symmetric(horizontal: 12.w),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50.r),
                                 border: Border.all(color: Colors.white),
@@ -665,6 +746,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: Center(
                                 child: Text(
                                   "MY PROPERTY",
+                                  maxLines: 1,
                                   style: GoogleFonts.outfit(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
@@ -674,194 +756,173 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                               ),
                             ),
+
                             if (ownerDashboard
-                                        .data
-                                        ?.property
-                                        ?.carePackage
-                                        ?.label !=
-                                    null &&
-                                ownerDashboard
-                                    .data!
-                                    .property!
-                                    .carePackage!
-                                    .label!
-                                    .isNotEmpty) ...[
+                                    .data
+                                    ?.property
+                                    ?.carePackage
+                                    ?.label
+                                    ?.trim()
+                                    .isNotEmpty ==
+                                true) ...[
                               const Spacer(),
-                              Container(
-                                height: 31.h,
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff101C16),
-                                  borderRadius: BorderRadius.circular(50.r),
-                                  border: Border.all(
-                                    color: const Color(0xFFB8860B),
-                                    width: 1.2,
+                              Flexible(
+                                child: Container(
+                                  height: 31.h,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
                                   ),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.workspace_premium_outlined,
-                                      size: 14.sp,
-                                      color: const Color(0xFFE5C058),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff101C16),
+                                    borderRadius: BorderRadius.circular(50.r),
+                                    border: Border.all(
+                                      color: const Color(0xFFB8860B),
+                                      width: 1.2,
                                     ),
-                                    SizedBox(width: 4.w),
-                                    Text(
-                                      ownerDashboard
-                                          .data!
-                                          .property!
-                                          .carePackage!
-                                          .label!,
-                                      style: GoogleFonts.outfit(
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xFFFFFCEB),
-                                        fontSize: 14.sp,
-                                        letterSpacing: -0.2,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.workspace_premium_outlined,
+                                        size: 14.sp,
+                                        color: const Color(0xFFE5C058),
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(width: 4.w),
+                                      Flexible(
+                                        child: Text(
+                                          ownerDashboard
+                                              .data!
+                                              .property!
+                                              .carePackage!
+                                              .label!,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.outfit(
+                                            fontWeight: FontWeight.w600,
+                                            color: const Color(0xFFFFFCEB),
+                                            fontSize: 14.sp,
+                                            letterSpacing: -0.2,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ],
                         ),
                       ),
-                      // Positioned.fill(
-                      //   child: Container(
-                      //     decoration: BoxDecoration(
-                      //       gradient: LinearGradient(
-                      //         begin: Alignment.topCenter,
-                      //         end: Alignment.bottomCenter,
-                      //         colors: [
-                      //           Color(0xff101C16).withOpacity(0.0),
-                      //           Color(0xff101C16).withOpacity(0.0),
-                      //           Color(0xff101C16),
-                      //         ],
-                      //       ),
-                      //       borderRadius: BorderRadius.only(
-                      //         bottomLeft: Radius.circular(30.r),
-                      //         bottomRight: Radius.circular(30.r),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       Positioned(
                         left: 20.w,
                         right: 20.w,
                         bottom: 24.h,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "MY PROPERTY",
-                                    style: GoogleFonts.outfit(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14.sp,
-                                      color: Colors.white,
-                                      letterSpacing: -0.34,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5.h),
-                                  Text(
-                                    // "Apartment A-204",
-                                    "${_formatPropertyType(ownerDashboard.data?.property?.type)} ${ownerDashboard.data?.property?.nameNumber ?? ''}"
-                                        .trim(),
-                                    // "${ownerDashboard.data?.property?.type} ${ownerDashboard.data?.property?.nameNumber}",
-                                    style: GoogleFonts.outfit(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 19.sp,
-                                      color: Colors.white,
-                                      letterSpacing: -0.7,
-                                    ),
-                                  ),
-                                  SizedBox(height: 3.h),
-                                  Text(
-                                    (ownerDashboard
-                                                    .data
-                                                    ?.property
-                                                    ?.complex
-                                                    ?.name !=
-                                                null &&
-                                            ownerDashboard
-                                                .data!
-                                                .property!
-                                                .complex!
-                                                .name!
-                                                .isNotEmpty)
-                                        ? "${ownerDashboard.data?.property?.complex?.name} · ${ownerDashboard.data?.property?.location ?? ''}"
-                                        : (ownerDashboard
-                                                  .data
-                                                  ?.property
-                                                  ?.location ??
-                                              "N/A"),
-                                    style: GoogleFonts.outfit(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15.sp,
-                                      color: Colors.white.withOpacity(0.65),
-                                      letterSpacing: -0.3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: 20.w),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 5.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(20, 30, 25, 0.65),
-                                borderRadius: BorderRadius.circular(50.r),
-                                border: Border.all(
-                                  color: isPending
-                                      ? const Color(0xFFFBBF24)
-                                      : Colors.white,
-                                  width: 1,
-                                ),
-                              ),
-                              child: Center(
-                                child: Row(
+                        child: Container(
+                          // color: Colors.yellow,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Container(
-                                      width: 8.w,
-                                      height: 8.h,
-                                      decoration: BoxDecoration(
-                                        color: isPending
-                                            ? const Color(0xFFFBBF24)
-                                            : Colors.white,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    SizedBox(width: 6.w),
                                     Text(
-                                      // "Good",
-                                      ownerDashboard
-                                              .data
-                                              ?.property
-                                              ?.statusLabel ??
-                                          (isPending
-                                              ? "Pending Approval"
-                                              : "Active"),
+                                      "MY PROPERTY",
                                       style: GoogleFonts.outfit(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 15.sp,
+                                        fontSize: 14.sp,
                                         color: Colors.white,
-                                        letterSpacing: -0.3,
+                                        letterSpacing: -0.34,
                                       ),
+                                    ),
+                                    SizedBox(height: 5.h),
+
+                                    Builder(
+                                      builder: (context) {
+                                        final complexName =
+                                            ownerDashboard
+                                                .data
+                                                ?.property
+                                                ?.complexName ??
+                                            _getComplexName(
+                                              ownerDashboard
+                                                  .data
+                                                  ?.property
+                                                  ?.complex,
+                                            );
+                                        final location =
+                                            ownerDashboard
+                                                .data
+                                                ?.property
+                                                ?.location ??
+                                            '';
+                                        final suffix =
+                                            (complexName != null &&
+                                                complexName.trim().isNotEmpty)
+                                            ? "$complexName · $location"
+                                            : (location.isNotEmpty
+                                                  ? location
+                                                  : "N/A");
+
+                                        return Text(
+                                          "${_formatPropertyType(ownerDashboard.data?.property?.type)} ${ownerDashboard.data?.property?.nameNumber ?? ''} $suffix"
+                                              .trim(),
+                                          style: GoogleFonts.outfit(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17.sp,
+                                            color: Colors.white,
+                                            letterSpacing: -0.3,
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 12.w),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w,
+                                  vertical: 4.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(20, 30, 25, 0.65),
+                                  borderRadius: BorderRadius.circular(50.r),
+                                  border: Border.all(
+                                    color: isPending
+                                        ? const Color(0xFFFBBF24)
+                                        : Colors.white,
+                                    width: 1.w,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        // "Good",
+                                        ownerDashboard
+                                                .data
+                                                ?.property
+                                                ?.statusLabel ??
+                                            (isPending
+                                                ? "Pending Approval"
+                                                : "Active"),
+                                        style: GoogleFonts.outfit(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15.sp,
+                                          color: Colors.white,
+                                          letterSpacing: -0.3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -939,8 +1000,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 CupertinoPageRoute(
                                   builder: (context) =>
                                       AipropertyAssistantScreen(
-                                    propertyId: ownerDashboard.data?.property?.id,
-                                  ),
+                                        propertyId:
+                                            ownerDashboard.data?.property?.id,
+                                      ),
                                 ),
                               );
                             },
@@ -996,7 +1058,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         Row(
                                           children: [
                                             Text(
-                                              "Property Assistant",
+                                              "Stayo Assistant",
                                               style: GoogleFonts.outfit(
                                                 fontSize: 18.sp,
                                                 fontWeight: FontWeight.w500,
@@ -1186,7 +1248,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Active Requests",
+                                            "Total Requests",
                                             style: GoogleFonts.outfit(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w500,
@@ -1202,7 +1264,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           SizedBox(height: 2.h),
 
                                           Text(
-                                            "${ownerDashboard.data?.widgets?.serviceRequests?.active ?? "0"}",
+                                            "${ownerDashboard.data?.widgets?.serviceRequests?.total ?? "0"}",
                                             style: GoogleFonts.outfit(
                                               fontSize: 18.sp,
                                               fontWeight: FontWeight.w500,
@@ -1213,47 +1275,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
 
                                       SizedBox(width: 18.w),
-
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 12.w,
-                                          vertical: 4.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xffE8E6DE),
-                                          borderRadius: BorderRadius.circular(
-                                            20.r,
-                                          ),
-                                          border: Border.all(
-                                            color: const Color(0xff101C16),
-                                            width: 1,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              width: 4.w,
-                                              height: 4.h,
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xff000000),
-                                                shape: BoxShape.circle,
-                                              ),
-                                            ),
-
-                                            SizedBox(width: 6.w),
-
-                                            Text(
-                                              "In Progress",
-                                              style: GoogleFonts.outfit(
-                                                fontSize: 15.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: const Color(0xff101C16),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      // Container(
+                                      //   padding: EdgeInsets.symmetric(
+                                      //     horizontal: 12.w,
+                                      //     vertical: 4.h,
+                                      //   ),
+                                      //   decoration: BoxDecoration(
+                                      //     color: const Color(0xffE8E6DE),
+                                      //     borderRadius: BorderRadius.circular(
+                                      //       20.r,
+                                      //     ),
+                                      //     border: Border.all(
+                                      //       color: const Color(0xff101C16),
+                                      //       width: 1,
+                                      //     ),
+                                      //   ),
+                                      //   child: Row(
+                                      //     mainAxisSize: MainAxisSize.min,
+                                      //     children: [
+                                      //       Container(
+                                      //         width: 4.w,
+                                      //         height: 4.h,
+                                      //         decoration: const BoxDecoration(
+                                      //           color: Color(0xff000000),
+                                      //           shape: BoxShape.circle,
+                                      //         ),
+                                      //       ),
+                                      //       SizedBox(width: 6.w),
+                                      //       Text(
+                                      //         "In Progress",
+                                      //         style: GoogleFonts.outfit(
+                                      //           fontSize: 15.sp,
+                                      //           fontWeight: FontWeight.w500,
+                                      //           color: const Color(0xff101C16),
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
                                       Spacer(),
                                       Text(
                                         "View All →",
@@ -1283,16 +1342,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   letterSpacing: -0.54,
                                 ),
                               ),
-                              // Spacer(),
-                              // Text(
-                              //   "View All",
-                              //   style: GoogleFonts.outfit(
-                              //     fontWeight: FontWeight.w500,
-                              //     color: Color(0xff2A2933),
-                              //     fontSize: 16.sp,
-                              //     letterSpacing: -0.24,
-                              //   ),
-                              // ),
                             ],
                           ),
                           SizedBox(height: 17.h),
@@ -1344,42 +1393,50 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
 
                               Positioned(
-                                left: 19.w,
+                                left: 16.w,
+                                right: 16.w,
                                 top: 63.h,
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     _infoItem(
-                                      "${ownerDashboard.data?.widgets?.pendingIssues ?? "0"}",
+                                      "${ownerDashboard.data?.widgets?.complaints?.pending ?? "0"}",
                                       "Pending\nIssues",
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                            builder: (context) =>
-                                                const ServiceRequestScreen(),
-                                          ),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   CupertinoPageRoute(
+                                        //     builder: (context) =>
+                                        //         const ServiceRequestScreen(),
+                                        //   ),
+                                        // );
+                                        widget.onComplaintTap();
                                       },
                                     ),
-
                                     _verticalDivider(),
-
                                     _infoItem(
-                                      "${ownerDashboard.data?.widgets?.openMaintenance ?? "0"}",
-                                      "Open\nMaintenance",
+                                      "${ownerDashboard.data?.property?.overallScoreOutOf10 ?? "0"}",
+                                      // "Open\nMaintenance",
+                                      "Health\nScore",
                                       onTap: () {
+                                        // Navigator.push(
+                                        //   context,
+                                        //   CupertinoPageRoute(
+                                        //     builder: (context) =>
+                                        //         const MaintenancehistoryScreen(),
+                                        //   ),
+                                        // );
                                         Navigator.push(
                                           context,
                                           CupertinoPageRoute(
                                             builder: (context) =>
-                                                const MaintenancehistoryScreen(),
+                                                PropertyPerformanceScreen(),
                                           ),
                                         );
                                       },
                                     ),
-
                                     _verticalDivider(),
-
                                     _infoItem(
                                       ownerDashboard
                                                   .data
@@ -1406,28 +1463,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         );
                                       },
                                     ),
-
                                     _verticalDivider(),
-
                                     _infoItem(
                                       "${ownerDashboard.data?.widgets?.documentsCount ?? "0"}",
-                                      "Documents",
+                                      "Documents\nTotal",
                                       onTap: widget.onDocumentTap,
-                                      // () {
-                                      //   Navigator.push(
-                                      //     context,
-                                      //     CupertinoPageRoute(
-                                      //       builder: (context) =>
-                                      //           const DocumentScreen(),
-                                      //     ),
-                                      //   );
-                                      // },
                                     ),
-                                    _verticalDivider(),
                                   ],
                                 ),
                               ),
-
                               Positioned(
                                 left: 19.w,
                                 bottom: 25.h,
@@ -1469,193 +1513,484 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ],
                           ),
                           SizedBox(height: 20.h),
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10.r),
-                                child: Image.asset(
-                                  "assets/home2_img.png",
-                                  width: double.infinity,
-                                  height: 235.h,
-                                  fit: BoxFit.cover,
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       CupertinoPageRoute(
+                          //         builder: (context) =>
+                          //             const AuditreprotScreen(),
+                          //       ),
+                          //     );
+                          //   },
+                          //   child: Stack(
+                          //     children: [
+                          //       ClipRRect(
+                          //         borderRadius: BorderRadius.circular(10.r),
+                          //         child: Image.asset(
+                          //           "assets/home2_img.png",
+                          //           width: double.infinity,
+                          //           height: 235.h,
+                          //           fit: BoxFit.cover,
+                          //         ),
+                          //       ),
+                          //       Positioned.fill(
+                          //         child: ClipRRect(
+                          //           borderRadius: BorderRadius.circular(10.r),
+                          //           child: Container(
+                          //             decoration: BoxDecoration(
+                          //               gradient: LinearGradient(
+                          //                 begin: Alignment.centerLeft,
+                          //                 end: Alignment.centerRight,
+                          //                 colors: [
+                          //                   const Color(
+                          //                     0xff000000,
+                          //                   ).withOpacity(0.95),
+                          //                   const Color(
+                          //                     0xff000000,
+                          //                   ).withOpacity(0.70),
+                          //                   const Color(
+                          //                     0xff000000,
+                          //                   ).withOpacity(0.20),
+                          //                   Colors.transparent,
+                          //                 ],
+                          //                 stops: const [0.0, 0.45, 0.72, 1.0],
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Positioned(
+                          //         left: 15.w,
+                          //         top: 20.h,
+                          //         child: Row(
+                          //           children: [
+                          //             Container(
+                          //               width: 20.w,
+                          //               height: 20.w,
+                          //               decoration: BoxDecoration(
+                          //                 border: Border.all(
+                          //                   color: const Color(0xffD4B800),
+                          //                   width: 1.2,
+                          //                 ),
+                          //                 borderRadius: BorderRadius.circular(
+                          //                   2.r,
+                          //                 ),
+                          //               ),
+                          //               child: Icon(
+                          //                 Icons.description_outlined,
+                          //                 color: const Color(0xffD4B800),
+                          //                 size: 12.sp,
+                          //               ),
+                          //             ),
+
+                          //             SizedBox(width: 7.w),
+
+                          //             Text(
+                          //               "PROPERTY REPORT",
+                          //               style: GoogleFonts.outfit(
+                          //                 fontSize: 15.sp,
+                          //                 fontWeight: FontWeight.w500,
+                          //                 color: Colors.white,
+                          //                 letterSpacing: -0.24,
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //       Positioned(
+                          //         left: 15.w,
+                          //         top: 48.h,
+                          //         child: Text(
+                          //           "Property Audit Report",
+                          //           style: GoogleFonts.outfit(
+                          //             fontSize: 18.sp,
+                          //             fontWeight: FontWeight.w500,
+                          //             color: Colors.white,
+                          //             letterSpacing: -0.3,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Positioned(
+                          //         left: 15.w,
+                          //         top: 75.h,
+                          //         child: Text(
+                          //           (ownerDashboard
+                          //                           .data
+                          //                           ?.widgets
+                          //                           ?.latestAuditReport
+                          //                           ?.auditType !=
+                          //                       null &&
+                          //                   ownerDashboard
+                          //                       .data!
+                          //                       .widgets!
+                          //                       .latestAuditReport!
+                          //                       .auditType!
+                          //                       .isNotEmpty)
+                          //               ? ownerDashboard
+                          //                     .data!
+                          //                     .widgets!
+                          //                     .latestAuditReport!
+                          //                     .auditType!
+                          //               : (ownerDashboard
+                          //                         .data
+                          //                         ?.widgets
+                          //                         ?.latestAudit
+                          //                         ?.title ??
+                          //                     "Latest Property Audit"),
+                          //           style: GoogleFonts.outfit(
+                          //             fontSize: 16.sp,
+                          //             fontWeight: FontWeight.w500,
+                          //             color: const Color.fromRGBO(
+                          //               255,
+                          //               255,
+                          //               255,
+                          //               0.6,
+                          //             ),
+                          //             letterSpacing: -0.2,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Positioned(
+                          //         left: 15.w,
+                          //         top: 100.h,
+                          //         child: Row(
+                          //           children: [
+                          //             Container(
+                          //               padding: EdgeInsets.all(12.sp),
+                          //               decoration: BoxDecoration(
+                          //                 shape: BoxShape.circle,
+                          //                 border: Border.all(
+                          //                   color: const Color(0xffD4B800),
+                          //                   width: 1.17.w,
+                          //                 ),
+                          //               ),
+                          //               child: Text(
+                          //                 ownerDashboard
+                          //                         .data
+                          //                         ?.widgets
+                          //                         ?.latestAuditReport
+                          //                         ?.score
+                          //                         ?.toDouble()
+                          //                         .toStringAsFixed(1) ??
+                          //                     // Home Care: audit alag hai, property (inspection) score ko audit score nahi dikhana
+                          //                     (ownerDashboard
+                          //                                 .data
+                          //                                 ?.property
+                          //                                 ?.type ==
+                          //                             "independent_house"
+                          //                         ? "--"
+                          //                         : (ownerDashboard
+                          //                                   .data
+                          //                                   ?.property
+                          //                                   ?.overallScore
+                          //                                   ?.toStringAsFixed(
+                          //                                     1,
+                          //                                   ) ??
+                          //                               "0")),
+                          //                 style: GoogleFonts.outfit(
+                          //                   fontSize: 16.sp,
+                          //                   fontWeight: FontWeight.w500,
+                          //                   color: const Color(0xffD4B800),
+                          //                   letterSpacing: -0.3,
+                          //                 ),
+                          //               ),
+                          //             ),
+
+                          //             SizedBox(width: 10.w),
+
+                          //             Text(
+                          //               "AUDIT\nSCORE",
+                          //               style: GoogleFonts.outfit(
+                          //                 fontSize: 14.sp,
+                          //                 fontWeight: FontWeight.w500,
+                          //                 color: Colors.white,
+                          //                 letterSpacing: -0.2,
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //       Positioned(
+                          //         left: 15.w,
+                          //         right: 15.w,
+                          //         bottom: 53.h,
+                          //         child: Container(
+                          //           height: 1,
+                          //           color: const Color.fromRGBO(
+                          //             255,
+                          //             255,
+                          //             255,
+                          //             0.5,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       if (ownerDashboard
+                          //                   .data
+                          //                   ?.widgets
+                          //                   ?.latestAuditReport !=
+                          //               null &&
+                          //           ownerDashboard
+                          //                   .data
+                          //                   ?.widgets
+                          //                   ?.latestAuditReport !=
+                          //               "")
+                          //         Positioned(
+                          //           left: 15.w,
+                          //           bottom: 20.h,
+                          //           child: RichText(
+                          //             text: TextSpan(
+                          //               children: [
+                          //                 TextSpan(
+                          //                   text: "Audit Date: ",
+                          //                   style: GoogleFonts.outfit(
+                          //                     fontSize: 16.sp,
+                          //                     color: Colors.white.withOpacity(
+                          //                       0.65,
+                          //                     ),
+                          //                     letterSpacing: -0.2,
+                          //                   ),
+                          //                 ),
+                          //                 TextSpan(
+                          //                   text:
+                          //                       ownerDashboard
+                          //                           .data
+                          //                           ?.widgets
+                          //                           ?.latestAuditReport
+                          //                           ?.dateFormatted ??
+                          //                       (ownerDashboard
+                          //                                   .data
+                          //                                   ?.widgets
+                          //                                   ?.latestAuditReport
+                          //                                   ?.date !=
+                          //                               null
+                          //                           ? DateFormat(
+                          //                               "dd MMMM yyyy",
+                          //                             ).format(
+                          //                               ownerDashboard
+                          //                                   .data!
+                          //                                   .widgets!
+                          //                                   .latestAuditReport!
+                          //                                   .date!,
+                          //                             )
+                          //                           : (ownerDashboard
+                          //                                         .data
+                          //                                         ?.widgets
+                          //                                         ?.latestAudit
+                          //                                         ?.createdAt !=
+                          //                                     null
+                          //                                 ? DateFormat(
+                          //                                     "dd MMMM yyyy",
+                          //                                   ).format(
+                          //                                     ownerDashboard
+                          //                                         .data!
+                          //                                         .widgets!
+                          //                                         .latestAudit!
+                          //                                         .createdAt!,
+                          //                                   )
+                          //                                 : "N/A")),
+                          //                   style: GoogleFonts.outfit(
+                          //                     fontSize: 16.sp,
+                          //                     fontWeight: FontWeight.w500,
+                          //                     color: Colors.white,
+                          //                     letterSpacing: -0.2,
+                          //                   ),
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       Positioned(
+                          //         right: 15.w,
+                          //         bottom: 20.h,
+                          //         child: InkWell(
+                          //           onTap: () {
+                          //             Navigator.push(
+                          //               context,
+                          //               CupertinoPageRoute(
+                          //                 builder: (context) =>
+                          //                     const AuditreprotScreen(),
+                          //               ),
+                          //             );
+                          //           },
+                          //           child: Text(
+                          //             "View Report →",
+                          //             style: GoogleFonts.outfit(
+                          //               fontSize: 16.sp,
+                          //               fontWeight: FontWeight.w500,
+                          //               color: const Color(0xffD4B800),
+                          //               letterSpacing: -0.2,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) =>
+                                      const AuditreprotScreen(),
                                 ),
-                              ),
-                              Positioned.fill(
-                                child: ClipRRect(
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                ClipRRect(
                                   borderRadius: BorderRadius.circular(10.r),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                        colors: [
-                                          const Color(
-                                            0xff000000,
-                                          ).withOpacity(0.95),
-                                          const Color(
-                                            0xff000000,
-                                          ).withOpacity(0.70),
-                                          const Color(
-                                            0xff000000,
-                                          ).withOpacity(0.20),
-                                          Colors.transparent,
-                                        ],
-                                        stops: const [0.0, 0.45, 0.72, 1.0],
-                                      ),
-                                    ),
+                                  child: Image.asset(
+                                    "assets/home2_img.png",
+                                    width: double.infinity,
+                                    height: 235.h,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                left: 15.w,
-                                top: 20.h,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 20.w,
-                                      height: 20.w,
+
+                                Positioned.fill(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    child: Container(
                                       decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: const Color(0xffD4B800),
-                                          width: 1.2,
+                                        gradient: LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: [
+                                            const Color(
+                                              0xff000000,
+                                            ).withOpacity(0.95),
+                                            const Color(
+                                              0xff000000,
+                                            ).withOpacity(0.70),
+                                            const Color(
+                                              0xff000000,
+                                            ).withOpacity(0.20),
+                                            Colors.transparent,
+                                          ],
+                                          stops: const [0.0, 0.45, 0.72, 1.0],
                                         ),
-                                        borderRadius: BorderRadius.circular(
-                                          2.r,
-                                        ),
-                                      ),
-                                      child: Icon(
-                                        Icons.description_outlined,
-                                        color: const Color(0xffD4B800),
-                                        size: 12.sp,
                                       ),
                                     ),
-
-                                    SizedBox(width: 7.w),
-
-                                    Text(
-                                      "PROPERTY REPORT",
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                        letterSpacing: -0.24,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                left: 15.w,
-                                top: 48.h,
-                                child: Text(
-                                  "Property Audit Report",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                    letterSpacing: -0.3,
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                left: 15.w,
-                                top: 75.h,
-                                child: Text(
-                                  "Latest Property Audit",
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromRGBO(255, 255, 255, 0.6),
-                                    letterSpacing: -0.2,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 15.w,
-                                top: 100.h,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(12.sp),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: const Color(0xffD4B800),
-                                          width: 1.17.w,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        ownerDashboard
-                                                .data
-                                                ?.property
-                                                ?.overallScore
-                                                ?.toStringAsFixed(1) ??
-                                            "0",
-                                        style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: const Color(0xffD4B800),
-                                          letterSpacing: -0.3,
-                                        ),
-                                      ),
-                                    ),
 
-                                    SizedBox(width: 10.w),
-
-                                    Text(
-                                      "OVERALL\nSCORE",
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                        letterSpacing: -0.2,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                left: 15.w,
-                                right: 15.w,
-                                bottom: 53.h,
-                                child: Container(
-                                  height: 1,
-                                  color: Color.fromRGBO(255, 255, 255, 0.5),
-                                ),
-                              ),
-                              Positioned(
-                                left: 15.w,
-                                bottom: 30.h,
-                                child: RichText(
-                                  text: TextSpan(
+                                Positioned(
+                                  left: 15.w,
+                                  top: 20.h,
+                                  child: Row(
                                     children: [
-                                      TextSpan(
-                                        text: "Audit Date: ",
-                                        style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
-                                          color: Colors.white.withOpacity(0.65),
-                                          letterSpacing: -0.2,
+                                      Container(
+                                        width: 20.w,
+                                        height: 20.w,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: const Color(0xffD4B800),
+                                            width: 1.2,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            2.r,
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          Icons.description_outlined,
+                                          color: const Color(0xffD4B800),
+                                          size: 12.sp,
                                         ),
                                       ),
-                                      TextSpan(
-                                        // text: "15 August 2026",
-                                        text:
-                                            ownerDashboard
-                                                    .data
-                                                    ?.widgets
-                                                    ?.latestAudit
-                                                    ?.createdAt !=
-                                                null
-                                            ? DateFormat("dd MMMM yyyy").format(
-                                                ownerDashboard
-                                                    .data!
-                                                    .widgets!
-                                                    .latestAudit!
-                                                    .createdAt!,
-                                              )
-                                            : "N/A",
+
+                                      SizedBox(width: 7.w),
+
+                                      Text(
+                                        "PROPERTY REPORT",
                                         style: GoogleFonts.outfit(
-                                          fontSize: 16.sp,
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                          letterSpacing: -0.24,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                Positioned(
+                                  left: 15.w,
+                                  top: 48.h,
+                                  child: Text(
+                                    "Property Inspection Report",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                      letterSpacing: -0.3,
+                                    ),
+                                  ),
+                                ),
+
+                                Positioned(
+                                  left: 15.w,
+                                  top: 75.h,
+                                  child: Text(
+                                    ownerDashboard
+                                            .data
+                                            ?.widgets
+                                            ?.latestInspection
+                                            ?.reportType ??
+                                        "Latest Property Inspection",
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromRGBO(
+                                        255,
+                                        255,
+                                        255,
+                                        0.6,
+                                      ),
+                                      letterSpacing: -0.2,
+                                    ),
+                                  ),
+                                ),
+
+                                Positioned(
+                                  left: 15.w,
+                                  top: 100.h,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(12.sp),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: const Color(0xffD4B800),
+                                            width: 1.17.w,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          ownerDashboard
+                                                  .data
+                                                  ?.widgets
+                                                  ?.latestInspection
+                                                  ?.score
+                                                  ?.toDouble()
+                                                  .toStringAsFixed(1) ??
+                                              "--",
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: const Color(0xffD4B800),
+                                            letterSpacing: -0.3,
+                                          ),
+                                        ),
+                                      ),
+
+                                      SizedBox(width: 10.w),
+
+                                      Text(
+                                        "INSPECTION\nSCORE",
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
                                           letterSpacing: -0.2,
@@ -1664,32 +1999,105 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                right: 15.w,
-                                bottom: 30.h,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                        builder: (context) =>
-                                            AuditreprotScreen(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    "View Report →",
-                                    style: GoogleFonts.outfit(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xffD4B800),
-                                      letterSpacing: -0.2,
+
+                                Positioned(
+                                  left: 15.w,
+                                  right: 15.w,
+                                  bottom: 53.h,
+                                  child: Container(
+                                    height: 1,
+                                    color: const Color.fromRGBO(
+                                      255,
+                                      255,
+                                      255,
+                                      0.5,
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+
+                                if (ownerDashboard
+                                        .data
+                                        ?.widgets
+                                        ?.latestInspection !=
+                                    null)
+                                  Positioned(
+                                    left: 15.w,
+                                    bottom: 20.h,
+                                    child: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: "Inspection Date: ",
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 16.sp,
+                                              color: Colors.white.withOpacity(
+                                                0.65,
+                                              ),
+                                              letterSpacing: -0.2,
+                                            ),
+                                          ),
+
+                                          TextSpan(
+                                            text:
+                                                ownerDashboard
+                                                    .data
+                                                    ?.widgets
+                                                    ?.latestInspection
+                                                    ?.dateFormatted ??
+                                                (ownerDashboard
+                                                            .data
+                                                            ?.widgets
+                                                            ?.latestInspection
+                                                            ?.date !=
+                                                        null
+                                                    ? DateFormat(
+                                                        "dd MMMM yyyy",
+                                                      ).format(
+                                                        ownerDashboard
+                                                            .data!
+                                                            .widgets!
+                                                            .latestInspection!
+                                                            .date!,
+                                                      )
+                                                    : "N/A"),
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                              letterSpacing: -0.2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+                                Positioned(
+                                  right: 15.w,
+                                  bottom: 20.h,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const InspectionReportScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      "View Report →",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color(0xffD4B800),
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(height: 16.h),
                           GestureDetector(
@@ -1733,9 +2141,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           color: AppColors.heading,
                                         ),
                                       ),
-
                                       SizedBox(width: 10.w),
-
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:
@@ -1793,13 +2199,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                     ],
                                   ),
-
                                   SizedBox(height: 14.h),
                                   Row(
                                     children: [
                                       Expanded(
                                         child: _paymentAmountBox(
-                                          name: 'Outstanding',
+                                          // name: 'Outstanding',
+                                          name: 'Pending',
                                           value:
                                               ownerDashboard
                                                   .data
@@ -1810,57 +2216,54 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               "0",
                                         ),
                                       ),
-                                      SizedBox(width: 12.w),
-                                      Expanded(
-                                        child: _paymentAmountBox(
-                                          name: 'Upcoming',
-                                          value:
-                                              ownerDashboard
-                                                  .data
-                                                  ?.widgets
-                                                  ?.maintenancePayment
-                                                  ?.upcoming
-                                                  .toString() ??
-                                              "0",
-                                        ),
-                                      ),
+                                      // SizedBox(width: 12.w),
+                                      // Expanded(
+                                      //   child: _paymentAmountBox(
+                                      //     name: 'Upcoming',
+                                      //     value:
+                                      //         ownerDashboard
+                                      //             .data
+                                      //             ?.widgets
+                                      //             ?.maintenancePayment
+                                      //             ?.upcoming
+                                      //             .toString() ??
+                                      //         "0",
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
-
-                                  SizedBox(height: 10.h),
-
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: _paymentAmountBox(
-                                          name: 'Overdue',
-                                          value:
-                                              ownerDashboard
-                                                  .data
-                                                  ?.widgets
-                                                  ?.maintenancePayment
-                                                  ?.overdue
-                                                  .toString() ??
-                                              "0",
-                                        ),
-                                      ),
-                                      SizedBox(width: 12.w),
-                                      Expanded(
-                                        child: _paymentAmountBox(
-                                          name: 'Remaining',
-                                          value:
-                                              ownerDashboard
-                                                  .data
-                                                  ?.widgets
-                                                  ?.maintenancePayment
-                                                  ?.remaining
-                                                  .toString() ??
-                                              "0",
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-
+                                  // SizedBox(height: 10.h),
+                                  // Row(
+                                  //   children: [
+                                  //     Expanded(
+                                  //       child: _paymentAmountBox(
+                                  //         name: 'Overdue',
+                                  //         value:
+                                  //             ownerDashboard
+                                  //                 .data
+                                  //                 ?.widgets
+                                  //                 ?.maintenancePayment
+                                  //                 ?.overdue
+                                  //                 .toString() ??
+                                  //             "0",
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(width: 12.w),
+                                  //     Expanded(
+                                  //       child: _paymentAmountBox(
+                                  //         name: 'Remaining',
+                                  //         value:
+                                  //             ownerDashboard
+                                  //                 .data
+                                  //                 ?.widgets
+                                  //                 ?.maintenancePayment
+                                  //                 ?.remaining
+                                  //                 .toString() ??
+                                  //             "0",
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   SizedBox(height: 10.h),
                                   Row(
                                     mainAxisAlignment:
@@ -1891,7 +2294,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ),
                           SizedBox(height: 30.h),
-                         
                         ],
                       ],
                     ),
@@ -1931,6 +2333,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                     width: 42.w,
@@ -1949,27 +2352,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       color: const Color(0xff303832),
                     ),
                   ),
-                  SizedBox(width: 10.w),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           notice?.title ?? "Verification in Progress",
+                          softWrap: true,
                           style: GoogleFonts.outfit(
-                            fontSize: 18.sp,
+                            fontSize: 17.sp,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff000000),
                             letterSpacing: -0.4,
+                            height: 1,
                           ),
                         ),
-                        SizedBox(height: 2.h),
+                        SizedBox(height: 4.h),
                         Text(
                           "Admin approval underway",
+                          softWrap: true,
                           style: GoogleFonts.outfit(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(0, 0, 0, 0.6),
+                            color: const Color.fromRGBO(0, 0, 0, 0.6),
                             letterSpacing: -0.24,
                           ),
                         ),
@@ -1978,7 +2384,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
+                      horizontal: 8.w,
                       vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
@@ -1991,6 +2397,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     child: Text(
                       notice?.badge ?? "Pending Approval",
+                      softWrap: true,
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.outfit(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
@@ -2023,8 +2431,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
 
         SizedBox(height: 16.h),
-
-        // 2. Verification Steps Roadmap Card
         Container(
           width: double.infinity,
           padding: EdgeInsets.all(10.w),
@@ -2127,7 +2533,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
 
         SizedBox(height: 16.h),
-
         // 3. Submitted Property Summary
         Container(
           width: double.infinity,
@@ -2217,9 +2622,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           ),
         ),
-
         SizedBox(height: 16.h),
-
         // 4. Helpful Refresh Notice
         Container(
           width: double.infinity,
@@ -2437,7 +2840,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Text(
           value,
           style: GoogleFonts.outfit(
-            fontSize: 19.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w500,
             color: Colors.white,
             letterSpacing: -0.3,
@@ -2447,11 +2850,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Text(
           title,
           style: GoogleFonts.outfit(
-            fontSize: 16.sp,
+            fontSize: 13.5.sp,
             fontWeight: FontWeight.w500,
             color: Colors.white,
             letterSpacing: -0.3,
-            height: 1.1,
+            height: 1.15,
           ),
         ),
       ],
@@ -2470,9 +2873,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _verticalDivider() {
     return Container(
       width: 1.w,
-      height: 40.h,
-      margin: EdgeInsets.symmetric(horizontal: 14.w),
-      color: Colors.white,
+      height: 36.h,
+      margin: EdgeInsets.symmetric(horizontal: 4.w),
+      color: Colors.white.withOpacity(0.5),
     );
   }
 
@@ -2687,8 +3090,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         children: [
           Text(
             name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 18.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
               letterSpacing: -0.2,
@@ -2697,8 +3102,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SizedBox(height: 3.h),
           Text(
             value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.outfit(
-              fontSize: 18.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
               color: const Color(0xFF101C16),
             ),
@@ -2713,8 +3120,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     switch (type.trim().toLowerCase()) {
       case "independent_house":
         return "Independent House";
+      case "home_care":
+        return "Home Care";
       case "apartment":
         return "Apartment";
+      case "community_care":
+        return "Community Care";
       case "villa_compound":
         return "Villa Compound";
       case "commercial":
@@ -2731,6 +3142,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   : '',
             )
             .join(' ');
+    }
+  }
+
+  String? _getComplexName(dynamic complex) {
+    if (complex == null) return null;
+    if (complex is Map) {
+      final name = complex['name'] ?? complex['complex_name'];
+      return name?.toString();
+    }
+    if (complex is String) return complex;
+    try {
+      return (complex as dynamic).name?.toString();
+    } catch (_) {
+      return null;
     }
   }
 }

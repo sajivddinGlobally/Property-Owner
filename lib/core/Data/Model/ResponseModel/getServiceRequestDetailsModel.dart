@@ -79,40 +79,43 @@ Map<String, dynamic> _asMap(dynamic value) {
 
 List<Attachment> _parseAttachments(dynamic raw) {
   if (raw == null) return [];
+  final List<Attachment> list = [];
   if (raw is List) {
-    return raw.map((x) {
+    for (var x in raw) {
       if (x is Map<String, dynamic>) {
-        return Attachment.fromJson(x);
+        list.add(Attachment.fromJson(x));
       } else if (x is Map) {
-        return Attachment.fromJson(Map<String, dynamic>.from(x));
-      } else if (x is String) {
-        return Attachment(url: x, fileName: x.split('/').last);
+        list.add(Attachment.fromJson(Map<String, dynamic>.from(x)));
+      } else if (x is String && x.trim().isNotEmpty) {
+        list.add(Attachment(url: x, fileName: x.split('/').last));
       }
-      return Attachment();
-    }).toList();
-  }
-  if (raw is Map) {
+    }
+  } else if (raw is Map) {
     if (raw.containsKey("url") ||
         raw.containsKey("file_name") ||
         raw.containsKey("file_url") ||
         raw.containsKey("attachment_url")) {
-      return [Attachment.fromJson(Map<String, dynamic>.from(raw))];
+      list.add(Attachment.fromJson(Map<String, dynamic>.from(raw)));
+    } else {
+      raw.forEach((key, x) {
+        if (x == null) return;
+        if (x is Map<String, dynamic>) {
+          list.add(Attachment.fromJson(x));
+        } else if (x is Map) {
+          list.add(Attachment.fromJson(Map<String, dynamic>.from(x)));
+        } else if (x is String && x.trim().isNotEmpty) {
+          list.add(Attachment(url: x, fileName: x.split('/').last));
+        }
+      });
     }
-    return raw.values.map((x) {
-      if (x is Map<String, dynamic>) {
-        return Attachment.fromJson(x);
-      } else if (x is Map) {
-        return Attachment.fromJson(Map<String, dynamic>.from(x));
-      } else if (x is String) {
-        return Attachment(url: x, fileName: x.split('/').last);
-      }
-      return Attachment();
-    }).toList();
+  } else if (raw is String && raw.trim().isNotEmpty) {
+    list.add(Attachment(url: raw, fileName: raw.split('/').last));
   }
-  if (raw is String && raw.trim().isNotEmpty) {
-    return [Attachment(url: raw, fileName: raw.split('/').last)];
-  }
-  return [];
+  return list
+      .where((a) =>
+          (a.url != null && a.url!.trim().isNotEmpty) ||
+          (a.fileName != null && a.fileName!.trim().isNotEmpty))
+      .toList();
 }
 
 List<StatusTimeline> _parseStatusTimeline(dynamic raw) {
@@ -147,6 +150,34 @@ class Attachment {
   String? url;
 
   Attachment({this.fileName, this.type, this.size, this.url});
+
+  bool get isPdf {
+    final u = (url ?? '').toLowerCase();
+    final f = (fileName ?? '').toLowerCase();
+    final t = (type ?? '').toLowerCase();
+    return u.endsWith('.pdf') ||
+        u.contains('.pdf?') ||
+        f.endsWith('.pdf') ||
+        t.contains('pdf');
+  }
+
+  bool get isImage {
+    if (isPdf) return false;
+    final u = (url ?? '').toLowerCase();
+    final f = (fileName ?? '').toLowerCase();
+    final t = (type ?? '').toLowerCase();
+    return u.endsWith('.jpg') ||
+        u.endsWith('.jpeg') ||
+        u.endsWith('.png') ||
+        u.endsWith('.webp') ||
+        u.endsWith('.gif') ||
+        f.endsWith('.jpg') ||
+        f.endsWith('.jpeg') ||
+        f.endsWith('.png') ||
+        f.endsWith('.webp') ||
+        f.endsWith('.gif') ||
+        t.contains('image');
+  }
 
   factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
     fileName: (json["file_name"] ?? json["fileName"] ?? json["name"] ?? json["title"])?.toString(),

@@ -459,9 +459,15 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<GetPropertyScoreModel> getPropertyScore(int? propertyId) async {
+  Future<GetPropertyScoreModel> getPropertyScore(
+    int? propertyId, {
+    String? period,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'property_id': propertyId};
+    final queryParameters = <String, dynamic>{
+      r'property_id': propertyId,
+      r'period': period,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -1084,9 +1090,16 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<GetNotificaionListModel> getNotificaionList(String filter) async {
+  Future<GetNotificaionListModel> getNotificaionList(
+    String filter,
+    int? propertyId,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'filter': filter};
+    final queryParameters = <String, dynamic>{
+      r'filter': filter,
+      r'property_id': propertyId,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetNotificaionListModel>(
@@ -1264,6 +1277,55 @@ class _ApiStateNetwork implements ApiStateNetwork {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
     }
+    return _value;
+  }
+
+  @override
+  Future<MarkNotificationReadResModel> markNotificationRead(String id) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<MarkNotificationReadResModel>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/notifications/${id}/read',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late MarkNotificationReadResModel _value;
+    try {
+      _value = MarkNotificationReadResModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<dynamic> closeTicket(String id, CloseBodyModel body) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/v1/owner/tickets/${id}/status',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
     return _value;
   }
 
