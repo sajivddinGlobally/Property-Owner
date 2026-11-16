@@ -879,7 +879,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       case "community_care":
         return "Community Care";
       case "villa_compound":
-        return "Villa Compound";
+        return "Villa";
       case "commercial":
         return "Commercial";
       case "commercial_complex":

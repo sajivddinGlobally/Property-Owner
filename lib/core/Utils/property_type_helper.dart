@@ -55,14 +55,13 @@
 //       )
 //       .join(' ');
 // }
-
 String formatPropertyTitle(String? text) {
   if (text == null || text.trim().isEmpty) return "";
   final trimmed = text.trim();
   final lower = trimmed.toLowerCase();
   if (lower == "independent_house") return "Independent House";
   if (lower == "apartment") return "Apartment";
-  if (lower == "villa_compound") return "Villa Compound";
+  if (lower == "villa_compound") return "Villa";
   if (lower == "commercial") return "Commercial";
   if (lower == "commercial_complex") return "Commercial Complex";
 
@@ -95,7 +94,7 @@ String formatPropertyType(String? type) {
     return "Community Care";
   }
   if (lower == "villa_compound") {
-    return "Villa Compound";
+    return "Villa";
   }
   if (lower == "commercial") {
     return "Commercial";
@@ -114,11 +113,15 @@ String formatPropertyType(String? type) {
       .join(' ');
 }
 
-/// Home Care property? (backend jaisa) = Independent House, ya Commercial (shop / office)
-/// jo kisi complex mein nahi. [complex] = API ka complex object / id (null = complex nahi).
-bool isHomeCareProperty(String? type, {dynamic complex}) {
+/// Home Care property? (backend jaisa) = Independent House, ya Commercial / Apartment / Villa
+/// jo kisi complex se judi nahi. [complex] = API ka complex object / id (null = complex nahi).
+/// Apartment / Villa ke liye backend ka is_independent = true bhi chahiye (owner side ki property).
+bool isHomeCareProperty(String? type, {dynamic complex, bool? isIndependent}) {
   final lower = (type ?? '').trim().toLowerCase();
   if (lower == "independent_house") return true;
   if (lower == "commercial") return complex == null;
+  if (lower == "apartment" || lower == "villa_compound") {
+    return complex == null && isIndependent == true;
+  }
   return false;
 }

@@ -331,12 +331,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         property.imageUrl ?? "",
                                         "${_formatPropertyType(property.propertyType)} ${property.propertyNameNumber ?? ''}"
                                             .trim(),
-                                        (property.complexName != null &&
-                                                property
-                                                    .complexName!
-                                                    .isNotEmpty)
-                                            ? "${property.complexName} - ${property.location ?? ''}"
-                                            : (property.location ?? ""),
+                                        [
+                                              property.complexName,
+                                              property.location,
+                                            ]
+                                            .where(
+                                              (s) =>
+                                                  s != null &&
+                                                  s.trim().isNotEmpty,
+                                            )
+                                            .join(" - "),
                                         isSelected,
                                         onTap: () async {
                                           final propertyId = property.id;
@@ -858,13 +862,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 ?.property
                                                 ?.location ??
                                             '';
-                                        final suffix =
-                                            (complexName != null &&
-                                                complexName.trim().isNotEmpty)
-                                            ? "$complexName · $location"
-                                            : (location.isNotEmpty
-                                                  ? location
-                                                  : "N/A");
+                                        final parts = [complexName, location]
+                                            .where(
+                                              (s) =>
+                                                  s != null &&
+                                                  s.trim().isNotEmpty,
+                                            )
+                                            .join(" · ");
+                                        final suffix = parts.isNotEmpty
+                                            ? parts
+                                            : "N/A";
 
                                         return Text(
                                           "${_formatPropertyType(ownerDashboard.data?.property?.type)} ${ownerDashboard.data?.property?.nameNumber ?? ''} $suffix"
@@ -3127,7 +3134,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       case "community_care":
         return "Community Care";
       case "villa_compound":
-        return "Villa Compound";
+        return "Villa";
       case "commercial":
         return "Commercial";
       case "commercial_complex":
