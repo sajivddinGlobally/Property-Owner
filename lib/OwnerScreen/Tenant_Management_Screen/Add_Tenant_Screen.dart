@@ -391,6 +391,18 @@ class _AddTenantScreenState extends ConsumerState<AddTenantScreen> {
       }
     } catch (e) {
       log(e.toString());
+      // Backend ka asli message dikhao (jaise "X is the current tenant ... Move them out first")
+      String msg = "Could not save the tenant. Please try again.";
+      if (e is DioException) {
+        final data = e.response?.data;
+        if (data is Map && data["message"] != null) {
+          msg = data["message"].toString();
+        } else if (e.type == DioExceptionType.connectionError ||
+            e.type == DioExceptionType.connectionTimeout) {
+          msg = "No internet connection. Please try again.";
+        }
+      }
+      showErrorSnackBar(msg);
     } finally {
       if (mounted) {
         setState(() {

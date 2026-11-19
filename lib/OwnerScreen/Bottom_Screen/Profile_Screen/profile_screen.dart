@@ -17,6 +17,7 @@ import 'package:property_care/core/constant/appColor.dart';
 import 'package:svg_flutter/svg.dart';
 
 import 'package:property_care/core/AuthService/AuthServiceProvider.dart';
+import '../../bookin_screen/OwnerBookingsScreen.dart';
 import 'Provider/getProfileProvider.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -485,21 +486,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             );
                           },
                         ),
-                        // Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
-                        // _accountSettingTab(
-                        //   image: "assets/SvgImage/history.svg",
-                        //   name: "Maintenance History",
-                        //   title: "Audit Reports history",
-                        //   callback: () {
-                        //     Navigator.push(
-                        //       context,
-                        //       CupertinoPageRoute(
-                        //         builder: (context) =>
-                        //             MaintenancehistoryScreen(),
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
+
                         Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
                         _accountSettingTab(
                           image: "assets/SvgImage/notifi.svg",
@@ -514,6 +501,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             );
                           },
                         ),
+                        // Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
+                        // _accountSettingTab(
+                        //   image: "assets/SvgImage/history.svg",
+                        //   name: "Booking & Rental",
+                        //   title: "Manage Booking & Rental",
+                        //   callback: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       CupertinoPageRoute(
+                        //         builder: (context) => OwnerBookingsScreen(),
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
                       ],
                     ),
                   ),

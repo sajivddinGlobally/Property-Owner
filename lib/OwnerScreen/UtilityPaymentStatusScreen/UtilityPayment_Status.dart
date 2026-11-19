@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:property_care/OwnerScreen/RentPaymentStatusScreen/RentPaymentStatus_Screen.dart';
 import 'package:property_care/core/constant/appColor.dart';
 
+import '../Tenant_Management_Screen/widget/TenantAvatar.dart';
 import 'provider/getTenantPaymentProvider.dart';
 
 class UtilitypaymentStatus extends ConsumerStatefulWidget {
@@ -113,47 +114,10 @@ class _UtilitypaymentStatusState extends ConsumerState<UtilitypaymentStatus> {
                                 shape: BoxShape.circle,
                                 color: Color(0xffF1F1EC),
                               ),
-                              child: ClipOval(
-                                child:
-                                    (tenant?.tenantImageUrl != null &&
-                                        tenant!.tenantImageUrl
-                                            .toString()
-                                            .trim()
-                                            .isNotEmpty)
-                                    ? Image.network(
-                                        tenant.tenantImageUrl.toString().trim(),
-                                        width: 51.w,
-                                        height: 51.w,
-                                        fit: BoxFit.cover,
-                                        errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                Container(
-                                                  width: 51.w,
-                                                  height: 51.w,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0xffF1F1EC),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.person,
-                                                    color: Colors.grey[400],
-                                                    size: 30.sp,
-                                                  ),
-                                                ),
-                                      )
-                                    : Container(
-                                        width: 51.w,
-                                        height: 51.w,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Color(0xffF1F1EC),
-                                        ),
-                                        child: Icon(
-                                          Icons.person,
-                                          color: Colors.grey[400],
-                                          size: 30.sp,
-                                        ),
-                                      ),
+                              child: TenantAvatar(
+                                name: tenant?.tenantName,
+                                imageUrl: tenant?.tenantImageUrl,
+                                size: 51.w,
                               ),
                             ),
                             SizedBox(width: 10.w),

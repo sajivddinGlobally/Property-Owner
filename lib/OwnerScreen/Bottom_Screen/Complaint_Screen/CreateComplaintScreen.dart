@@ -361,13 +361,13 @@ class _CreateComplaintScreenState extends ConsumerState<CreateComplaintScreen> {
         ? activeProperty!.propertyNameNumber!
         : (ticket?.propertyNameNumber?.isNotEmpty == true)
         ? ticket!.propertyNameNumber!
-        : "Community Care A-204";
+        : "";
 
     final complexName = (activeProperty?.complexName?.isNotEmpty == true)
         ? activeProperty!.complexName!
         : (ticket?.complexName?.isNotEmpty == true)
         ? ticket!.complexName!
-        : "Green Valley Residency";
+        : "";
 
     final propertyImage = (activeProperty?.imageUrl?.isNotEmpty == true)
         ? activeProperty!.imageUrl!

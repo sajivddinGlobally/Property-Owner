@@ -373,11 +373,11 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
     final propertyName =
         (activeProperty?.propertyNameNumber?.isNotEmpty == true)
         ? activeProperty!.propertyNameNumber!
-        : "Community Care A-204";
+        : "";
 
     final complexName = (activeProperty?.complexName?.isNotEmpty == true)
         ? activeProperty!.complexName!
-        : "Green Valley Residency";
+        : "";
 
     final propertyImage = (activeProperty?.imageUrl?.isNotEmpty == true)
         ? activeProperty!.imageUrl!
@@ -585,7 +585,9 @@ class _CreateServiceRequestState extends ConsumerState<CreateServiceRequest> {
                       (item) => formatCategory(item["id"] as String) == value,
                       orElse: () => {},
                     );
-                    selectedCategory = match["id"] ?? value?.toLowerCase().replaceAll(' ', '_');
+                    selectedCategory =
+                        match["id"] ??
+                        value?.toLowerCase().replaceAll(' ', '_');
 
                     // Category change hone par purani service reset
                     selectedService = null;

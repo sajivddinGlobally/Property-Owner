@@ -24,6 +24,7 @@ import 'package:property_care/core/AuthService/AuthServiceProvider.dart';
 import 'package:property_care/core/constant/appColor.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
+import '../../bookin_screen/OwnerBookingsScreen.dart';
 import 'Provider/getPropertyListProvider.dart';
 import 'Provider/selectedPropertyProvider.dart';
 
@@ -2300,6 +2301,91 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                             ),
                           ),
+                          // Earn n Care: Bookings & Rentals (sirf is package par dikhta hai)
+                          if (ownerDashboard.data?.property?.carePackage?.key ==
+                                  'earn_n_care' ||
+                              ownerDashboard.data?.property?.carePackage?.key ==
+                                  'daily_rental_care') ...[
+                            SizedBox(height: 16.h),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) =>
+                                        const OwnerBookingsScreen(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(16.w),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: const Color.fromRGBO(0, 0, 0, 0.15),
+                                  ),
+                                  borderRadius: BorderRadius.circular(14.r),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 34.h,
+                                      width: 34.w,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: AppColors.heading,
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          5.r,
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        Icons.calendar_month_outlined,
+                                        size: 20.sp,
+                                        color: AppColors.heading,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Bookings & Rentals",
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF101C16),
+                                              letterSpacing: -0.2,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Calendar, bookings and payouts",
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF777777),
+                                              letterSpacing: -0.2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Text(
+                                      "View →",
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color(0xFF101C16),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                           SizedBox(height: 30.h),
                         ],
                       ],

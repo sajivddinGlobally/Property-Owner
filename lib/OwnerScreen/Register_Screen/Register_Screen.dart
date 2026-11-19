@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +11,8 @@ import 'package:property_care/core/constant/appColor.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../core/AuthService/AuthServiceProvider.dart';
+import 'PrivacyPolicyScreen.dart';
+import 'TermsAndConditionsScreen.dart';
 import 'provider/availableFlatsProvider.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -371,15 +374,58 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           child: RichText(
                             text: TextSpan(
                               style: GoogleFonts.outfit(
-                                fontSize: 16.sp,
-                                color: Color(0Xff000000),
-                                fontWeight: FontWeight.w700,
+                                fontSize: 13.sp,
+                                color: const Color(0Xff000000),
+                                fontWeight: FontWeight.w500,
                                 letterSpacing: -0.2,
                               ),
                               children: [
                                 const TextSpan(
-                                  text:
-                                      "I agree to the Terms & Conditions and Privacy Policy.",
+                                  text: "I agree to the ",
+                                ),
+                                TextSpan(
+                                  text: "Terms & Conditions",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFFD4A017),
+                                    fontWeight: FontWeight.w700,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TermsAndConditionsScreen(),
+                                        ),
+                                      );
+                                    },
+                                ),
+                                const TextSpan(
+                                  text: " and ",
+                                ),
+                                TextSpan(
+                                  text: "Privacy Policy",
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFFD4A017),
+                                    fontWeight: FontWeight.w700,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PrivacyPolicyScreen(),
+                                        ),
+                                      );
+                                    },
+                                ),
+                                const TextSpan(
+                                  text: ".",
                                 ),
                               ],
                             ),

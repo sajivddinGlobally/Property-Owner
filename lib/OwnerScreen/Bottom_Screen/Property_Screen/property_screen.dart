@@ -402,15 +402,6 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
                       ),
 
                       _infoCard(
-                        icon: Icons.circle,
-                        title: _getCaretakerName(
-                          propertyDetails.data?.caretaker,
-                        ),
-                        subtitle: "Assigned Caretaker",
-                        iconSize: 19,
-                      ),
-
-                      _infoCard(
                         icon: Icons.access_time_outlined,
                         title:
                             propertyDetails
@@ -944,25 +935,5 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
             )
             .join(' ');
     }
-  }
-
-  String _getCaretakerName(dynamic caretaker) {
-    if (caretaker == null) return "N/A";
-    if (caretaker is String) {
-      return caretaker.trim().isEmpty ? "N/A" : caretaker;
-    }
-    if (caretaker is Map) {
-      final name = caretaker['name'] ?? caretaker['full_name'];
-      return (name != null && name.toString().trim().isNotEmpty)
-          ? name.toString()
-          : "N/A";
-    }
-    try {
-      final name = (caretaker as dynamic).name;
-      if (name != null && name.toString().trim().isNotEmpty) {
-        return name.toString();
-      }
-    } catch (_) {}
-    return "N/A";
   }
 }

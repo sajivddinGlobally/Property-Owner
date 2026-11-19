@@ -8,12 +8,15 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/AddPropertyFormScreen.dart';
 import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/my_bottom_screen.dart';
 import 'package:property_care/splash_screen.dart';
+import 'core/PushNotificationService/PushNotificationService.dart';
 import 'core/Utils/key.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox("userdata");
+  // Push notification (popup) - fail ho to bhi app normal khulegi
+  await PushNotificationService.init();
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -40,11 +43,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return AnnotatedRegion(
-          value: const SystemUiOverlayStyle(
-            // statusBarColor: Color(0xFFF3F3F3),
-            // statusBarIconBrightness: Brightness.dark,
-            // statusBarBrightness: Brightness.light,
-          ),
+          value: const SystemUiOverlayStyle(),
           child: SafeArea(
             top: false,
             child: MaterialApp(

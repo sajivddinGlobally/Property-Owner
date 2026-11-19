@@ -51,7 +51,7 @@ class _OwnerStayoAssistantScreenState
   final TextEditingController _input = TextEditingController();
   final ScrollController _scroll = ScrollController();
 
-  static const String _api = "https://realestate.gwsstaging.com/api/v1";
+  static const String _api = "https://admin.ascentpms.care/api/v1";
 
   int? _propertyId;
   bool _loading = true;

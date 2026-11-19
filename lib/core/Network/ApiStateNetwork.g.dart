@@ -12,7 +12,7 @@ part of 'ApiStateNetwork.dart';
 
 class _ApiStateNetwork implements ApiStateNetwork {
   _ApiStateNetwork(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://realestate.gwsstaging.com';
+    baseUrl ??= 'https://admin.ascentpms.care';
   }
 
   final Dio _dio;

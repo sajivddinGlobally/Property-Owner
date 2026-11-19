@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:property_care/core/Data/Model/BodyModel/resetPassBodyModel.dart';
 import 'package:property_care/core/Data/Model/BodyModel/verifyOtpBodyModel.dart';
@@ -50,7 +49,8 @@ import '../Data/Model/ResponseModel/maintenancePaymentStatusModel.dart';
 
 part 'ApiStateNetwork.g.dart';
 
-@RestApi(baseUrl: "https://realestate.gwsstaging.com")
+@RestApi(baseUrl: "https://admin.ascentpms.care")
+// @RestApi(baseUrl: "https://realestate.gwsstaging.com")
 abstract class ApiStateNetwork {
   factory ApiStateNetwork(Dio dio, {String baseUrl}) = _ApiStateNetwork;
 

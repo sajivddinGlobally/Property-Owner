@@ -441,8 +441,8 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                       Expanded(
                         child: Text(
                           item.title ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          // maxLines: 1,
+                          // overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.outfit(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
@@ -465,8 +465,8 @@ class _NotificationscreenState extends ConsumerState<Notificationscreen> {
                   SizedBox(height: 5.h),
                   Text(
                     item.message ?? "",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    // maxLines: 2,
+                    // overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.outfit(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
