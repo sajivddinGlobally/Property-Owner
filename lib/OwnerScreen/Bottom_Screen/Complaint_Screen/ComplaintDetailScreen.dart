@@ -397,7 +397,7 @@ class _ComplaintDetailScreenState extends ConsumerState<ComplaintDetailScreen> {
                                 ),
                               ),
                               child: Text(
-                                data.data?.header?.statusPill ?? "",
+                                data.data?.header?.displayStatus ?? "",
                                 style: GoogleFonts.outfit(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,

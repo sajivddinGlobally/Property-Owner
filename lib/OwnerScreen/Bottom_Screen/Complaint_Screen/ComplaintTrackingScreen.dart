@@ -935,7 +935,7 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                               ),
                               Text(
                                 // "In Progress",
-                                complainData?.header?.statusPill ?? "",
+                                complainData?.header?.displayStatus ?? "",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.outfit(
@@ -1232,7 +1232,10 @@ class _ComplaintTrackingScreenState extends State<ComplaintTrackingScreen> {
                 ),
               ),
               SizedBox(height: 11.h),
-              ...List.generate(activities.length, (index) {
+              // Server ki timeline jitne hi step (pehle dummy list ki ginti se - timeline na ho to crash)
+              ...List.generate(complainData.statusTimeline?.length ?? 0, (
+                index,
+              ) {
                 final activity = complainData.statusTimeline![index];
                 return _TimelineItem(
                   title: activity.label ?? "",

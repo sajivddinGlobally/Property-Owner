@@ -374,19 +374,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           child: RichText(
                             text: TextSpan(
                               style: GoogleFonts.outfit(
-                                fontSize: 13.sp,
-                                color: const Color(0Xff000000),
+                                fontSize: 14.sp,
+                                color: const Color(0xFF101C16),
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.2,
                               ),
                               children: [
-                                const TextSpan(
-                                  text: "I agree to the ",
-                                ),
+                                const TextSpan(text: "I agree to the "),
                                 TextSpan(
                                   text: "Terms & Conditions",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
+                                    fontSize: 14.sp,
                                     color: const Color(0xFFD4A017),
                                     fontWeight: FontWeight.w700,
                                     decoration: TextDecoration.underline,
@@ -402,13 +400,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                       );
                                     },
                                 ),
-                                const TextSpan(
-                                  text: " and ",
-                                ),
+                                const TextSpan(text: " and "),
                                 TextSpan(
                                   text: "Privacy Policy",
                                   style: GoogleFonts.outfit(
-                                    fontSize: 13.sp,
+                                    fontSize: 14.sp,
                                     color: const Color(0xFFD4A017),
                                     fontWeight: FontWeight.w700,
                                     decoration: TextDecoration.underline,
@@ -424,9 +420,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                       );
                                     },
                                 ),
-                                const TextSpan(
-                                  text: ".",
-                                ),
+                                const TextSpan(text: "."),
                               ],
                             ),
                           ),

@@ -6,12 +6,16 @@ import 'package:property_care/core/constant/appColor.dart';
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
+  static const Color _bgBeige = AppColors.scaffoldBg; // 0xFFFFFCEB
+  static const Color _gold = Color(0xFFD4A017);
+  static const Color _black = Color(0xFF101C16);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBg,
+      backgroundColor: _bgBeige,
       appBar: AppBar(
-        backgroundColor: AppColors.scaffoldBg,
+        backgroundColor: _bgBeige,
         elevation: 0,
         automaticallyImplyLeading: false,
         titleSpacing: 20.w,
@@ -23,15 +27,17 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 width: 44.w,
                 height: 44.h,
                 decoration: BoxDecoration(
+                  color: _bgBeige,
                   border: Border.all(
-                    color: const Color.fromRGBO(16, 28, 22, 0.3),
+                    color: _gold,
+                    width: 1.2,
                   ),
-                  borderRadius: BorderRadius.circular(6.r),
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Icon(
                   Icons.arrow_back,
-                  color: const Color(0xff101C16),
-                  size: 20.sp,
+                  color: _black,
+                  size: 22.sp,
                 ),
               ),
             ),
@@ -39,9 +45,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
             Text(
               "Privacy Policy",
               style: GoogleFonts.outfit(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xff292832),
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w700,
+                color: _black,
                 letterSpacing: -0.5,
               ),
             ),
@@ -57,18 +63,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
               // Header Card
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16.w),
+                padding: EdgeInsets.all(18.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: const Color(0xFFE5E7EB)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+                  color: _bgBeige,
+                  borderRadius: BorderRadius.circular(14.r),
+                  border: Border.all(
+                    color: _gold,
+                    width: 1.5,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,32 +78,38 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     Text(
                       "STAYO",
                       style: GoogleFonts.outfit(
-                        fontSize: 22.sp,
+                        fontSize: 26.sp,
                         fontWeight: FontWeight.w800,
-                        color: const Color(0xFF101C16),
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      "PRIVACY POLICY",
-                      style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFFD4A017),
+                        color: _gold,
                         letterSpacing: 0.5,
                       ),
                     ),
+                    SizedBox(height: 6.h),
+                    Text(
+                      "PRIVACY POLICY",
+                      style: GoogleFonts.outfit(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: _black,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
                     Text(
                       "Protection, Collection, Storage and Use of Personal Information",
                       style: GoogleFonts.outfit(
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
-                        color: const Color(0xFF6B7280),
+                        color: _black.withValues(alpha: 0.75),
                       ),
                     ),
+                    SizedBox(height: 14.h),
+                    Divider(
+                      height: 1,
+                      thickness: 1,
+                      color: _gold.withValues(alpha: 0.4),
+                    ),
                     SizedBox(height: 12.h),
-                    const Divider(height: 1, color: Color(0xFFE5E7EB)),
-                    SizedBox(height: 10.h),
                     _buildMetaRow("Application Name:", "STAYO"),
                     _buildMetaRow("Owner / Operator:", "Ascent PMS Care / STAYO"),
                     _buildMetaRow("Website:", "www.ascentpms.care"),
@@ -380,9 +388,12 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 16.h),
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: const Color(0xFFD4A017).withOpacity(0.4)),
+                  color: _bgBeige,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(
+                    color: _gold,
+                    width: 1.4,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -390,12 +401,13 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     Text(
                       "22. GRIEVANCE REDRESSAL AND DATA PROTECTION CONTACT",
                       style: GoogleFonts.outfit(
-                        fontSize: 14.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF101C16),
+                        color: _gold,
+                        letterSpacing: -0.2,
                       ),
                     ),
-                    SizedBox(height: 8.h),
+                    SizedBox(height: 10.h),
                     Text(
                       "For questions, concerns, or requests relating to personal information, users may contact:\n\n"
                       "STAYO – PRIVACY AND GRIEVANCE SUPPORT\n"
@@ -407,9 +419,11 @@ class PrivacyPolicyScreen extends StatelessWidget {
                       "Registered Office: First floor, Krishnapriya, Ganapathy Kovil road, Vazhuthacaud, Trivandrum-14\n\n"
                       "STAYO shall endeavour to acknowledge and resolve grievances within statutory timelines.",
                       style: GoogleFonts.outfit(
-                        fontSize: 13.sp,
-                        color: const Color(0xFF374151),
-                        height: 1.5,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w400,
+                        color: _black,
+                        height: 1.6,
+                        letterSpacing: 0.1,
                       ),
                     ),
                   ],
@@ -438,18 +452,18 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   Widget _buildMetaRow(String label, String value) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2.h),
+      padding: EdgeInsets.symmetric(vertical: 3.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 130.w,
+            width: 140.w,
             child: Text(
               label,
               style: GoogleFonts.outfit(
-                fontSize: 12.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF4B5563),
+                color: _black,
               ),
             ),
           ),
@@ -457,9 +471,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
             child: Text(
               value,
               style: GoogleFonts.outfit(
-                fontSize: 12.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xFF111827),
+                color: _gold,
               ),
             ),
           ),
@@ -474,9 +488,12 @@ class PrivacyPolicyScreen extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        color: _bgBeige,
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(
+          color: _gold.withValues(alpha: 0.35),
+          width: 1.2,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -484,18 +501,21 @@ class PrivacyPolicyScreen extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.outfit(
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w700,
-              color: const Color(0xFF101C16),
+              color: _gold,
+              letterSpacing: -0.2,
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 10.h),
           Text(
             body,
             style: GoogleFonts.outfit(
-              fontSize: 13.sp,
-              color: const Color(0xFF374151),
-              height: 1.55,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w400,
+              color: _black,
+              height: 1.6,
+              letterSpacing: 0.1,
             ),
           ),
         ],
@@ -503,4 +523,3 @@ class PrivacyPolicyScreen extends StatelessWidget {
     );
   }
 }
-

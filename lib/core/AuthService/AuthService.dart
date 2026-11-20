@@ -75,6 +75,7 @@ class AuthService {
     String? floors,
     String? bedrooms,
     String? occupancyStatus,
+    String? ownerSharePercent,
   }) async {
     try {
       final file = image != null
@@ -97,6 +98,7 @@ class AuthService {
         floors,
         bedrooms,
         occupancyStatus,
+        ownerSharePercent,
       );
       log(response.toString());
       return response;

@@ -73,6 +73,8 @@ abstract class ApiStateNetwork {
     @Part(name: "floors") String? floors,
     @Part(name: "bedrooms") String? bedrooms,
     @Part(name: "occupancy_status") String? occupancyStatus,
+    // Earn n Care: owner ka share (%)
+    @Part(name: "owner_share_percent") String? ownerSharePercent,
   );
 
   @GET("/api/v1/auth/available-flats")

@@ -377,11 +377,11 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                                     ),
                                     alignment: Alignment.center,
                                     child: Text(
-                                      // "IN PROGRESS",
+                                      // Poora status naam (Submitted / Under Review / Assigned ...)
                                       modelData
                                               .data
                                               ?.tickets![index]
-                                              .statusPill ??
+                                              .displayStatus ??
                                           "",
                                       style: GoogleFonts.outfit(
                                         fontSize: 16.sp,
@@ -408,6 +408,27 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
                                   letterSpacing: -0.2,
                                 ),
                               ),
+                              // Admin ne kisko kaam diya (Assigned ke baad)
+                              if ((modelData
+                                          .data
+                                          ?.tickets![index]
+                                          .assignedName ??
+                                      "")
+                                  .trim()
+                                  .isNotEmpty) ...[
+                                SizedBox(height: 6.h),
+                                Text(
+                                  "Assigned to ${modelData.data!.tickets![index].assignedName}",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF7C3AED),
+                                    letterSpacing: -0.2,
+                                  ),
+                                ),
+                              ],
                               SizedBox(height: 14.h),
                               Divider(
                                 height: 1,

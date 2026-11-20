@@ -2321,7 +2321,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 width: double.infinity,
                                 padding: EdgeInsets.all(16.w),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
                                   border: Border.all(
                                     color: const Color.fromRGBO(0, 0, 0, 0.15),
                                   ),

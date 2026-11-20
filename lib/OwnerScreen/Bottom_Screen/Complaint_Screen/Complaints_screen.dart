@@ -276,7 +276,8 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                             return _buildComplaintCard(
                               title: model.category ?? "",
                               complaintId: model.ticketNumber ?? "",
-                              status: model.statusPill ?? "",
+                              status: model.displayStatus,
+                              assignedName: model.assignedName,
                               priority: model.priority ?? "",
                               date: model.requestedDate ?? "",
                               onTap: () {
@@ -439,6 +440,7 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
     required String priority,
     required String date,
     required VoidCallback onTap,
+    String? assignedName,
   }) {
     return InkWell(
       onTap: onTap,
@@ -495,6 +497,19 @@ class _ComplaintsScreenState extends ConsumerState<ComplaintsScreen> {
                           letterSpacing: -0.3,
                         ),
                       ),
+                      // Admin ne kisko kaam diya (Assigned ke baad)
+                      if ((assignedName ?? "").trim().isNotEmpty)
+                        Text(
+                          "Assigned to $assignedName",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.outfit(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xFF7C3AED),
+                            letterSpacing: -0.3,
+                          ),
+                        ),
                     ],
                   ),
                 ),

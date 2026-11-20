@@ -63,6 +63,7 @@ class _ApiStateNetwork implements ApiStateNetwork {
     String? floors,
     String? bedrooms,
     String? occupancyStatus,
+    String? ownerSharePercent,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -103,6 +104,9 @@ class _ApiStateNetwork implements ApiStateNetwork {
     }
     if (occupancyStatus != null) {
       _data.fields.add(MapEntry('occupancy_status', occupancyStatus));
+    }
+    if (ownerSharePercent != null) {
+      _data.fields.add(MapEntry('owner_share_percent', ownerSharePercent));
     }
     final _options = _setStreamType<CreatePropertyResModel>(
       Options(

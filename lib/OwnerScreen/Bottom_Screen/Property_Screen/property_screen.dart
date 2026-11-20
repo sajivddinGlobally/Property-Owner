@@ -682,6 +682,20 @@ class _PropertyScreenState extends ConsumerState<PropertyScreen> {
                                 letterSpacing: -0.34,
                               ),
                             ),
+                            // Earn n Care: owner ka share (%) - sirf dikhta hai, badalta Ascent hai
+                            if (propertyDetails.data?.ownerSharePercent !=
+                                null) ...[
+                              SizedBox(height: 4.h),
+                              Text(
+                                "Your share: ${propertyDetails.data!.ownerSharePercent!.toStringAsFixed(propertyDetails.data!.ownerSharePercent! % 1 == 0 ? 0 : 2)}%",
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFFAE8130),
+                                  fontSize: 14.sp,
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                         Spacer(),

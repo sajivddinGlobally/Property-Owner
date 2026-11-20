@@ -4,7 +4,7 @@ import 'package:property_care/OwnerScreen/Bottom_Screen/Home_screen/Provider/sel
 import 'package:property_care/core/AuthService/AuthServiceProvider.dart';
 import 'package:riverpod/riverpod.dart';
 
-import '../../../core/Data/Model/ResponseModel/rentBillsModel.dart';
+import 'package:property_care/core/Data/Model/ResponseModel/rentBillsModel.dart';
 
 const String _rentBillsApi =
     "https://admin.ascentpms.care/api/v1/owner/rent-bills";

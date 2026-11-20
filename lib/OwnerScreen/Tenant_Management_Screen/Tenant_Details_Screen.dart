@@ -1473,7 +1473,6 @@ class _TenantDetailsScreenState extends ConsumerState<TenantDetailsScreen> {
                           ),
                         ),
                       ),
-
                       SizedBox(width: 20.w),
                       Expanded(
                         child: Container(

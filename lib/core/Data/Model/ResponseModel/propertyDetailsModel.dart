@@ -953,6 +953,8 @@ class Data {
   String? imageUrl;
   String? carePackage;
   String? carePackageLabel;
+  // Earn n Care: owner ka share (%) - sirf dikhane ke liye (null = set nahi)
+  num? ownerSharePercent;
   double? overallScore;
   double? overallScoreOutOf10;
   bool? isIndependent;
@@ -982,6 +984,7 @@ class Data {
     this.imageUrl,
     this.carePackage,
     this.carePackageLabel,
+    this.ownerSharePercent,
     this.overallScore,
     this.overallScoreOutOf10,
     this.isIndependent,
@@ -1002,6 +1005,7 @@ class Data {
     imageUrl: json["image_url"],
     carePackage: json["care_package"],
     carePackageLabel: json["care_package_label"],
+    ownerSharePercent: _asNum(json["owner_share_percent"]),
     overallScore: json["overall_score"]?.toDouble(),
     overallScoreOutOf10: json["overall_score_out_of_10"]?.toDouble(),
     isIndependent: json["is_independent"],
@@ -1028,6 +1032,7 @@ class Data {
     "image_url": imageUrl,
     "care_package": carePackage,
     "care_package_label": carePackageLabel,
+    "owner_share_percent": ownerSharePercent,
     "overall_score": overallScore,
     "overall_score_out_of_10": overallScoreOutOf10,
     "is_independent": isIndependent,

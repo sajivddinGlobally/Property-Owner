@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               navigatorKey: navigatorKey,
               scaffoldMessengerKey: snackBarKey,
               debugShowCheckedModeBanner: false,
-              title: 'Property Owner',
+              title: 'Stayo',
               builder: (context, child) {
                 final mediaQuery = MediaQuery.of(context);
                 return MediaQuery(

@@ -200,7 +200,13 @@ class Header {
   String? subtitle;
   String? submitted;
   String? statusPill;
+  // Naya backend: poora status naam (Submitted / Under Review / Assigned ...)
+  String? statusLabel;
   int? completionPercentage;
+
+  /// Dikhane wala status: naya status_label, warna purana status_pill
+  String get displayStatus =>
+      (statusLabel != null && statusLabel!.trim().isNotEmpty) ? statusLabel! : (statusPill ?? "");
 
   Header({
     this.ticketNumber,
@@ -208,6 +214,7 @@ class Header {
     this.subtitle,
     this.submitted,
     this.statusPill,
+    this.statusLabel,
     this.completionPercentage,
   });
 
@@ -217,6 +224,7 @@ class Header {
     subtitle: json["subtitle"]?.toString(),
     submitted: (json["Submitted"] ?? json["submitted"] ?? json["created_at"])?.toString(),
     statusPill: (json["status_pill"] ?? json["status"] ?? json["statusPill"])?.toString(),
+    statusLabel: json["status_label"]?.toString(),
     completionPercentage: json["completion_percentage"] is int
         ? json["completion_percentage"]
         : (json["completion_percentage"] != null
@@ -230,6 +238,7 @@ class Header {
     "title": title,
     "subtitle": subtitle,
     "status_pill": statusPill,
+    "status_label": statusLabel,
     "Submitted": submitted,
     "completion_percentage": completionPercentage,
   };

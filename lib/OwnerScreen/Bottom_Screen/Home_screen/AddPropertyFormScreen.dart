@@ -50,6 +50,8 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
       TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _areaController = TextEditingController();
+  // Earn n Care: owner ka share (%) - booking mein yahi lagta hai
+  final TextEditingController _ownerShareController = TextEditingController();
   String? _occupancyStatus;
   String? complexId;
   bool _isCustomComplex = false;
@@ -92,6 +94,7 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
     _monthlyMaintenanceFeeController.dispose();
     _locationController.dispose();
     _areaController.dispose();
+    _ownerShareController.dispose();
     super.dispose();
   }
 
@@ -233,6 +236,9 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
             ? _bedroomsController.text.trim()
             : null,
         occupancyStatus: _occupancyStatus,
+        ownerSharePercent: _selectedCarePackage == "earn_n_care"
+            ? _ownerShareController.text.trim()
+            : null,
       );
       if (res.status == true) {
         var box = Hive.box("userdata");
@@ -642,10 +648,42 @@ class _AddPropertyFormScreenState extends ConsumerState<AddPropertyFormScreen> {
                             },
                           ),
                           SizedBox(height: 14.h),
+                          // 5b. Earn n Care: Owner Share (%) - jo Ascent se tay hua
+                          if (_selectedCarePackage == "earn_n_care") ...[
+                            fieldLabel("Owner Share (%) *"),
+                            customTextField(
+                              controller: _ownerShareController,
+                              hintText: "Enter your share (e.g. 70)",
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+                              validator: (value) {
+                                final v = double.tryParse((value ?? "").trim());
+                                if (v == null) {
+                                  return "Please enter the owner share (%)";
+                                }
+                                if (v < 1 || v > 100) {
+                                  return "Share must be between 1 and 100%";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              "Your share of every booking (after platform & management fees).",
+                              style: GoogleFonts.outfit(
+                                fontSize: 13.sp,
+                                color: const Color.fromRGBO(42, 41, 51, 0.6),
+                              ),
+                            ),
+                            SizedBox(height: 14.h),
+                          ],
                           // 6. Monthly Maintenance Fee (sirf Apartment / Villa Compound - society). Commercial = Home Care, MMC nahi
                           if (_showMmcField &&
                               (_selectedPropertyType == "apartment" ||
-                                  _selectedPropertyType == "villa_compound")) ...[
+                                  _selectedPropertyType ==
+                                      "villa_compound")) ...[
                             fieldLabel("Monthly Maintenance Fee (Optional)"),
                             customTextField(
                               controller: _monthlyMaintenanceFeeController,
