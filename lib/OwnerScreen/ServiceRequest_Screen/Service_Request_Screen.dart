@@ -11,7 +11,9 @@ import 'package:property_care/OwnerScreen/ServiceRequest_Screen/Service_Request_
 import 'package:property_care/core/constant/appColor.dart';
 
 class ServiceRequestScreen extends ConsumerStatefulWidget {
-  const ServiceRequestScreen({super.key});
+  /// Kis tab se kholna hai: "" (All) / open / assigned / in_progress / resolved / closed
+  final String initialStatus;
+  const ServiceRequestScreen({super.key, this.initialStatus = ""});
 
   @override
   ConsumerState<ServiceRequestScreen> createState() =>
@@ -24,10 +26,29 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
   final List<String> filters = [
     "All",
     "Open",
+    "Assigned",
     "In Progress",
     "Resolved",
     "Closed",
   ];
+
+  /// filters ke hisaab se API status (same index)
+  static const List<String> _filterKeys = [
+    "",
+    "open",
+    "assigned",
+    "in_progress",
+    "resolved",
+    "closed",
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    final i = _filterKeys.indexOf(widget.initialStatus);
+    if (i > 0) selectedFilter = i;
+  }
+
   String searchQuery = "";
   final TextEditingController searchController = TextEditingController();
 
@@ -39,15 +60,10 @@ class _ServiceRequestScreenState extends ConsumerState<ServiceRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String statusFilter = "";
-    if (selectedFilter == 1)
-      statusFilter = "open";
-    else if (selectedFilter == 2)
-      statusFilter = "in_progress";
-    else if (selectedFilter == 3)
-      statusFilter = "resolved";
-    else if (selectedFilter == 4)
-      statusFilter = "closed";
+    final String statusFilter =
+        (selectedFilter >= 0 && selectedFilter < _filterKeys.length)
+        ? _filterKeys[selectedFilter]
+        : "";
 
     final state = ref.watch(
       getServiceRequestProvider((

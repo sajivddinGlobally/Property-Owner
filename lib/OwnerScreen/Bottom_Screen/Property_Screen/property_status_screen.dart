@@ -383,16 +383,17 @@ class _PropertyStatusScreenState extends ConsumerState<PropertyStatusScreen> {
                       ),
 
                       _infoCard(
-                        icon: Icons.arrow_forward,
+                        icon: Icons.assignment_ind_outlined,
                         value:
-                            "${data.currentStatus?.openServiceRequests ?? 0}",
-                        title: "Open Service Requests",
+                            "${data.currentStatus?.assignedServiceRequests ?? 0}",
+                        title: "Assigned Service Requests",
                         onTap: () {
                           Navigator.push(
                             context,
                             CupertinoPageRoute(
-                              builder: (context) =>
-                                  const ServiceRequestScreen(),
+                              builder: (context) => const ServiceRequestScreen(
+                                initialStatus: "assigned",
+                              ),
                             ),
                           );
                         },

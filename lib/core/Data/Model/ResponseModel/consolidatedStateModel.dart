@@ -88,12 +88,14 @@ class Data {
 class CurrentStatus {
   int? pendingIssues;
   int? openServiceRequests;
+  int? assignedServiceRequests;
   String? recentInspectionDate;
   int? completedWork;
 
   CurrentStatus({
     this.pendingIssues,
     this.openServiceRequests,
+    this.assignedServiceRequests,
     this.recentInspectionDate,
     this.completedWork,
   });
@@ -101,6 +103,9 @@ class CurrentStatus {
   factory CurrentStatus.fromJson(Map<String, dynamic> json) => CurrentStatus(
     pendingIssues: json["pending_issues"],
     openServiceRequests: json["open_service_requests"],
+    assignedServiceRequests: json["assigned_service_requests"] is int
+        ? json["assigned_service_requests"]
+        : int.tryParse("${json["assigned_service_requests"] ?? ""}"),
     recentInspectionDate: json["recent_inspection_date"],
     completedWork: json["completed_work"],
   );
@@ -108,6 +113,7 @@ class CurrentStatus {
   Map<String, dynamic> toJson() => {
     "pending_issues": pendingIssues,
     "open_service_requests": openServiceRequests,
+    "assigned_service_requests": assignedServiceRequests,
     "recent_inspection_date": recentInspectionDate,
     "completed_work": completedWork,
   };

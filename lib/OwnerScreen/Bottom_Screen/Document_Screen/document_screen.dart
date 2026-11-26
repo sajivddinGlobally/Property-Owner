@@ -28,7 +28,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     "Inspection",
     "Audit",
     "Certificates",
-    "Maintenance",
+    // "Maintenance",
   ];
 
   @override
@@ -295,7 +295,8 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                                     child: Center(
                                       child: Text(
                                         formatPropertyTitle(
-                                            overview.propertyNumber),
+                                          overview.propertyNumber,
+                                        ),
                                         style: GoogleFonts.outfit(
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
@@ -329,7 +330,8 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                                   SizedBox(height: 5.h),
                                   Text(
                                     formatPropertyTitle(
-                                        overview?.complexLocation),
+                                      overview?.complexLocation,
+                                    ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.outfit(

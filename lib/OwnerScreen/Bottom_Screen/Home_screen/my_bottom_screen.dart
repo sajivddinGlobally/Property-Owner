@@ -23,7 +23,6 @@ import 'package:property_care/OwnerScreen/inspectionReport/inspectionReportScree
 import 'package:property_care/core/AuthService/AuthServiceProvider.dart';
 import 'package:property_care/core/constant/appColor.dart';
 import 'package:svg_flutter/svg_flutter.dart';
-
 import '../../bookin_screen/OwnerBookingsScreen.dart';
 import 'Provider/getPropertyListProvider.dart';
 import 'Provider/selectedPropertyProvider.dart';
@@ -734,7 +733,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                       ),
-
                       Positioned(
                         left: 20.w,
                         right: 20.w,
@@ -1119,7 +1117,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
 
                                   SizedBox(width: 8.w),
-
                                   Container(
                                     padding: EdgeInsets.all(6),
                                     decoration: BoxDecoration(
@@ -2178,33 +2175,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           ],
                                         ),
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 10.w,
-                                          vertical: 3.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: AppColors.heading,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            50.r,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          ownerDashboard
-                                                  .data
-                                                  ?.widgets
-                                                  ?.maintenancePayment
-                                                  ?.status ??
-                                              "",
-                                          style: GoogleFonts.outfit(
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: const Color(0xFF101C16),
-                                          ),
-                                        ),
-                                      ),
+                                      // Container(
+                                      //   padding: EdgeInsets.symmetric(
+                                      //     horizontal: 10.w,
+                                      //     vertical: 3.h,
+                                      //   ),
+                                      //   decoration: BoxDecoration(
+                                      //     border: Border.all(
+                                      //       color: AppColors.heading,
+                                      //     ),
+                                      //     borderRadius: BorderRadius.circular(
+                                      //       50.r,
+                                      //     ),
+                                      //   ),
+                                      //   child: Text(
+                                      //     ownerDashboard
+                                      //             .data
+                                      //             ?.widgets
+                                      //             ?.maintenancePayment
+                                      //             ?.status ??
+                                      //         "",
+                                      //     style: GoogleFonts.outfit(
+                                      //       fontSize: 15.sp,
+                                      //       fontWeight: FontWeight.w500,
+                                      //       color: const Color(0xFF101C16),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                   SizedBox(height: 14.h),

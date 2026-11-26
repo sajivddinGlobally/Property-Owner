@@ -280,7 +280,7 @@ class _RentBillsScreenState extends ConsumerState<RentBillsScreen> {
           Row(
             children: [
               Expanded(child: _info("Monthly rent", _inr(t.monthlyRent))),
-              Expanded(child: _info("Next rent date", t.nextDueDate ?? "-")),
+              Expanded(child: _info("Next due date", t.nextDueDate ?? "-")),
             ],
           ),
           SizedBox(height: 10.h),
@@ -502,7 +502,7 @@ class _RentBillsScreenState extends ConsumerState<RentBillsScreen> {
         SizedBox(height: 24.h),
         _sectionTitle(
           "Rent",
-          "Month by month. Unpaid 15 days after the rent date = Overdue.",
+          "Bill on the 5th, due by the 15th. Unpaid after the 15th = Overdue; 60 days after the bill date = Defaulter.",
         ),
         SizedBox(height: 10.h),
         _chips(

@@ -17,6 +17,7 @@ import 'package:property_care/core/constant/appColor.dart';
 import 'package:svg_flutter/svg.dart';
 
 import 'package:property_care/core/AuthService/AuthServiceProvider.dart';
+import '../../ReportsAnalyticsScreen/ReportsAnalyticsScreen.dart';
 import '../../bookin_screen/OwnerBookingsScreen.dart';
 import 'Provider/getProfileProvider.dart';
 
@@ -482,6 +483,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               context,
                               CupertinoPageRoute(
                                 builder: (context) => AuditreprotScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        Divider(color: Color.fromRGBO(42, 41, 51, 0.6)),
+                        _accountSettingTab(
+                          image: "assets/SvgImage/history.svg",
+                          name: "Reports & Analytics",
+                          title:
+                              "Property report (PDF): health score, complaints, dues",
+                          callback: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    const ReportsAnalyticsScreen(),
                               ),
                             );
                           },
